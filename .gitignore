@@ -14,3 +14,6 @@
 *.cache
 *.json
 *.props
+*.editorconfig
+*.editorconfig
+*.cache
