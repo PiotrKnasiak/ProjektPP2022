@@ -5,7 +5,7 @@ VisualStudioVersion = 17.4.33103.184
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Projekt_PP_UMG_Net7", "Projekt_PP_UMG_Net7.csproj", "{BC0E4E74-2F38-4D5A-ABC6-543D6D981282}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkcje", "..\Funkcje\Funkcje.csproj", "{F7902AC8-7B4A-4237-8B09-8734129B00B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkcje", "..\Funkcje\Funkcje.csproj", "{ECDFB59F-15E3-4820-AE69-76FF5775CF2A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{BC0E4E74-2F38-4D5A-ABC6-543D6D981282}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC0E4E74-2F38-4D5A-ABC6-543D6D981282}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC0E4E74-2F38-4D5A-ABC6-543D6D981282}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F7902AC8-7B4A-4237-8B09-8734129B00B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F7902AC8-7B4A-4237-8B09-8734129B00B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F7902AC8-7B4A-4237-8B09-8734129B00B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F7902AC8-7B4A-4237-8B09-8734129B00B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECDFB59F-15E3-4820-AE69-76FF5775CF2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECDFB59F-15E3-4820-AE69-76FF5775CF2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECDFB59F-15E3-4820-AE69-76FF5775CF2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECDFB59F-15E3-4820-AE69-76FF5775CF2A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
