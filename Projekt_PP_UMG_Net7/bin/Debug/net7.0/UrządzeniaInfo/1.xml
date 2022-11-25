@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UrządzeniaInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Cena>1500100900</Cena>
+  <Nazwa>npdm</Nazwa>
+  <Wytwórca>hłałej</Wytwórca>
+  <Kolory>
+    <string>indygo</string>
+    <string>gamma</string>
+  </Kolory>
+  <Warianty>
+    <string>plus</string>
+    <string>minus</string>
+    <string>takise</string>
+  </Warianty>
+  <ID>1</ID>
+</UrządzeniaInfo>

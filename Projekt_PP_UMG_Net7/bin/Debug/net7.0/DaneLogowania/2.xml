@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DaneLogowania xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Imię>hii</Imię>
+  <Nazwisko>e</Nazwisko>
+  <Email>2</Email>
+  <DataUrodzenia>0002-04-01T00:00:00</DataUrodzenia>
+  <Admin>false</Admin>
+  <ID>2</ID>
+  <Login>tl</Login>
+  <Hasło>th</Hasło>
+</DaneLogowania>
