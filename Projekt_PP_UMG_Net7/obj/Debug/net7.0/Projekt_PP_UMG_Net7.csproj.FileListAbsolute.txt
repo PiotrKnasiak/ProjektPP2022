@@ -31,3 +31,6 @@ C:\Users\piokn\Documents\GitHub\Projekt_PP_UMG_Net7\obj\Debug\net7.0\ref\Projekt
 C:\Users\piokn\Documents\GitHub\Projekt_PP_UMG_Net7\bin\Debug\net7.0\Funkcje.dll
 C:\Users\piokn\Documents\GitHub\Projekt_PP_UMG_Net7\bin\Debug\net7.0\Funkcje.pdb
 C:\Users\piokn\Documents\GitHub\Projekt_PP_UMG_Net7\obj\Debug\net7.0\Projekt_PP_UMG_Net7.csproj.CopyComplete
+C:\Users\piokn\Documents\GitHub\ProjektPP2022\Projekt_PP_UMG_Net7\obj\Debug\net7.0\Projekt_PP_UMG_Net7.dll
+C:\Users\piokn\Documents\GitHub\ProjektPP2022\Projekt_PP_UMG_Net7\obj\Debug\net7.0\refint\Projekt_PP_UMG_Net7.dll
+C:\Users\piokn\Documents\GitHub\ProjektPP2022\Projekt_PP_UMG_Net7\obj\Debug\net7.0\Projekt_PP_UMG_Net7.pdb

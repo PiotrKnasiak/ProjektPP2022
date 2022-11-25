@@ -1,8 +1,18 @@
 {
   "version": 2,
-  "dgSpecHash": "ry0KKHtiuXXmQ52/UnnZMQCxxpmPD8eaqp6mMDZ5H/yPYFw80uI3mhm01gyoGiIDHeUqGptlSu8zmSTTlBpdEQ==",
-  "success": true,
-  "projectFilePath": "C:\\Users\\piokn\\Documents\\GitHub\\Projekt_PP_UMG_Net7\\Projekt_PP_UMG_Net7.csproj",
+  "dgSpecHash": "PHhOykgyWWns51smY/kn3VE5XwbGT4ok6Dx3hDD4CvUHoVqAtgcn8iaGMU94an/g4HJCpfJn7B35BTUHLSdb5g==",
+  "success": false,
+  "projectFilePath": "C:\\Users\\piokn\\Documents\\GitHub\\ProjektPP2022\\Projekt_PP_UMG_Net7\\Projekt_PP_UMG_Net7.csproj",
   "expectedPackageFiles": [],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1104",
+      "level": "Error",
+      "message": "Nie można znaleźć projektu „C:\\Users\\piokn\\Documents\\GitHub\\Funkcje\\Funkcje.csproj”. Sprawdź, czy odwołanie projektu jest prawidłowe i czy plik projektu istnieje.",
+      "libraryId": "C:\\Users\\piokn\\Documents\\GitHub\\Funkcje\\Funkcje.csproj",
+      "targetGraphs": [
+        "net7.0"
+      ]
+    }
+  ]
 }

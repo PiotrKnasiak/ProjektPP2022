@@ -23,6 +23,7 @@
   },
   "projectFileDependencyGroups": {
     "net7.0": [
+      "C:\\Users\\piokn\\Documents\\GitHub\\Funkcje\\Funkcje.csproj",
       "Funkcje >= 1.0.0"
     ]
   },
@@ -33,11 +34,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\piokn\\Documents\\GitHub\\Projekt_PP_UMG_Net7\\Projekt_PP_UMG_Net7.csproj",
+      "projectUniqueName": "C:\\Users\\piokn\\Documents\\GitHub\\ProjektPP2022\\Projekt_PP_UMG_Net7\\Projekt_PP_UMG_Net7.csproj",
       "projectName": "Projekt_PP_UMG_Net7",
-      "projectPath": "C:\\Users\\piokn\\Documents\\GitHub\\Projekt_PP_UMG_Net7\\Projekt_PP_UMG_Net7.csproj",
+      "projectPath": "C:\\Users\\piokn\\Documents\\GitHub\\ProjektPP2022\\Projekt_PP_UMG_Net7\\Projekt_PP_UMG_Net7.csproj",
       "packagesPath": "C:\\Users\\piokn\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\piokn\\Documents\\GitHub\\Projekt_PP_UMG_Net7\\obj\\",
+      "outputPath": "C:\\Users\\piokn\\Documents\\GitHub\\ProjektPP2022\\Projekt_PP_UMG_Net7\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -61,6 +62,9 @@
           "projectReferences": {
             "C:\\Users\\piokn\\Documents\\GitHub\\Funkcje\\Funkcje.csproj": {
               "projectPath": "C:\\Users\\piokn\\Documents\\GitHub\\Funkcje\\Funkcje.csproj"
+            },
+            "C:\\Users\\piokn\\Documents\\GitHub\\ProjektPP2022\\Funkcje\\Funkcje.csproj": {
+              "projectPath": "C:\\Users\\piokn\\Documents\\GitHub\\ProjektPP2022\\Funkcje\\Funkcje.csproj"
             }
           }
         }
@@ -93,5 +97,16 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1104",
+      "level": "Error",
+      "message": "Nie można znaleźć projektu „C:\\Users\\piokn\\Documents\\GitHub\\Funkcje\\Funkcje.csproj”. Sprawdź, czy odwołanie projektu jest prawidłowe i czy plik projektu istnieje.",
+      "libraryId": "C:\\Users\\piokn\\Documents\\GitHub\\Funkcje\\Funkcje.csproj",
+      "targetGraphs": [
+        "net7.0"
+      ]
+    }
+  ]
 }
