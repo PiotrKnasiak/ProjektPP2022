@@ -93,9 +93,6 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\piokn\\Documents\\GitHub\\Funkcje\\Funkcje.csproj": {
-                "projectPath": "C:\\Users\\piokn\\Documents\\GitHub\\Funkcje\\Funkcje.csproj"
-              },
               "C:\\Users\\piokn\\Documents\\GitHub\\ProjektPP2022\\Funkcje\\Funkcje.csproj": {
                 "projectPath": "C:\\Users\\piokn\\Documents\\GitHub\\ProjektPP2022\\Funkcje\\Funkcje.csproj"
               }
