@@ -17,3 +17,5 @@
 *.editorconfig
 *.editorconfig
 *.cache
+*.cache
+*.vsidx
