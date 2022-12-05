@@ -11,7 +11,6 @@
 
 #pragma warning disable C8604
 
-
     internal class Program
     {
 
@@ -26,6 +25,14 @@
         {
             return KodAdminów;
         }
+        public static void NaCzerwono(string wiadomość)
+        {
+            ConsoleColor foregroundColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"{wiadomość}");
+            Console.ForegroundColor = foregroundColor;
+        }
+
         public static void TworzenieUrzytkownika(DaneLogowania dane, int ID, bool tworzyćKlienta)
         {
             Funkcje.ZapiszPlik(dane, ID);
@@ -74,7 +81,7 @@
                         powtórka = true;
                         Console.Write("\n\n   Login zajęty. ");
 
-                        if ((i++) % 3 == 0)
+                        if ((i++) % 3 == 2)
                         {
                             Console.Write("\n     Jeśli chcesz wyjsc wcisnij Escape (esc) ");
                             ConsoleKeyInfo kij = Console.ReadKey(true);
@@ -115,7 +122,7 @@
                         powtórka = true;
                         Console.WriteLine("\n    Email zajęty");
 
-                        if ((i++) % 3 == 0)
+                        if ((i++) % 3 == 2)
                         {
                             Console.Write("      Jeśli chcesz wyjsc wcisnij Escape (esc) ");
                             ConsoleKeyInfo kij = Console.ReadKey(true);
@@ -208,9 +215,9 @@
                     {
                         break;
                     }
-                    else if (i % 3 == 1)
+                    else if (i % 3 == 2)
                     {
-                        Console.Write("      Kontunuować? Wpisz \"exit\" aby wyjść ");
+                        Console.Write("      Jeśli chcesz wyjsc wcisnij Escape (esc) ");
                         ConsoleKeyInfo kij = Console.ReadKey(true);
 
                         if (kij.Key == ConsoleKey.Escape)
@@ -320,7 +327,7 @@
 
 
         #region Funckcje Użytkowników
-        public static void TwojeInformacje(ref DaneLogowania twojeDane)             // 1
+        public static void TwojeInformacje(ref DaneLogowania twojeDane, bool admin = false)             // 1
         {
             CzyszczenieEkranu();
             
@@ -374,7 +381,7 @@
 
                         case 3:
 
-                            DateTime czas = new DateTime();
+                            DateOnly czas = new DateOnly();
                             twojeDane.DataUrodzenia = czas;
 
 
@@ -446,27 +453,103 @@
             Funkcje.ZapiszPlik(doZapisania, doZapisania.ID);
 
         }
-        public static void InfoOTwoichUrz(DaneLogowania twojeDane)                  // 2
+        public static void InfoOTwoichUrz(DaneLogowania twojeDane, bool admin = false)                  // 2
         {
-            Console.WriteLine("Wyświetlanie informacji o twoich urządzeniach.\n");
+            Console.WriteLine(" Wyświetlanie informacji o twoich urządzeniach.\n");
 
-            UrządzenieKlienta[] urzKl = new UrządzenieKlienta[1];
-            urzKl = Funkcje.WczytajWszystkiePliki(urzKl, twojeDane.ID);
+            UrządzenieKlienta[] urzKlTemp = new UrządzenieKlienta[1];
+            urzKlTemp = Funkcje.WczytajWszystkiePliki(urzKlTemp, twojeDane.ID);
 
-            // tylko wyświetlanie, bez modyfikacji
+            UrządzeniaInfo[] urzInf = new UrządzeniaInfo[1];
+            urzInf = Funkcje.WczytajWszystkiePliki(urzInf);
+
+            string[] Nazwy = new string[urzKlTemp.Length];
+
+            if (Nazwy.Length < 1)
+            {
+                Console.WriteLine(" Brak urządzeń.");
+                Thread.Sleep(1500);
+                return;
+            }
+
+            for (int i = 0; i< Nazwy.Length; i++)
+            {
+                foreach(UrządzeniaInfo UI in urzInf)
+                {
+                    if(UI.ID == urzKlTemp[i].IDOferty)
+                    {
+                        Nazwy[i] = UI.Nazwa;
+                        break;
+                    }
+                }
+            }
+
+            Console.WriteLine("   Lista urządzeń (od najwczeniej dodanych) :\n");
+
+            for(int i = 1; i <= Nazwy.Length; i++) 
+            {
+                Console.WriteLine($"      {i} - {Nazwy[i-1]}");
+            }
+
+
+
+            while (true)
+            {
+
+                NaCzerwono("\n   Dowolnym momencie wpisz \"wyjdz\" by wyjść");
+                bool powtórka = true;
+                int wybraneID = 0;
+
+                do
+                {
+                    try
+                    {
+                        powtórka = false;
+                        Console.Write("\n   Podaj numer pozycji której informacje checsz wyświetlić : ");
+                        string? wprowadzono = Console.ReadLine().ToLower().Replace("ź", "z").Replace(",", ".").Replace(" ", "");
+                        Console.WriteLine();
+
+                        if (wprowadzono == "wyjdz")
+                        {
+                            return;
+                        }
+
+                        if (int.Parse(wprowadzono) < 1 || int.Parse(wprowadzono) > Nazwy.Length)
+                        {
+                            Console.WriteLine("       Błędne wprowadzenie");
+                            powtórka = true;
+                            continue;
+                        }
+
+                        wybraneID = int.Parse(wprowadzono) - 1;
+
+                    }
+                    catch (Exception)
+                    {
+                        powtórka = true;
+                    }
+
+                }
+                while (powtórka);
+
+                Console.WriteLine($"\n\n   Nazwa : {urzInf[wybraneID].Nazwa} {urzKlTemp[wybraneID].Wariant} \n" +
+                    $"   Kolor : {urzKlTemp[wybraneID].Kolor}\n" +
+                    $"   Data dodania : {urzKlTemp[wybraneID].DataDodania}\n");
+            }
+
         }
-        public static void InfoOTwoichAbo(DaneLogowania twojeDane)                  // 3
+        public static void InfoOTwoichAbo(DaneLogowania twojeDane, bool admin = false)                  // 3
         {
-            Console.WriteLine("Wyświetlanie informacji o twoich abonamentach.\n");
+            Console.WriteLine(" Wyświetlanie informacji o twoich abonamentach.\n");
 
             AbonamentKlienta[] aboKl = new AbonamentKlienta[1];
             aboKl = Funkcje.WczytajWszystkiePliki(aboKl, twojeDane.ID);
 
             // tylko wyświetlanie, bez modyfikacji
         }
-        public static void InfoOTwoichPak(DaneLogowania twojeDane)                  // 4
+        public static void InfoOTwoichPak(DaneLogowania twojeDane, bool admin = false)                  // 4
         {
-            Console.WriteLine("Wyświetlanie informacji o twoich pakietach.\n");
+            Console.WriteLine(" Wyświetlanie informacji o twoich pakietach.\n");
 
             PakietKlienta[] pakKl = new PakietKlienta[1];
             pakKl = Funkcje.WczytajWszystkiePliki(pakKl, twojeDane.ID);
@@ -478,17 +561,17 @@
             UrządzeniaInfo[] ui = new UrządzeniaInfo[3];
             ui = Funkcje.WczytajWszystkiePliki(ui);
 
-            Console.WriteLine("Wyświetlanie dostępnych ofert Urządzeń");
+            Console.WriteLine(" Wyświetlanie dostępnych ofert Urządzeń");
 
         }
         public static void InfoOOfertachAbo()                                       // 6
         {
-            Console.WriteLine("Wyświetlanie dostępnych ofert Abonamntów");
+            Console.WriteLine(" Wyświetlanie dostępnych ofert Abonamntów");
 
         }
         public static void InfoOOfertachPak()                                       // 7
         {
-            Console.WriteLine("Wyświetlanie dostępnych ofert Pakietów");
+            Console.WriteLine(" Wyświetlanie dostępnych ofert Pakietów");
 
         }
         #endregion
@@ -496,7 +579,7 @@
         #region Funkcje Admina
         public static void InfoOKlientach()                                         // 1
         {
-            Console.WriteLine("Wyświetlanie informacji o klientach");
+            Console.WriteLine(" Wyświetlanie informacji o klientach");
 
             WszystkieDaneKlienta[] daneKlientów = Funkcje.WczytajWszystkieDaneKlientów();       // pełna list danych klientów (nie wszystkich urzytkowników, bo admini nie mają urządzeń, abonamentów ani pliktów)
 
@@ -531,7 +614,7 @@
         }
         public static void ModyfikacjaOfertUrz()                                    // 2
         {
-            Console.WriteLine("Modyfikujacja dostepnych ofert Urządzeń");
+            Console.WriteLine(" Modyfikujacja dostepnych ofert Urządzeń");
 
             UrządzeniaInfo[] urzLi = new UrządzeniaInfo[1];
             urzLi = Funkcje.WczytajWszystkiePliki(urzLi);
@@ -545,7 +628,7 @@
         }
         public static void ModyfikacjaOfertAbo()                                    // 3
         {
-            Console.WriteLine("Modyfikujacja dostepnych ofert Abonamentów");
+            Console.WriteLine(" Modyfikujacja dostepnych ofert Abonamentów");
 
             UrządzeniaInfo[] aboLi = new UrządzeniaInfo[1];
             aboLi = Funkcje.WczytajWszystkiePliki(aboLi);
@@ -559,7 +642,7 @@
         }
         public static void ModyfikacjaOfertPak()                                    // 4
         {
-            Console.WriteLine("Modyfikujacja dostepnych ofert Pakietów");
+            Console.WriteLine(" Modyfikujacja dostepnych ofert Pakietów");
 
             UrządzeniaInfo[] pakLi = new UrządzeniaInfo[1];
             pakLi = Funkcje.WczytajWszystkiePliki(pakLi);
@@ -573,7 +656,7 @@
         }
         public static void DodajOfertęUrz()                                         // 5
         {
-            Console.WriteLine("Dodawanie nowej oferty Urzadzenia");
+            Console.WriteLine(" Dodawanie nowej oferty Urzadzenia");
 
             UrządzeniaInfo noweUrz = new();
             UrządzeniaInfo[] listaUrz = new UrządzeniaInfo[1];
@@ -588,7 +671,7 @@
                 i++;
             }
 
-            Console.WriteLine("\n\n W dowolnym momencie wpisz \"wyjdz\" aby wyjść do menu");
+            NaCzerwono("\n\n W dowolnym momencie wpisz \"wyjdz\" aby wyjść do menu");
             Console.WriteLine("\n Tworzenie nowego urzadzenia : ");
 
             do
@@ -688,7 +771,7 @@
         }
         public static void DodajOfertęAbo()                                         // 6
         {
-            Console.WriteLine("Dodawanie nowej oferty Abonamentu");
+            Console.WriteLine(" Dodawanie nowej oferty Abonamentu");
 
             AbonamentyInfo nowyAbo = new();
             AbonamentyInfo[] listaAbo = new AbonamentyInfo[1];
@@ -703,7 +786,7 @@
                 i++;
             }
 
-            Console.WriteLine("\n\n W dowolnym momencie wpisz \"wyjdz\" aby wyjść do menu");
+            NaCzerwono("\n\n W dowolnym momencie wpisz \"wyjdz\" aby wyjść do menu");
             Console.WriteLine("\n Tworzenie nowego urzadzenia : ");
 
             do
@@ -816,7 +899,7 @@
         }
         public static void DodajOfertęPak()                                         // 7
         {
-            Console.WriteLine("Dodawanie nowej oferty Pakietu");
+            Console.WriteLine(" Dodawanie nowej oferty Pakietu");
 
         }
         #endregion
@@ -837,7 +920,7 @@
 
                 if (zalogowanyUrzytkownik == null)
                 {
-                    Console.WriteLine("Anulowano logowanie");
+                    Console.WriteLine(" Anulowano logowanie");
                     return;
                 }
 

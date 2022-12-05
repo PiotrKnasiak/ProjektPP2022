@@ -1,6 +1,9 @@
 ﻿using System.Xml.Serialization;
 
 namespace Funkcje
+#pragma warning disable CS8618
+#pragma warning disable CS8601
+#pragma warning disable CS8600
 {
     #region Struktury danych
     [Serializable]
@@ -107,7 +110,7 @@ namespace Funkcje
         public string Imię;
         public string Nazwisko;
         public string Email;
-        public DateTime DataUrodzenia;
+        public DateOnly DataUrodzenia;
         public bool Admin = false;
     }
     [Serializable]
@@ -137,6 +140,7 @@ namespace Funkcje
         public string Wariant = "normalny";                             // przykładowo
         public int IDAbonamentu = 0;                                    // jaki ma przypisany abonament (jesli ma)
         public int IDPakietu = 0;                                       // jaki ma przypisany pakiet (jesli ma)
+        public DateOnly DataDodania;                                    // data dodania
     }
     [Serializable]
     public class AbonamentKlienta
@@ -168,8 +172,9 @@ namespace Funkcje
         public int IDOferty;                                            // ID oferty(info) z której pochodzi ten abonament
         public int[] NumerTelefonu = new int[9];
         public int NaIleOpłaconoDoPrzodu = 0;                           // czy i na ile opłacone do przodu - ( <0 = zaległość z zapłatą, 0 = za bierząco z opłatą, >0 = opłacone do przodu, np. przez pakiet)
-        public DateTime DataNastępnejOpłaty;                            // jeśli opłacono wynosi 0 lub <0, to normalna data zwględem zakupu; jeśli >0, to o ileś okresów płacenia do przodu
+        public DateOnly DataNastępnejOpłaty;                            // jeśli opłacono wynosi 0 lub <0, to normalna data zwględem zakupu; jeśli >0, to o ileś okresów płacenia do przodu
         public int IDPakietu = 0;                                       // jaki ma przypisany pakiet (jesli ma)
+        public DateOnly DataDodania;                                    // data dodania
     }
     [Serializable]
     public class PakietKlienta
@@ -352,7 +357,7 @@ namespace Funkcje
         public ŁadowanieWszystkichPlików(string typPliku, int IDKlienta = -1)
         {
             ŁadowaniePlików łp;
-            int[] listaID = Funkcje.ListaID(typPliku);
+            int[] listaID = Funkcje.ListaID(typPliku, IDKlienta);
             this.ListaDanych = new object[listaID.Length];
             int i = 0;
 
@@ -489,13 +494,17 @@ namespace Funkcje
         /// <para>DaneLogowania,  UrządzeniaInfo,  AbonamentyInfo,  PakietyInfo,  UrządzeniaKlienta,  AbonamentyKlienta,  PakietyKlienta, FakturyKlienta, Klienci</para>
         /// </summary>
         /// <returns></returns>
-        public static int[] ListaID(string folder)
+        public static int[] ListaID(string folder, int IDKlienta = -1)
         {
-            int[] lista;
-            string ścieżka = ŚcieżkaFolderu(folder);
-            string[] nazwy;
+            int[] lista = new int[0];
+            string ścieżka = ŚcieżkaFolderu(folder, IDKlienta);
+            string[] nazwy = new string[0];
 
-            if (folder != "Klienci")
+            if(!Directory.Exists(ścieżka))
+            {
+                return lista;
+            }
+            else if (folder != "Klienci")
             {
                 nazwy = Directory.GetFiles(ścieżka, "*.xml");
             }
@@ -628,6 +637,8 @@ namespace Funkcje
                     Directory.CreateDirectory(aktualnaŚcieżka + @"\" + nazwaF);
                 }
             }
+
+            
         }
 
         /// <summary>
@@ -751,7 +762,7 @@ namespace Funkcje
         public static UrządzenieKlienta[] WczytajWszystkiePliki(UrządzenieKlienta[] pustaInstancja, int IDKlienta)
         {
             string typPliku = "UrządzeniaKlienta";
-            ŁadowanieWszystkichPlików łwp = new(typPliku);
+            ŁadowanieWszystkichPlików łwp = new(typPliku, IDKlienta);
             pustaInstancja = new UrządzenieKlienta[łwp.ListaDanych.Length];
             int i = 0;
 
@@ -772,7 +783,7 @@ namespace Funkcje
         public static AbonamentKlienta[] WczytajWszystkiePliki(AbonamentKlienta[] pustaInstancja, int IDKlienta)
         {
             string typPliku = "AbonamentyKlienta";
-            ŁadowanieWszystkichPlików łwp = new(typPliku);
+            ŁadowanieWszystkichPlików łwp = new(typPliku,IDKlienta);
             pustaInstancja = new AbonamentKlienta[łwp.ListaDanych.Length];
             int i = 0;
 
@@ -793,7 +804,7 @@ namespace Funkcje
         public static PakietKlienta[] WczytajWszystkiePliki(PakietKlienta[] pustaInstancja, int IDKlienta)
         {
             string typPliku = "PakietyKlienta";
-            ŁadowanieWszystkichPlików łwp = new(typPliku);
+            ŁadowanieWszystkichPlików łwp = new(typPliku, IDKlienta);
             pustaInstancja = new PakietKlienta[łwp.ListaDanych.Length];
             int i = 0;
 
@@ -813,7 +824,7 @@ namespace Funkcje
         public static FakturaKlienta[] WczytajWszystkiePliki(FakturaKlienta[] pustaInstancja, int IDKlienta)
         {
             string typPliku = "Faktury";
-            ŁadowanieWszystkichPlików łwp = new(typPliku);
+            ŁadowanieWszystkichPlików łwp = new(typPliku, IDKlienta);
             pustaInstancja = new FakturaKlienta[łwp.ListaDanych.Length];
             int i = 0;
 
