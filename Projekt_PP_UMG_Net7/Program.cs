@@ -240,7 +240,7 @@
             bool powtórka;
 
             CzyszczenieEkranu();
-            
+
             Console.WriteLine(" Wpisz \"utwórz\" w miejsce loginu lub hasła, aby stworzyć nowy profil ");
             Console.WriteLine();
 
@@ -254,7 +254,7 @@
                 if (login == "utwórz")
                 {
                     CzyszczenieEkranu();
-                    
+
                     danaZalogowania = DodajUżytkownika();
 
                     if (danaZalogowania == null)
@@ -330,7 +330,7 @@
         public static void TwojeInformacje(ref DaneLogowania twojeDane, bool admin = false)             // 1
         {
             CzyszczenieEkranu();
-            
+
 
             Console.Write(" Start -> Menu -> Wyświetl lub modyfikuj informacje o sobie\n\n\n");
 
@@ -350,7 +350,7 @@
                 Console.Write(komunikat);
                 wybor = Console.ReadLine();
                 CzyszczenieEkranu();
-                
+
 
                 if (wybor.ToLower() == "y")
                 {
@@ -359,7 +359,7 @@
                     Console.Write(" Które dane chcesz edytowac?\n\n\t1. Imie\n\t2. Nazwisko\n\t3. Data urodzenia\n\t4. Email\n\n Wybierz numer z listy: ");
                     int coEdytowac = int.Parse(Console.ReadLine());
                     CzyszczenieEkranu();
-                    
+
 
                     Console.Write(" Start -> Menu -> Wyświetl informacje o sobie -> Edycja danych\n\n\n");
 
@@ -472,11 +472,11 @@
                 return;
             }
 
-            for (int i = 0; i< Nazwy.Length; i++)
+            for (int i = 0; i < Nazwy.Length; i++)
             {
-                foreach(UrządzeniaInfo UI in urzInf)
+                foreach (UrządzeniaInfo UI in urzInf)
                 {
-                    if(UI.ID == urzKlTemp[i].IDOferty)
+                    if (UI.ID == urzKlTemp[i].IDOferty)
                     {
                         Nazwy[i] = UI.Nazwa;
                         break;
@@ -486,9 +486,9 @@
 
             Console.WriteLine("   Lista urządzeń (od najwczeniej dodanych) :\n");
 
-            for(int i = 1; i <= Nazwy.Length; i++) 
+            for (int i = 1; i <= Nazwy.Length; i++)
             {
-                Console.WriteLine($"      {i} - {Nazwy[i-1]}");
+                Console.WriteLine($"      {i} - {Nazwy[i - 1]}");
             }
 
 
@@ -558,20 +558,203 @@
         }
         public static void InfoOOfertachUrz()                                       // 5
         {
-            UrządzeniaInfo[] ui = new UrządzeniaInfo[3];
-            ui = Funkcje.WczytajWszystkiePliki(ui);
+            UrządzeniaInfo[] dostępne = new UrządzeniaInfo[3];
+            dostępne = Funkcje.WczytajWszystkiePliki(dostępne);
 
-            Console.WriteLine(" Wyświetlanie dostępnych ofert Urządzeń");
+            Console.WriteLine(" Wyświetlanie dostępnych ofert Urządzeń ({0})", dostępne.Length);
+
+            int i = 1;
+
+            foreach (UrządzeniaInfo oferta in dostępne)
+            {
+                Console.WriteLine($"   {i++} - {oferta.Nazwa}");
+            }
+
+            while (true)
+            {
+
+                NaCzerwono("\n   Dowolnym momencie wpisz \"wyjdz\" by wyjść");
+                bool powtórka = true;
+                int wybraneID = 0;
+
+                do
+                {
+                    powtórka = false;
+                    try
+                    {
+                        Console.Write("\n   Podaj numer pozycji której informacje checsz wyświetlić : ");
+                        string? wprowadzono = Console.ReadLine().ToLower().Replace("ź", "z").Replace(",", ".").Replace(" ", "");
+                        Console.WriteLine();
+
+                        if (wprowadzono == "wyjdz")
+                        {
+                            return;
+                        }
+
+                        if (int.Parse(wprowadzono) < 1 || int.Parse(wprowadzono) > i)
+                        {
+                            Console.WriteLine("       Błędne wprowadzenie");
+                            powtórka = true;
+                            continue;
+                        }
+
+                        wybraneID = int.Parse(wprowadzono) - 1;
+
+                    }
+                    catch (Exception)
+                    {
+                        powtórka = true;
+                        Console.WriteLine("       Błędne wprowadzenie");
+                    }
+
+                }
+                while (powtórka);
+
+                CzyszczenieEkranu();
+                Console.WriteLine($" Nazwa : {dostępne[wybraneID].Nazwa}");
+                Console.WriteLine($" Wytwóra : {dostępne[wybraneID].Wytwórca}");
+                Console.WriteLine($" Cena : {dostępne[wybraneID].Cena}");
+
+                Console.WriteLine("\n Dostępne warianty : ");
+                foreach(string wariant in dostępne[wybraneID].Warianty)
+                {
+                    Console.WriteLine($"   - {wariant}");
+                }
+
+                Console.WriteLine("\n Dostępne kolory : ");
+                foreach (string kolor in dostępne[wybraneID].Kolory)
+                {
+                    Console.WriteLine($"   - {kolor}");
+                }
+
+                Console.Write("\n\n   Wpisz \"kup\" aby przejść do kupna, wciśnij enter by wrócić");
+                string? wybór = Console.ReadLine().ToLower().Replace('ó', 'u').Trim();
+                
+                if(wybór == "kup")
+                {
+                    // funkcja zakupu,
+                    // Karze płacić (podać informacje do faktury).
+                    // Dodaje pozycję do klienta i tworzy jej fakturę
+                }
+            }
 
         }
         public static void InfoOOfertachAbo()                                       // 6
         {
+            AbonamentyInfo[] dostępne = new AbonamentyInfo[3];
+            dostępne = Funkcje.WczytajWszystkiePliki(dostępne);
+
             Console.WriteLine(" Wyświetlanie dostępnych ofert Abonamntów");
+
+            int i = 1;
+
+            foreach (AbonamentyInfo oferta in dostępne)
+            {
+                Console.WriteLine($"   {i++} - {oferta.Nazwa}");
+            }
+
+            while (true)
+            {
+
+                NaCzerwono("\n   Dowolnym momencie wpisz \"wyjdz\" by wyjść");
+                bool powtórka = true;
+                int wybraneID = 0;
+
+                do
+                {
+                    try
+                    {
+                        powtórka = false;
+                        Console.Write("\n   Podaj numer pozycji której informacje checsz wyświetlić : ");
+                        string? wprowadzono = Console.ReadLine().ToLower().Replace("ź", "z").Replace(",", ".").Replace(" ", "");
+                        Console.WriteLine();
+
+                        if (wprowadzono == "wyjdz")
+                        {
+                            return;
+                        }
+
+                        if (int.Parse(wprowadzono) < 1 || int.Parse(wprowadzono) > i)
+                        {
+                            Console.WriteLine("       Błędne wprowadzenie");
+                            powtórka = true;
+                            continue;
+                        }
+
+                        wybraneID = int.Parse(wprowadzono) - 1;
+
+                    }
+                    catch (Exception)
+                    {
+                        powtórka = true;
+                        Console.WriteLine("       Błędne wprowadzenie");
+                    }
+
+                }
+                while (powtórka);
+
+                CzyszczenieEkranu();
+                Console.WriteLine($"  : {dostępne[wybraneID].Nazwa}");
+            }
 
         }
         public static void InfoOOfertachPak()                                       // 7
         {
+            PakietyInfo[] dostępne= new PakietyInfo[3];
+            dostępne= Funkcje.WczytajWszystkiePliki(dostępne);
+
             Console.WriteLine(" Wyświetlanie dostępnych ofert Pakietów");
+
+            int i = 1;
+
+            foreach (PakietyInfo oferta in dostępne)
+            {
+                Console.WriteLine($"   {i++} - {oferta.Nazwa}");
+            }
+
+            while (true)
+            {
+
+                NaCzerwono("\n   Dowolnym momencie wpisz \"wyjdz\" by wyjść");
+                bool powtórka = true;
+                int wybraneID = 0;
+
+                do
+                {
+                    try
+                    {
+                        powtórka = false;
+                        Console.Write("\n   Podaj numer pozycji której informacje checsz wyświetlić : ");
+                        string? wprowadzono = Console.ReadLine().ToLower().Replace("ź", "z").Replace(",", ".").Replace(" ", "");
+                        Console.WriteLine();
+
+                        if (wprowadzono == "wyjdz")
+                        {
+                            return;
+                        }
+
+                        if (int.Parse(wprowadzono) < 1 || int.Parse(wprowadzono) > i)
+                        {
+                            Console.WriteLine("       Błędne wprowadzenie");
+                            powtórka = true;
+                            continue;
+                        }
+
+                        wybraneID = int.Parse(wprowadzono) - 1;
+
+                    }
+                    catch (Exception)
+                    {
+                        powtórka = true;
+                        Console.WriteLine("       Błędne wprowadzenie");
+                    }
+
+                }
+                while (powtórka);
+
+                CzyszczenieEkranu();
+                Console.WriteLine(" ");
+            }
 
         }
         #endregion
@@ -705,7 +888,7 @@
                 {
                     powtórka = false;
                     Console.Write("\n  Podaj cene: ");
-                    string wprowadzono = Console.ReadLine().ToLower().Replace("ź","z").Replace(",", ".").Replace(" ", "");
+                    string wprowadzono = Console.ReadLine().ToLower().Replace("ź", "z").Replace(",", ".").Replace(" ", "");
 
                     if (wprowadzono == "wyjdz")
                     {
@@ -846,7 +1029,7 @@
             Console.Write("\n  Podaj częstotliwośc rozliczenia ( dzień / tydzień / miesiąc ): ");
             nowyAbo.CzęstotliwośćRozliczania = Console.ReadLine();
 
-            if (nowyAbo.CzęstotliwośćRozliczania.ToLower().Replace("ź","z") == "wyjdz")
+            if (nowyAbo.CzęstotliwośćRozliczania.ToLower().Replace("ź", "z") == "wyjdz")
             {
                 return;
             }
@@ -854,9 +1037,9 @@
             try
             {
                 Console.Write("\n  Podaj limit internetu (w GB), -1 dla nielimitowanego, 0 dla braku internetu: ");
-                string wprowadzone = Console.ReadLine().ToLower().Replace("ź","z").Replace(",",".").Replace(" ", "");
+                string wprowadzone = Console.ReadLine().ToLower().Replace("ź", "z").Replace(",", ".").Replace(" ", "");
 
-                if(wprowadzone == "wyjdz")
+                if (wprowadzone == "wyjdz")
                 {
                     return;
                 }
