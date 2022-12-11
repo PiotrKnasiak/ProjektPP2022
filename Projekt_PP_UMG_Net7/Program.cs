@@ -512,7 +512,7 @@
                     {
                         powtórka = false;
                         Console.Write("\n   Podaj numer pozycji którą checsz zobaczyć : ");
-                        string? wprowadzono = Console.ReadLine().ToLower().Replace("ź", "z").Replace(",", ".").Replace(" ", "");
+                        string? wprowadzono = Console.ReadLine().ToLower().Replace("ź", "z").Replace(".", ",").Replace(" ","");
                         Console.WriteLine();
 
                         if (wprowadzono == "wyjdz")
@@ -589,7 +589,7 @@
                     try
                     {
                         Console.Write("\n   Podaj numer pozycji którą checsz zobaczyć : ");
-                        string? wprowadzono = Console.ReadLine().ToLower().Replace("ź", "z").Replace(",", ".").Replace(" ", "");
+                        string? wprowadzono = Console.ReadLine().ToLower().Replace("ź", "z").Replace(".", ",").Replace(" ", "");
                         Console.WriteLine();
 
                         if (wprowadzono == "wyjdz")
@@ -642,17 +642,17 @@
 
                 string? wybór = Console.ReadLine().ToLower().Replace('ó', 'u').Trim();
                 
-                if(!admin && wybór == "kup")
+                if(!admin && wybór.Contains("kup"))
                 {
                     // funkcja zakupu,
                     // Karze płacić (podać informacje do faktury).
                     // Dodaje pozycję do klienta i tworzy jej fakturę
                 }
-                else if (admin && wybór == "edytuj")
+                else if (admin && wybór.Contains("edytuj"))
                 {
                     // modyfikowanie lub usunięcie ofery, dostępne tylko dla admina
                 }
-                else if (admin && wybór=="rabat")
+                else if (admin && wybór.Contains("rabat"))
                 {
                     // nadanie wybanemu urzytkownikowi rabatu
                 }
@@ -686,7 +686,7 @@
                     {
                         powtórka = false;
                         Console.Write("\n   Podaj numer pozycji którą checsz zobaczyć : ");
-                        string? wprowadzono = Console.ReadLine().ToLower().Replace("ź", "z").Replace(",", ".").Replace(" ", "");
+                        string? wprowadzono = Console.ReadLine().ToLower().Replace("ź", "z").Replace(".", ",").Replace(" ", "");
                         Console.WriteLine();
 
                         if (wprowadzono == "wyjdz")
@@ -750,19 +750,20 @@
 
                 string? wybór = Console.ReadLine().ToLower().Replace('ó', 'u').Trim();
 
-                if (!admin && wybór == "kup")
+                if (!admin && wybór.Contains("kup"))
                 {
                     // funkcja zakupu,
                     // Karze płacić (podać informacje do faktury).
                     // Dodaje pozycję do klienta i tworzy jej fakturę
                 }
-                else if (admin && wybór == "edytuj")
+                else if (admin && wybór.Contains("edytuj"))
                 {
                     // modyfikowanie lub usunięcie ofery, dostępne tylko dla admina
                 }
-                else if (admin && wybór == "rabat")
+                else if (admin && wybór.Contains("rabat"))
                 {
                     // nadanie wybanemu urzytkownikowi rabatu
+                    // dane o rabatach przechowywane w pliku w ofertach (np. rabat na telefon będzie w folderze "urządzenia info")
                 }
             }
 
@@ -794,7 +795,7 @@
                     {
                         powtórka = false;
                         Console.Write("\n   Podaj numer pozycji którą checsz zobaczyć : ");
-                        string? wprowadzono = Console.ReadLine().ToLower().Replace("ź", "z").Replace(",", ".").Replace(" ", "");
+                        string? wprowadzono = Console.ReadLine().ToLower().Replace("ź", "z").Replace(".", ",").Replace(" ", "");
                         Console.WriteLine();
 
                         if (wprowadzono == "wyjdz")
@@ -849,17 +850,17 @@
 
                 string? wybór = Console.ReadLine().ToLower().Replace('ó', 'u').Trim();
 
-                if (!admin && wybór == "kup")
+                if (!admin && wybór.Contains("kup"))
                 {
                     // funkcja zakupu,
                     // Karze płacić (podać informacje do faktury).
                     // Dodaje pozycję do klienta i tworzy jej fakturę
                 }
-                else if (admin && wybór == "edytuj")
+                else if (admin && wybór.Contains("edytuj"))
                 {
                     // modyfikowanie lub usunięcie ofery, dostępne tylko dla admina
                 }
-                else if (admin && wybór == "rabat")
+                else if (admin && wybór.Contains("rabat"))
                 {
                     // nadanie wybanemu urzytkownikowi rabatu
                 }
@@ -970,10 +971,10 @@
             {
                 powtórka = false;
 
-                Console.Write("\n  Podaj nazwe: ");
+                Console.Write("\n   Podaj nazwe: ");
                 noweUrz.Nazwa = Console.ReadLine();
 
-                if (noweUrz.Nazwa.ToLower() == "wyjdz")
+                if (noweUrz.Nazwa.ToLower().Replace(" ", "").Replace('ź','z') == "wyjdz")
                 {
                     return;
                 }
@@ -983,7 +984,7 @@
                     if (nazwa == noweUrz.Nazwa)
                     {
                         powtórka = true;
-                        Console.Write("\n    Nazwa juz istnieje");
+                        Console.Write("\n      Nazwa juz istnieje");
 
                         break;
                     }
@@ -996,8 +997,8 @@
                 try
                 {
                     powtórka = false;
-                    Console.Write("\n  Podaj cene: ");
-                    string wprowadzono = Console.ReadLine().ToLower().Replace("ź", "z").Replace(",", ".").Replace(" ", "");
+                    Console.Write("\n   Podaj cene: ");
+                    string wprowadzono = Console.ReadLine().ToLower().Replace("ź", "z").Replace(".", ",").Replace(" ", "");
 
                     if (wprowadzono == "wyjdz")
                     {
@@ -1088,7 +1089,7 @@
                 Console.Write("\n  Podaj nazwe: ");
                 nowyAbo.Nazwa = Console.ReadLine();
 
-                if (nowyAbo.Nazwa.ToLower() == "wyjdz")
+                if (nowyAbo.Nazwa.ToLower().Replace("ź", "z").Replace(" ", "").Replace(".", ",") == "wyjdz")
                 {
                     return;
                 }
@@ -1112,9 +1113,9 @@
                 {
                     powtórka = false;
                     Console.Write("\n  Podaj cene: ");
-                    string wprowadzono = Console.ReadLine().ToLower().Replace("ź", "z").Replace(" ", "").Replace(",", ".");
+                    string wprowadzono = Console.ReadLine();
 
-                    if (wprowadzono == "wyjdz")
+                    if (wprowadzono.ToLower().Replace("ź", "z").Replace(" ", "").Replace(".", ",").Contains("wyjdz"))
                     {
                         return;
                     }
@@ -1146,9 +1147,9 @@
             try
             {
                 Console.Write("\n  Podaj limit internetu (w GB), -1 dla nielimitowanego, 0 dla braku internetu: ");
-                string wprowadzone = Console.ReadLine().ToLower().Replace("ź", "z").Replace(",", ".").Replace(" ", "");
+                string wprowadzone = Console.ReadLine().Replace(" ", "").Replace(".", ",");
 
-                if (wprowadzone == "wyjdz")
+                if (wprowadzone.ToLower().Replace("ź", "z").Contains("wyjdz"))
                 {
                     return;
                 }
@@ -1165,35 +1166,54 @@
                     try
                     {
                         Console.Write("\n  Podaj limit szybkości internetu przed wyczerpaniem limitu (w Mb/s): ");
-                        string wprowadzone = Console.ReadLine().ToLower().Replace("ź", "z").Replace(" ", "").Replace(",", ".");
+                        string wprowadzono = Console.ReadLine().Replace(" ", "").Replace(".", ",");
 
-                        if (wprowadzone == "wyjdz")
+                        if (wprowadzono.ToLower().Replace("ź", "z").Contains("wyjdz"))
                         {
                             return;
                         }
+                        if(double.Parse(wprowadzono) < 0)
+                        {
+                            continue;
+                        }
 
-                        nowyAbo.LimityPrędkości[0] = double.Parse(wprowadzone);
+                        nowyAbo.LimityPrędkości[0] = double.Parse(wprowadzono);
                         powtórka = false;
                     }
-                    catch (Exception) { }
+                    catch (Exception) 
+                    {
+                        Console.WriteLine("    Błąd wprowadzania wartości PRZED WYCZERPANIEM LIMITU");
+                    }
                 }
                 while (powtórka);
 
-                try
+                powtórka = true;
+                do
                 {
-                    Console.Write("\n  Podaj limit szybkości internetu po wyczerpanieu limitu (w Mb/s): ");
-                    string wprowadzone = Console.ReadLine().ToLower().Replace("ź", "z").Replace(" ", "").Replace(",", ".");
-
-                    if (wprowadzone == "wyjdz")
+                    try
                     {
-                        return;
-                    }
+                        Console.Write("\n  Podaj limit szybkości internetu po wyczerpanieu limitu (w Mb/s): ");
+                        string wprowadzono = Console.ReadLine().Replace(" ", "").Replace(".", ",");
 
-                    nowyAbo.LimityPrędkości[1] = double.Parse(wprowadzone);
-                    Console.WriteLine($"prędkośc po : {nowyAbo.LimityPrędkości[1]}");
-                    Thread.Sleep(1000);
+                        if (wprowadzono.ToLower().Replace("ź", "z").Contains("wyjdz"))
+                        {
+                            return;
+                        }
+                        if (double.Parse(wprowadzono) < 0)
+                        {
+                            continue;
+                        }
+
+                        powtórka = false;
+                        nowyAbo.LimityPrędkości[1] = double.Parse(wprowadzono);
+                        Console.WriteLine($"\t\t\tprędkośc po : {nowyAbo.LimityPrędkości[1]}\n");
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("    Błąd wprowadzania wartości PO WYCZERPANIU LIMITU");
+                    }
                 }
-                catch (Exception) { }
+                while (powtórka);
             }
 
             Funkcje.ZapiszPlik(nowyAbo, nowyAbo.ID);

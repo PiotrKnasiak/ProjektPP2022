@@ -16,3 +16,21 @@ C:\Users\piokn\Documents\GitHub\ProjektPP2022\Projekt_PP_UMG_Net7\obj\Debug\net7
 C:\Users\piokn\Documents\GitHub\ProjektPP2022\Projekt_PP_UMG_Net7\obj\Debug\net7.0\ProjektPP2022.pdb
 C:\Users\piokn\Documents\GitHub\ProjektPP2022\Projekt_PP_UMG_Net7\obj\Debug\net7.0\ProjektPP2022.genruntimeconfig.cache
 C:\Users\piokn\Documents\GitHub\ProjektPP2022\Projekt_PP_UMG_Net7\obj\Debug\net7.0\ref\ProjektPP2022.dll
+C:\Users\Piotr Knasiak\Documents\GitHub\ProjektPP2022\Projekt_PP_UMG_Net7\bin\Debug\net7.0\ProjektPP2022.exe
+C:\Users\Piotr Knasiak\Documents\GitHub\ProjektPP2022\Projekt_PP_UMG_Net7\bin\Debug\net7.0\ProjektPP2022.deps.json
+C:\Users\Piotr Knasiak\Documents\GitHub\ProjektPP2022\Projekt_PP_UMG_Net7\bin\Debug\net7.0\ProjektPP2022.runtimeconfig.json
+C:\Users\Piotr Knasiak\Documents\GitHub\ProjektPP2022\Projekt_PP_UMG_Net7\bin\Debug\net7.0\ProjektPP2022.dll
+C:\Users\Piotr Knasiak\Documents\GitHub\ProjektPP2022\Projekt_PP_UMG_Net7\bin\Debug\net7.0\ProjektPP2022.pdb
+C:\Users\Piotr Knasiak\Documents\GitHub\ProjektPP2022\Projekt_PP_UMG_Net7\bin\Debug\net7.0\Funkcje.dll
+C:\Users\Piotr Knasiak\Documents\GitHub\ProjektPP2022\Projekt_PP_UMG_Net7\bin\Debug\net7.0\Funkcje.pdb
+C:\Users\Piotr Knasiak\Documents\GitHub\ProjektPP2022\Projekt_PP_UMG_Net7\obj\Debug\net7.0\ProjektPP2022.csproj.AssemblyReference.cache
+C:\Users\Piotr Knasiak\Documents\GitHub\ProjektPP2022\Projekt_PP_UMG_Net7\obj\Debug\net7.0\ProjektPP2022.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Piotr Knasiak\Documents\GitHub\ProjektPP2022\Projekt_PP_UMG_Net7\obj\Debug\net7.0\ProjektPP2022.AssemblyInfoInputs.cache
+C:\Users\Piotr Knasiak\Documents\GitHub\ProjektPP2022\Projekt_PP_UMG_Net7\obj\Debug\net7.0\ProjektPP2022.AssemblyInfo.cs
+C:\Users\Piotr Knasiak\Documents\GitHub\ProjektPP2022\Projekt_PP_UMG_Net7\obj\Debug\net7.0\ProjektPP2022.csproj.CoreCompileInputs.cache
+C:\Users\Piotr Knasiak\Documents\GitHub\ProjektPP2022\Projekt_PP_UMG_Net7\obj\Debug\net7.0\ProjektPP2022.csproj.CopyComplete
+C:\Users\Piotr Knasiak\Documents\GitHub\ProjektPP2022\Projekt_PP_UMG_Net7\obj\Debug\net7.0\ProjektPP2022.dll
+C:\Users\Piotr Knasiak\Documents\GitHub\ProjektPP2022\Projekt_PP_UMG_Net7\obj\Debug\net7.0\refint\ProjektPP2022.dll
+C:\Users\Piotr Knasiak\Documents\GitHub\ProjektPP2022\Projekt_PP_UMG_Net7\obj\Debug\net7.0\ProjektPP2022.pdb
+C:\Users\Piotr Knasiak\Documents\GitHub\ProjektPP2022\Projekt_PP_UMG_Net7\obj\Debug\net7.0\ProjektPP2022.genruntimeconfig.cache
+C:\Users\Piotr Knasiak\Documents\GitHub\ProjektPP2022\Projekt_PP_UMG_Net7\obj\Debug\net7.0\ref\ProjektPP2022.dll

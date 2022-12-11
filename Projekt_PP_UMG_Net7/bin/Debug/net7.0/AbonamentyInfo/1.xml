@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbonamentyInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Nazwa>ja zNE</Nazwa>
+  <CzęstotliwośćRozliczania>miesiac</CzęstotliwośćRozliczania>
+  <Cena>12</Cena>
+  <LimitInternetu>50</LimitInternetu>
+  <CenaDoładowaniaInternetu>0.5</CenaDoładowaniaInternetu>
+  <LimityPrędkości>
+    <double>2.3</double>
+    <double>0.1</double>
+  </LimityPrędkości>
+  <ID>1</ID>
+</AbonamentyInfo>

@@ -22,3 +22,15 @@ C:\Users\piokn\Documents\GitHub\ProjektPP2022\Funkcje\obj\Debug\net7.0\Funkcje.d
 C:\Users\piokn\Documents\GitHub\ProjektPP2022\Funkcje\obj\Debug\net7.0\refint\Funkcje.dll
 C:\Users\piokn\Documents\GitHub\ProjektPP2022\Funkcje\obj\Debug\net7.0\Funkcje.pdb
 C:\Users\piokn\Documents\GitHub\ProjektPP2022\Funkcje\obj\Debug\net7.0\ref\Funkcje.dll
+C:\Users\Piotr Knasiak\Documents\GitHub\ProjektPP2022\Funkcje\bin\Debug\net7.0\Funkcje.deps.json
+C:\Users\Piotr Knasiak\Documents\GitHub\ProjektPP2022\Funkcje\bin\Debug\net7.0\Funkcje.dll
+C:\Users\Piotr Knasiak\Documents\GitHub\ProjektPP2022\Funkcje\bin\Debug\net7.0\Funkcje.pdb
+C:\Users\Piotr Knasiak\Documents\GitHub\ProjektPP2022\Funkcje\obj\Debug\net7.0\Funkcje.csproj.AssemblyReference.cache
+C:\Users\Piotr Knasiak\Documents\GitHub\ProjektPP2022\Funkcje\obj\Debug\net7.0\Funkcje.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Piotr Knasiak\Documents\GitHub\ProjektPP2022\Funkcje\obj\Debug\net7.0\Funkcje.AssemblyInfoInputs.cache
+C:\Users\Piotr Knasiak\Documents\GitHub\ProjektPP2022\Funkcje\obj\Debug\net7.0\Funkcje.AssemblyInfo.cs
+C:\Users\Piotr Knasiak\Documents\GitHub\ProjektPP2022\Funkcje\obj\Debug\net7.0\Funkcje.csproj.CoreCompileInputs.cache
+C:\Users\Piotr Knasiak\Documents\GitHub\ProjektPP2022\Funkcje\obj\Debug\net7.0\Funkcje.dll
+C:\Users\Piotr Knasiak\Documents\GitHub\ProjektPP2022\Funkcje\obj\Debug\net7.0\refint\Funkcje.dll
+C:\Users\Piotr Knasiak\Documents\GitHub\ProjektPP2022\Funkcje\obj\Debug\net7.0\Funkcje.pdb
+C:\Users\Piotr Knasiak\Documents\GitHub\ProjektPP2022\Funkcje\obj\Debug\net7.0\ref\Funkcje.dll
