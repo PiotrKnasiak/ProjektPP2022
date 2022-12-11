@@ -53,10 +53,11 @@ namespace Funkcje
         }
 
         public string Nazwa;
-        public string CzęstotliwośćRozliczania;                         // zakładam możliwości: tyg, msc, rok (każde ma 3 litery dla łatwości póżniejszego sprawdzania)
+        public string CzęstotliwośćRozliczania;                         // zakładam możliwości: tydzień, miesiąc, rok
         public double Cena;
         public double LimitInternetu = 0;                               // 0 dla braku, -1 dla nielimitowanego, >0 dla normalneog limitu , liczone w GB
-        public double[] LimityPrędkości = { 0, 0 };                     // prędkość przed i po wyczerpaniu limitu, liczobe w kb/s
+        public double CenaDoładowaniaInternetu = 0.5;                  // ile kosztuje doładowanie internetu (zł za 1 GB)
+        public double[] LimityPrędkości = { 0.0, 0.0 };                     // prędkość przed i po wyczerpaniu limitu, liczone w mb/s
     }
     [Serializable]
     public class PakietyInfo

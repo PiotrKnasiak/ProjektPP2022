@@ -33,9 +33,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\piokn\\Documents\\GitHub\\ProjektPP2022\\Projekt_PP_UMG_Net7\\Projekt_PP_UMG_Net7.csproj",
-      "projectName": "Projekt_PP_UMG_Net7",
-      "projectPath": "C:\\Users\\piokn\\Documents\\GitHub\\ProjektPP2022\\Projekt_PP_UMG_Net7\\Projekt_PP_UMG_Net7.csproj",
+      "projectUniqueName": "C:\\Users\\piokn\\Documents\\GitHub\\ProjektPP2022\\Projekt_PP_UMG_Net7\\ProjektPP2022.csproj",
+      "projectName": "ProjektPP2022",
+      "projectPath": "C:\\Users\\piokn\\Documents\\GitHub\\ProjektPP2022\\Projekt_PP_UMG_Net7\\ProjektPP2022.csproj",
       "packagesPath": "C:\\Users\\piokn\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\piokn\\Documents\\GitHub\\ProjektPP2022\\Projekt_PP_UMG_Net7\\obj\\",
       "projectStyle": "PackageReference",

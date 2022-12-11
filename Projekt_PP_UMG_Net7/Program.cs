@@ -16,6 +16,7 @@
 
         private static readonly string KodAdminów = "123";
 
+        #region Proste Funckcje Ogólne
         public static void CzyszczenieEkranu()
         {
             Console.Clear();
@@ -32,7 +33,9 @@
             Console.WriteLine($"{wiadomość}");
             Console.ForegroundColor = foregroundColor;
         }
+        #endregion
 
+        #region Funckcje Logowania i Rejestracji
         public static void TworzenieUrzytkownika(DaneLogowania dane, int ID, bool tworzyćKlienta)
         {
             Funkcje.ZapiszPlik(dane, ID);
@@ -324,35 +327,38 @@
 
             return danaZalogowania;
         }
-
+        #endregion
 
         #region Funckcje Użytkowników
-        public static void TwojeInformacje(ref DaneLogowania twojeDane, bool admin = false)             // 1
+        public static void TwojeInformacje(ref DaneLogowania daneUrzytkownika, bool admin = false)             // 1
         {
             CzyszczenieEkranu();
 
 
             Console.Write(" Start -> Menu -> Wyświetl lub modyfikuj informacje o sobie\n\n\n");
 
-            Console.Write(" Twoje dane:\n\n");
+            if (!admin)
+            {
+                Console.Write(" Twoje dane:\n\n");
+            }
 
-            Console.WriteLine("  Imie: " + twojeDane.Imię);
-            Console.WriteLine("\n  Nazwisko: " + twojeDane.Nazwisko);
-            Console.WriteLine($"\n  Data urodzenia: {twojeDane.DataUrodzenia.Day}-{twojeDane.DataUrodzenia.Month}-{twojeDane.DataUrodzenia.Year}");
-            Console.WriteLine($"\n  Email: {twojeDane.Email}");
+            Console.WriteLine("  Imie: " + daneUrzytkownika.Imię);
+            Console.WriteLine("\n  Nazwisko: " + daneUrzytkownika.Nazwisko);
+            Console.WriteLine($"\n  Data urodzenia: {daneUrzytkownika.DataUrodzenia.Day}-{daneUrzytkownika.DataUrodzenia.Month}-{daneUrzytkownika.DataUrodzenia.Year}");
+            Console.WriteLine($"\n  Email: {daneUrzytkownika.Email}");
 
-            string wybor;
+            string wybór;
             string komunikat = "\n\n    Czy chcesz edytowac dane? (Y/N): ";
 
             do
             {
 
                 Console.Write(komunikat);
-                wybor = Console.ReadLine();
+                wybór = Console.ReadLine();
                 CzyszczenieEkranu();
 
 
-                if (wybor.ToLower() == "y")
+                if (wybór.ToLower() == "y")
                 {
                     bool powtórka = false;
                     Console.Write(" Start -> Menu -> Wyświetl informacje o sobie\n\n\n");
@@ -368,21 +374,21 @@
                         case 1:
 
                             Console.Write("    Wprowadz imie: ");
-                            twojeDane.Imię = Console.ReadLine();
+                            daneUrzytkownika.Imię = Console.ReadLine();
                             Console.WriteLine();
                             break;
 
                         case 2:
 
                             Console.Write("    Wprowadz nazwisko: ");
-                            twojeDane.Nazwisko = Console.ReadLine();
+                            daneUrzytkownika.Nazwisko = Console.ReadLine();
                             Console.WriteLine();
                             break;
 
                         case 3:
 
                             DateOnly czas = new DateOnly();
-                            twojeDane.DataUrodzenia = czas;
+                            daneUrzytkownika.DataUrodzenia = czas;
 
 
                             do
@@ -391,7 +397,7 @@
                                 {
                                     powtórka = false;
                                     Console.Write("    Wprowadz datę: \n\n\trok urodzenia: ");
-                                    twojeDane.DataUrodzenia = twojeDane.DataUrodzenia.AddYears(int.Parse(Console.ReadLine()) - 1);
+                                    daneUrzytkownika.DataUrodzenia = daneUrzytkownika.DataUrodzenia.AddYears(int.Parse(Console.ReadLine()) - 1);
                                 }
                                 catch (Exception)
                                 {
@@ -407,7 +413,7 @@
                                 {
                                     powtórka = false;
                                     Console.Write("\n\tmiesiac urodzenia: ");
-                                    twojeDane.DataUrodzenia = twojeDane.DataUrodzenia.AddMonths(int.Parse(Console.ReadLine()) - 1);
+                                    daneUrzytkownika.DataUrodzenia = daneUrzytkownika.DataUrodzenia.AddMonths(int.Parse(Console.ReadLine()) - 1);
                                 }
                                 catch (Exception)
                                 {
@@ -423,7 +429,7 @@
                                 {
                                     powtórka = false;
                                     Console.Write("\n\tdzien urodzenia: ");
-                                    twojeDane.DataUrodzenia = twojeDane.DataUrodzenia.AddDays(int.Parse(Console.ReadLine()) - 1);
+                                    daneUrzytkownika.DataUrodzenia = daneUrzytkownika.DataUrodzenia.AddDays(int.Parse(Console.ReadLine()) - 1);
                                     Console.WriteLine();
                                 }
                                 catch (Exception)
@@ -438,7 +444,7 @@
                         case 4:
 
                             Console.Write("    Wprowadz email: ");
-                            twojeDane.Email = Console.ReadLine();
+                            daneUrzytkownika.Email = Console.ReadLine();
                             Console.WriteLine();
                             break;
 
@@ -447,18 +453,18 @@
                     }
                     komunikat = "\n Czy chcesz edytować inne dane? (Y/N): ";
                 }
-            } while (wybor.ToLower() != "n");
+            } while (wybór.ToLower() != "n");
 
-            DaneLogowania doZapisania = twojeDane;
+            DaneLogowania doZapisania = daneUrzytkownika;
             Funkcje.ZapiszPlik(doZapisania, doZapisania.ID);
 
         }
-        public static void InfoOTwoichUrz(DaneLogowania twojeDane, bool admin = false)                  // 2
+        public static void InfoOTwoichUrz(DaneLogowania daneUrzytkownika, bool admin = false)                  // 2
         {
             Console.WriteLine(" Wyświetlanie informacji o twoich urządzeniach.\n");
 
             UrządzenieKlienta[] urzKlTemp = new UrządzenieKlienta[1];
-            urzKlTemp = Funkcje.WczytajWszystkiePliki(urzKlTemp, twojeDane.ID);
+            urzKlTemp = Funkcje.WczytajWszystkiePliki(urzKlTemp, daneUrzytkownika.ID);
 
             UrządzeniaInfo[] urzInf = new UrządzeniaInfo[1];
             urzInf = Funkcje.WczytajWszystkiePliki(urzInf);
@@ -505,7 +511,7 @@
                     try
                     {
                         powtórka = false;
-                        Console.Write("\n   Podaj numer pozycji której informacje checsz wyświetlić : ");
+                        Console.Write("\n   Podaj numer pozycji którą checsz zobaczyć : ");
                         string? wprowadzono = Console.ReadLine().ToLower().Replace("ź", "z").Replace(",", ".").Replace(" ", "");
                         Console.WriteLine();
 
@@ -538,25 +544,25 @@
             }
 
         }
-        public static void InfoOTwoichAbo(DaneLogowania twojeDane, bool admin = false)                  // 3
+        public static void InfoOTwoichAbo(DaneLogowania daneUrzytkownika, bool admin = false)                  // 3
         {
             Console.WriteLine(" Wyświetlanie informacji o twoich abonamentach.\n");
 
             AbonamentKlienta[] aboKl = new AbonamentKlienta[1];
-            aboKl = Funkcje.WczytajWszystkiePliki(aboKl, twojeDane.ID);
+            aboKl = Funkcje.WczytajWszystkiePliki(aboKl, daneUrzytkownika.ID);
 
             // tylko wyświetlanie, bez modyfikacji
         }
-        public static void InfoOTwoichPak(DaneLogowania twojeDane, bool admin = false)                  // 4
+        public static void InfoOTwoichPak(DaneLogowania daneUrzytkownika, bool admin = false)                  // 4
         {
             Console.WriteLine(" Wyświetlanie informacji o twoich pakietach.\n");
 
             PakietKlienta[] pakKl = new PakietKlienta[1];
-            pakKl = Funkcje.WczytajWszystkiePliki(pakKl, twojeDane.ID);
+            pakKl = Funkcje.WczytajWszystkiePliki(pakKl, daneUrzytkownika.ID);
 
             // tylko wyświetlanie, bez modyfikacji
         }
-        public static void InfoOOfertachUrz()                                       // 5
+        public static void InfoOOfertachUrz(bool admin = false)                                       // 5
         {
             UrządzeniaInfo[] dostępne = new UrządzeniaInfo[3];
             dostępne = Funkcje.WczytajWszystkiePliki(dostępne);
@@ -582,7 +588,7 @@
                     powtórka = false;
                     try
                     {
-                        Console.Write("\n   Podaj numer pozycji której informacje checsz wyświetlić : ");
+                        Console.Write("\n   Podaj numer pozycji którą checsz zobaczyć : ");
                         string? wprowadzono = Console.ReadLine().ToLower().Replace("ź", "z").Replace(",", ".").Replace(" ", "");
                         Console.WriteLine();
 
@@ -611,9 +617,9 @@
                 while (powtórka);
 
                 CzyszczenieEkranu();
-                Console.WriteLine($" Nazwa : {dostępne[wybraneID].Nazwa}");
-                Console.WriteLine($" Wytwóra : {dostępne[wybraneID].Wytwórca}");
-                Console.WriteLine($" Cena : {dostępne[wybraneID].Cena}");
+                Console.WriteLine($"\n Nazwa : {dostępne[wybraneID].Nazwa}");
+                Console.WriteLine($"\n Wytwóra : {dostępne[wybraneID].Wytwórca}");
+                Console.WriteLine($"\n Cena : {dostępne[wybraneID].Cena}");
 
                 Console.WriteLine("\n Dostępne warianty : ");
                 foreach(string wariant in dostępne[wybraneID].Warianty)
@@ -627,19 +633,33 @@
                     Console.WriteLine($"   - {kolor}");
                 }
 
-                Console.Write("\n\n   Wpisz \"kup\" aby przejść do kupna, wciśnij enter by wrócić");
+                string wiadomość = "\n\n   Wpisz \"kup\" aby przejść do kupna, wciśnij enter by wrócić";
+                if(admin)
+                {
+                    wiadomość = "\n\n   Wpisz \"edytuj\" aby edytować lub \"rabat\" by nadać klientowi rabat na tą ofertę, wciśnij enter by wrócić";
+                }
+                Console.Write(wiadomość);
+
                 string? wybór = Console.ReadLine().ToLower().Replace('ó', 'u').Trim();
                 
-                if(wybór == "kup")
+                if(!admin && wybór == "kup")
                 {
                     // funkcja zakupu,
                     // Karze płacić (podać informacje do faktury).
                     // Dodaje pozycję do klienta i tworzy jej fakturę
                 }
+                else if (admin && wybór == "edytuj")
+                {
+                    // modyfikowanie lub usunięcie ofery, dostępne tylko dla admina
+                }
+                else if (admin && wybór=="rabat")
+                {
+                    // nadanie wybanemu urzytkownikowi rabatu
+                }
             }
 
         }
-        public static void InfoOOfertachAbo()                                       // 6
+        public static void InfoOOfertachAbo(bool admin = false)                                       // 6
         {
             AbonamentyInfo[] dostępne = new AbonamentyInfo[3];
             dostępne = Funkcje.WczytajWszystkiePliki(dostępne);
@@ -665,7 +685,7 @@
                     try
                     {
                         powtórka = false;
-                        Console.Write("\n   Podaj numer pozycji której informacje checsz wyświetlić : ");
+                        Console.Write("\n   Podaj numer pozycji którą checsz zobaczyć : ");
                         string? wprowadzono = Console.ReadLine().ToLower().Replace("ź", "z").Replace(",", ".").Replace(" ", "");
                         Console.WriteLine();
 
@@ -691,14 +711,63 @@
                     }
 
                 }
-                while (powtórka);
+                while (powtórka);   //dostępne[wybraneID].
 
                 CzyszczenieEkranu();
-                Console.WriteLine($"  : {dostępne[wybraneID].Nazwa}");
+                Console.WriteLine($"\n Nazwa : {dostępne[wybraneID].Nazwa}");
+                if(dostępne[wybraneID].LimitInternetu == 0)
+                {
+                    Console.WriteLine($"\n Ten abonament nie zapewnia dostępu do internetu.");
+                }
+                else if (dostępne[wybraneID].LimitInternetu == -1)
+                {
+                    Console.WriteLine($"\n Ten abonament zapewnia nielimitowany dostęp do internetu.");
+                }
+                else
+                {
+                    double prędkośćMin = dostępne[wybraneID].LimityPrędkości[1];
+                    string prędkośćMinTekst = $"{prędkośćMin} Mb/s";
+                    if(dostępne[wybraneID].LimityPrędkości[1] < 1)
+                    {
+                        prędkośćMin *= 1000;
+                        prędkośćMinTekst = $"{prędkośćMin} kb/s";
+                    }
+
+                    Console.WriteLine($"\n Ten abonament zapewnia dostęp do {dostępne[wybraneID].LimitInternetu} GB internetu z prędkością do" +
+                        $" {dostępne[wybraneID].LimityPrędkości[0]} Mb/s. \n    ({prędkośćMinTekst} po wyczerpaniu limitu).");
+
+                    Console.WriteLine($"\n Cena doładowania internetu to {dostępne[wybraneID].CenaDoładowaniaInternetu} zł za GB");
+                }
+                
+                Console.WriteLine($"\n Opłaty w wysokoći {dostępne[wybraneID].Cena} zł, naliczane co {dostępne[wybraneID].CzęstotliwośćRozliczania}");
+
+                string wiadomość = "\n\n   Wpisz \"kup\" aby przejść do kupna, wciśnij enter by wrócić";
+                if (admin)
+                {
+                    wiadomość = "\n\n   Wpisz \"edytuj\" aby edytować lub \"rabat\" by nadać klientowi rabat na tą ofertę, wciśnij enter by wrócić";
+                }
+                Console.Write(wiadomość);
+
+                string? wybór = Console.ReadLine().ToLower().Replace('ó', 'u').Trim();
+
+                if (!admin && wybór == "kup")
+                {
+                    // funkcja zakupu,
+                    // Karze płacić (podać informacje do faktury).
+                    // Dodaje pozycję do klienta i tworzy jej fakturę
+                }
+                else if (admin && wybór == "edytuj")
+                {
+                    // modyfikowanie lub usunięcie ofery, dostępne tylko dla admina
+                }
+                else if (admin && wybór == "rabat")
+                {
+                    // nadanie wybanemu urzytkownikowi rabatu
+                }
             }
 
         }
-        public static void InfoOOfertachPak()                                       // 7
+        public static void InfoOOfertachPak(bool admin = false)                                       // 7
         {
             PakietyInfo[] dostępne= new PakietyInfo[3];
             dostępne= Funkcje.WczytajWszystkiePliki(dostępne);
@@ -724,7 +793,7 @@
                     try
                     {
                         powtórka = false;
-                        Console.Write("\n   Podaj numer pozycji której informacje checsz wyświetlić : ");
+                        Console.Write("\n   Podaj numer pozycji którą checsz zobaczyć : ");
                         string? wprowadzono = Console.ReadLine().ToLower().Replace("ź", "z").Replace(",", ".").Replace(" ", "");
                         Console.WriteLine();
 
@@ -753,7 +822,47 @@
                 while (powtórka);
 
                 CzyszczenieEkranu();
-                Console.WriteLine(" ");
+                Console.WriteLine($"\n Nazwa : {dostępne[wybraneID].Nazwa}");
+                /*                  dokończyć
+                Console.WriteLine($"\n Wytwóra : {dostępne[wybraneID].}");
+                Console.WriteLine($"\n Cena : {dostępne[wybraneID].Cena}");
+
+                Console.WriteLine("\n Dostępne warianty : ");
+                foreach (string wariant in dostępne[wybraneID].Nazwa)
+                {
+                    Console.WriteLine($"   - {wariant}");
+                }
+
+                Console.WriteLine("\n Dostępne kolory : ");
+                foreach (string kolor in dostępne[wybraneID].Kolory)
+                {
+                    Console.WriteLine($"   - {kolor}");
+                }
+                */
+
+                string wiadomość = "\n\n   Wpisz \"kup\" aby przejść do kupna, wciśnij enter by wrócić";
+                if (admin)
+                {
+                    wiadomość = "\n\n   Wpisz \"edytuj\" aby edytować lub \"rabat\" by nadać klientowi rabat na tą ofertę, wciśnij enter by wrócić";
+                }
+                Console.Write(wiadomość);
+
+                string? wybór = Console.ReadLine().ToLower().Replace('ó', 'u').Trim();
+
+                if (!admin && wybór == "kup")
+                {
+                    // funkcja zakupu,
+                    // Karze płacić (podać informacje do faktury).
+                    // Dodaje pozycję do klienta i tworzy jej fakturę
+                }
+                else if (admin && wybór == "edytuj")
+                {
+                    // modyfikowanie lub usunięcie ofery, dostępne tylko dla admina
+                }
+                else if (admin && wybór == "rabat")
+                {
+                    // nadanie wybanemu urzytkownikowi rabatu
+                }
             }
 
         }
@@ -1010,13 +1119,13 @@
                         return;
                     }
 
+                    nowyAbo.Cena = double.Parse(wprowadzono);
+
                     if (nowyAbo.Cena < 0)
                     {
                         powtórka = true;
                         continue;
                     }
-
-                    nowyAbo.Cena = double.Parse(wprowadzono);
                 }
                 catch (Exception)
                 {
@@ -1026,7 +1135,7 @@
             }
             while (powtórka);
 
-            Console.Write("\n  Podaj częstotliwośc rozliczenia ( dzień / tydzień / miesiąc ): ");
+            Console.Write("\n  Podaj częstotliwośc rozliczenia ( tydzień / miesiąc / rok): ");
             nowyAbo.CzęstotliwośćRozliczania = Console.ReadLine();
 
             if (nowyAbo.CzęstotliwośćRozliczania.ToLower().Replace("ź", "z") == "wyjdz")
@@ -1048,34 +1157,44 @@
             }
             catch (Exception) { }
 
-            try
+            if (nowyAbo.LimitInternetu > 0)
             {
-                Console.Write("\n  Podaj dolny limit szybkości internetu (w kb/s), 0 dla braku internetu: ");
-                string wprowadzone = Console.ReadLine().ToLower().Replace("ź", "z").Replace(" ", "").Replace(",", ".");
-
-                if (wprowadzone == "wyjdz")
+                powtórka = true;
+                do
                 {
-                    return;
+                    try
+                    {
+                        Console.Write("\n  Podaj limit szybkości internetu przed wyczerpaniem limitu (w Mb/s): ");
+                        string wprowadzone = Console.ReadLine().ToLower().Replace("ź", "z").Replace(" ", "").Replace(",", ".");
+
+                        if (wprowadzone == "wyjdz")
+                        {
+                            return;
+                        }
+
+                        nowyAbo.LimityPrędkości[0] = double.Parse(wprowadzone);
+                        powtórka = false;
+                    }
+                    catch (Exception) { }
                 }
+                while (powtórka);
 
-                nowyAbo.LimityPrędkości[0] = double.Parse(wprowadzone);
-            }
-            catch (Exception) { }
-
-            try
-            {
-                Console.Write("\n  Podaj górny limit szybkości internetu (w kb/s), 0 dla braku internetu: ");
-                string wprowadzone = Console.ReadLine().ToLower().Replace("ź", "z").Replace(" ", "").Replace(",", ".");
-
-                if (wprowadzone == "wyjdz")
+                try
                 {
-                    return;
+                    Console.Write("\n  Podaj limit szybkości internetu po wyczerpanieu limitu (w Mb/s): ");
+                    string wprowadzone = Console.ReadLine().ToLower().Replace("ź", "z").Replace(" ", "").Replace(",", ".");
+
+                    if (wprowadzone == "wyjdz")
+                    {
+                        return;
+                    }
+
+                    nowyAbo.LimityPrędkości[1] = double.Parse(wprowadzone);
+                    Console.WriteLine($"prędkośc po : {nowyAbo.LimityPrędkości[1]}");
+                    Thread.Sleep(1000);
                 }
-
-                nowyAbo.LimityPrędkości[1] = double.Parse(wprowadzone);
+                catch (Exception) { }
             }
-            catch (Exception) { }
-
 
             Funkcje.ZapiszPlik(nowyAbo, nowyAbo.ID);
 
