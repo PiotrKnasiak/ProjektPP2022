@@ -8,23 +8,23 @@
     "net7.0": []
   },
   "packageFolders": {
-    "C:\\Users\\Piotr Knasiak\\.nuget\\packages\\": {},
-    "E:\\hh\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\piokn\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Piotr Knasiak\\Documents\\GitHub\\ProjektPP2022\\Funkcje\\Funkcje.csproj",
+      "projectUniqueName": "C:\\Users\\piokn\\Documents\\GitHub\\ProjektPP2022\\Funkcje\\Funkcje.csproj",
       "projectName": "Funkcje",
-      "projectPath": "C:\\Users\\Piotr Knasiak\\Documents\\GitHub\\ProjektPP2022\\Funkcje\\Funkcje.csproj",
-      "packagesPath": "C:\\Users\\Piotr Knasiak\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Piotr Knasiak\\Documents\\GitHub\\ProjektPP2022\\Funkcje\\obj\\",
+      "projectPath": "C:\\Users\\piokn\\Documents\\GitHub\\ProjektPP2022\\Funkcje\\Funkcje.csproj",
+      "packagesPath": "C:\\Users\\piokn\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\piokn\\Documents\\GitHub\\ProjektPP2022\\Funkcje\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "E:\\hh\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Piotr Knasiak\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\piokn\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],

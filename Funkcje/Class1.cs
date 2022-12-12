@@ -402,7 +402,7 @@ namespace Funkcje
         /// <param name="zwiększOIleś"></param>
         public static void RozszerzTabelę(ref object[] tabela, int nowyRozmiar = -1, int zwiększOIleś = -1)
         {
-            if(nowyRozmiar != -1 && nowyRozmiar > tabela.Length) { tabela = new object[nowyRozmiar]; }
+            if (nowyRozmiar != -1 && nowyRozmiar > tabela.Length) { tabela = new object[nowyRozmiar]; }
             else if (zwiększOIleś > 0) { tabela = new object[tabela.Length + zwiększOIleś]; }
             else { Console.WriteLine("Błędnie wprowadzone powiększenie, zwiększono o 1"); tabela = new object[tabela.Length + 1]; }
         }
@@ -415,18 +415,18 @@ namespace Funkcje
         /// <param name="zwiększOIleś"></param>
         public static void RozszerzTabelę(ref object[,] tabela, int nowyRozmiar1 = -1, int nowyRozmiar2 = -1, int zwiększOIleś1 = -1, int zwiększOIleś2 = -1)
         {
-            if (nowyRozmiar1 > tabela.GetLength(0) && nowyRozmiar2 > tabela.GetLength(1)) 
+            if (nowyRozmiar1 > tabela.GetLength(0) && nowyRozmiar2 > tabela.GetLength(1))
             {
-                tabela = new object[nowyRozmiar1,nowyRozmiar2]; 
+                tabela = new object[nowyRozmiar1, nowyRozmiar2];
             }
-            else if (zwiększOIleś1 > 0 && zwiększOIleś2 > 0) 
-            { 
-                tabela = new object[tabela.GetLength(0) + zwiększOIleś1, tabela.GetLength(1) + zwiększOIleś2]; 
+            else if (zwiększOIleś1 > 0 && zwiększOIleś2 > 0)
+            {
+                tabela = new object[tabela.GetLength(0) + zwiększOIleś1, tabela.GetLength(1) + zwiększOIleś2];
             }
-            else 
-            { 
-                Console.WriteLine("Błędnie wprowadzone powiększenie, zwiększono o 1"); 
-                tabela = new object[tabela.GetLength(0) + 1, tabela.GetLength(1) + 1]; 
+            else
+            {
+                Console.WriteLine("Błędnie wprowadzone powiększenie, zwiększono o 1");
+                tabela = new object[tabela.GetLength(0) + 1, tabela.GetLength(1) + 1];
             }
         }
 
@@ -455,7 +455,7 @@ namespace Funkcje
                 case "UrządzeniaKlienta":
                 case "AbonamentyKlienta":
                 case "PakietyKlienta":
-                case "Faktury" : 
+                case "Faktury":
                     ścieżka = Path.Combine(ścieżka, "Klienci", (IDklienta + "\\" + nazwaFolderu));
                     break;
             }
@@ -500,8 +500,9 @@ namespace Funkcje
             int[] lista = new int[0];
             string ścieżka = ŚcieżkaFolderu(folder, IDKlienta);
             string[] nazwy = new string[0];
+            string[] zakazaneNazwy = { "rabat" };
 
-            if(!Directory.Exists(ścieżka))
+            if (!Directory.Exists(ścieżka))
             {
                 return lista;
             }
@@ -514,19 +515,64 @@ namespace Funkcje
                 nazwy = Directory.GetDirectories(ścieżka);
             }
 
-            lista = new int[nazwy.Length];
+            int wykryteZakazane = 0;
+            foreach (string nazwa in nazwy)
+            {
+                foreach (string zakazana in zakazaneNazwy)
+                {
+                    if (nazwa.Replace(@".xml", "").Replace(ścieżka + @"\", "").Contains(zakazana))
+                    {
+                        wykryteZakazane++;
+                        break;
+                    }
+                }
+            }
+
+            lista = new int[nazwy.Length - wykryteZakazane];
             int i = 0;
 
             foreach (string nazwa in nazwy)
             {
+                bool pomiń = false;
+
                 string nazwa2 = nazwa.Replace(@".xml", "");
                 string nazwa3 = nazwa2.Replace(ścieżka + @"\", "");
-                lista[i++] = int.Parse(nazwa3);
+
+                foreach (string zakazana in zakazaneNazwy)
+                {
+                    if (nazwa3.Contains(zakazana))
+                    {
+                        pomiń = true;
+                        break;
+                    }
+                }
+                if (!pomiń)
+                {
+                    lista[i++] = int.Parse(nazwa3);
+                }
             }
+
 
             return lista;
         }
 
+        private static int NajwiększeID(string nazwaPliku, string ścieżka, int ostatnieID)
+        {
+            string FN = nazwaPliku.Replace(".xml", "");
+            FN = FN.Replace(ścieżka + "\\", "");
+
+            try
+            {
+                int id1 = int.Parse(FN);
+                if (ostatnieID < id1)
+                {
+                    return id1;
+                }
+            }
+            catch (Exception) { }
+
+            return ostatnieID;
+        }
         public static int NajwiększeIDUrzytkowników()                   // ID z danych logowania; pracownicy i admini nie mają własnego folderu klient
         {
             int ID = 0;       // minimalne ID - 1
@@ -534,16 +580,9 @@ namespace Funkcje
 
             if (Directory.Exists(ścieżka))
             {
-                foreach (string pk in Directory.GetFiles(ścieżka, "*.xml"))
+                foreach (string iu in Directory.GetFiles(ścieżka, "*.xml"))
                 {
-                    string FN = pk.Replace(".xml", "");
-                    FN = FN.Replace(ścieżka + "\\", "");
-
-                    int id1 = int.Parse(FN);
-                    if (ID < id1)
-                    {
-                        ID = id1;
-                    }
+                    ID = NajwiększeID(iu, ścieżka, ID);
                 }
             }
 
@@ -557,13 +596,7 @@ namespace Funkcje
 
             foreach (string kl in Directory.GetDirectories(ścieżka))
             {
-                string FN = kl.Replace(".xml", "");
-                FN = FN.Replace(ścieżka + "\\", "");
-
-                if (int.Parse(FN) > ID)
-                {
-                    ID = int.Parse(FN);
-                }
+                ID = NajwiększeID(kl, ścieżka, ID);
             }
             return ID;
         }
@@ -583,14 +616,7 @@ namespace Funkcje
             {
                 foreach (string pk in Directory.GetFiles(ścieżka, "*.xml"))
                 {
-                    string FN = pk.Replace(".xml", "");
-                    FN = FN.Replace(ścieżka + "\\", "");
-
-                    int id1 = int.Parse(FN);
-                    if (ID < id1)
-                    {
-                        ID = id1;
-                    }
+                    ID = NajwiększeID(pk, ścieżka, ID);
                 }
             }
 
@@ -612,14 +638,7 @@ namespace Funkcje
             {
                 foreach (string pk in Directory.GetFiles(ścieżka, "*.xml"))
                 {
-                    string FN = pk.Replace(".xml", "");
-                    FN = FN.Replace(ścieżka + "\\", "");
-
-                    int id1 = int.Parse(FN);
-                    if (ID < id1)
-                    {
-                        ID = id1;
-                    }
+                    ID = NajwiększeID(pk, ścieżka, ID);
                 }
             }
 
@@ -639,7 +658,7 @@ namespace Funkcje
                 }
             }
 
-            
+
         }
 
         /// <summary>
@@ -784,7 +803,7 @@ namespace Funkcje
         public static AbonamentKlienta[] WczytajWszystkiePliki(AbonamentKlienta[] pustaInstancja, int IDKlienta)
         {
             string typPliku = "AbonamentyKlienta";
-            ŁadowanieWszystkichPlików łwp = new(typPliku,IDKlienta);
+            ŁadowanieWszystkichPlików łwp = new(typPliku, IDKlienta);
             pustaInstancja = new AbonamentKlienta[łwp.ListaDanych.Length];
             int i = 0;
 
