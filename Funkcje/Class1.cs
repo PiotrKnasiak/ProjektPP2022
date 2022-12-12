@@ -81,10 +81,13 @@ namespace Funkcje
 
         public double Cena;
         public string Nazwa;
+        public bool MaAbonament = false;
         public int[] TelefonyID;                                        // ID brane z oferty urządzeń
-        public int AbonamentID = 0;                                     // ID oferyty przypisanego przy zakupie do telefonów abonamentu
+        public string[] WariantyTelefonów = { };                        // nie podawać nic dla normalnej wersjii telefonu             
+        public int AbonamentID = -1;                                     // ID oferyty przypisanego przy zakupie do telefonów abonamentu
+        public double PrzecenaTelefon = 0;                              // przecena na łączną cenę telefonów, w ułamku diesiętnym, 0 dla braku
         public double CzasTrwania = 0;                                  // Na ile opłaca abonament, wyrażane w ilości "cykli" abonamentu (np. tygodni jeśli opłacany tygodniowo)
-        public double Przecena = 0;                                     // przecena na abonament, w ułamku diesiętnym, 0 dla braku
+        public double PrzecenaAbonament = 0;                            // przecena na abonament, w ułamku diesiętnym, 0 dla braku
     }
     [Serializable]
     public class DaneLogowania
@@ -243,7 +246,7 @@ namespace Funkcje
     #region KlasyŁadowaniaIZapisywania
     public class ZapisywaniePlików
     {
-        public ZapisywaniePlików(object Iteracja, int ID, int IDKlienta = -1)
+        public ZapisywaniePlików(object Iteracja, string nazwa, int IDKlienta = -1)
         {
             Type typ = Iteracja.GetType();
             XmlSerializer serializer = new(typ);
@@ -283,7 +286,7 @@ namespace Funkcje
             }
 
             string ścieżka = Funkcje.ŚcieżkaFolderu(folder, IDKlienta);
-            Stream stream = new FileStream($@"{ścieżka}\{ID}.xml", FileMode.Create, FileAccess.Write, FileShare.None);
+            Stream stream = new FileStream($@"{ścieżka}\{nazwa}.xml", FileMode.Create, FileAccess.Write, FileShare.None);
 
             serializer.Serialize(stream, Iteracja);
 
@@ -294,13 +297,13 @@ namespace Funkcje
     {
         public object? WczytanyPlik;
 
-        public ŁadowaniePlików(string folder, int ID, int IDKlienta = -1)
+        public ŁadowaniePlików(string folder, string nazwa, int IDKlienta = -1)
         {
             string ścieżka = Funkcje.ŚcieżkaFolderu(folder, IDKlienta);
             XmlSerializer serializer;
             try
             {
-                Stream stream = new FileStream($@"{ścieżka}\{ID}.xml", FileMode.Open, FileAccess.Read, FileShare.Read);
+                Stream stream = new FileStream($@"{ścieżka}\{nazwa}.xml", FileMode.Open, FileAccess.Read, FileShare.Read);
                 switch (folder)
                 {
                     case "DaneLogowania":
@@ -375,7 +378,7 @@ namespace Funkcje
                     {
                         while (i < listaID.Length)
                         {
-                            łp = new ŁadowaniePlików(typPliku, listaID[i], IDKlienta);
+                            łp = new ŁadowaniePlików(typPliku, listaID[i].ToString(), IDKlienta);
                             this.ListaDanych[i] = łp.WczytanyPlik;
                             i++;
                         }
@@ -648,7 +651,7 @@ namespace Funkcje
         public static void CzyIstniejąWszystkieFoldery()
         {
             string aktualnaŚcieżka = Directory.GetCurrentDirectory();
-            string[] nazwyFolderów = { "DaneLogowania", "UrządzeniaInfo", "AbonamentyInfo", "PakietyInfo", "Klienci" };
+            string[] nazwyFolderów = { "DaneLogowania", "UrządzeniaInfo", "AbonamentyInfo", "PakietyInfo", "Klienci", "Rabaty" };
 
             foreach (string nazwaF in nazwyFolderów)
             {
@@ -662,18 +665,18 @@ namespace Funkcje
         }
 
         /// <summary>
-        /// <para>Tworzy plik z załączonej struktury danych, podać kolejno : Strukturę do zapisania, ID służące jako nazwa, ID klienta jeśli jest potrzebne.   </para>
+        /// <para>Tworzy plik z załączonej struktury danych, podać kolejno : Strukturę do zapisania, nazwę pliku, ID klienta jeśli jest potrzebne.   </para>
         /// </summary>
         /// <param name="Iteracja"></param>
         /// <param name="ID"></param>
         /// <param name="IDKlienta"></param>
-        public static void ZapiszPlik(object Iteracja, int ID, int IDKlienta = -1)
+        public static void ZapiszPlik(object Iteracja, string nazwa, int IDKlienta = -1)
         {
-            ZapisywaniePlików zp = new(Iteracja, ID, IDKlienta);
+            ZapisywaniePlików zp = new(Iteracja, nazwa, IDKlienta);
         }
 
         /// <summary>
-        /// <para>Ładuje plik, podać kolejno : nazwę folderu, nazwę folderu, ID służące jako nazwa, ID klienta jeśli jest potrzebnea(dla 3 ostatnich folderów).   </para>
+        /// <para>Ładuje plik, podać kolejno : nazwę folderu, nazwę folderu, nazwę pliku, ID klienta jeśli jest potrzebnea(dla 3 ostatnich folderów).   </para>
         /// <para>Dostępne foldery :</para>
         /// <para>DaneLogowania,  UrządzeniaInfo,  AbonamentyInfo,  PakietyInfo,  UrządzeniaKlienta,  AbonamentyKlienta,  PakietyKlienta, FakturyKlienta</para>
         /// </summary>
@@ -681,9 +684,9 @@ namespace Funkcje
         /// <param name="ID"></param>
         /// <param name="IDKlienta"></param>
         /// 
-        public static object WczytajPlik(string folder, int ID, int IDKlienta = -1)
+        public static object WczytajPlik(string folder, string nazwa, int IDKlienta = -1)
         {
-            ŁadowaniePlików łp = new(folder, ID, IDKlienta);
+            ŁadowaniePlików łp = new(folder, nazwa, IDKlienta);
             return łp.WczytanyPlik;
         }
 
@@ -868,7 +871,7 @@ namespace Funkcje
             PakietKlienta[] pakKl = new PakietKlienta[1];
             FakturaKlienta[] fakKl = new FakturaKlienta[1];
 
-            DaneLogowania daneLog = (DaneLogowania)Funkcje.WczytajPlik("DaneLogowania", IDKlienta);
+            DaneLogowania daneLog = (DaneLogowania)Funkcje.WczytajPlik("DaneLogowania", IDKlienta.ToString());
 
             WszystkieDaneKlienta dane = new WszystkieDaneKlienta();
 
@@ -909,7 +912,7 @@ namespace Funkcje
         #endregion
 
         /// <summary>
-        /// <para>Usuwa plik, podać kolejno : nazwę folderu, nazwę folderu, ID służące jako nazwa, ID klienta jeśli jest potrzebnea(dla 3 ostatnich folderów).   </para>
+        /// <para>Usuwa plik, podać kolejno : nazwę folderu, nazwę folderu, nazwę pliku, ID klienta jeśli jest potrzebnea(dla 3 ostatnich folderów).   </para>
         /// <para>Dostępne foldery :</para>
         /// <para>DaneLogowania,  UrządzeniaInfo,  AbonamentyInfo,  PakietyInfo,  UrządzeniaKlienta,  AbonamentyKlienta,  PakietyKlienta, FakturyKlienta</para>
         /// </summary>
@@ -917,9 +920,9 @@ namespace Funkcje
         /// <param name="ID"></param>
         /// <param name="IDKlienta"></param>
         /// 
-        public static void UsuńPlik(string folder, int ID, int IDKlienta = -1)
+        public static void UsuńPlik(string folder, string nazwa, int IDKlienta = -1)
         {
-            string ścieżka = ŚcieżkaFolderu(folder, IDKlienta) + @$"\{ID}.xml";
+            string ścieżka = ŚcieżkaFolderu(folder, IDKlienta) + @$"\{nazwa}.xml";
 
             File.Delete(ścieżka);
         }
@@ -931,7 +934,7 @@ namespace Funkcje
         /// 
         public static void UsuńKlienta(int IDKlienta)
         {
-            UsuńPlik("DaneLogowania", IDKlienta);
+            UsuńPlik("DaneLogowania", IDKlienta.ToString());
 
             Directory.Delete(ŚcieżkaFolderu("Klienci"), true);
         }

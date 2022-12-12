@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PakietyInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Cena>20000</Cena>
+  <Nazwa>testPak1</Nazwa>
+  <MaAbonament>false</MaAbonament>
+  <TelefonyID>
+    <int>1</int>
+    <int>2</int>
+  </TelefonyID>
+  <WariantyTelefonów />
+  <AbonamentID>0</AbonamentID>
+  <PrzecenaTelefon>0</PrzecenaTelefon>
+  <CzasTrwania>4</CzasTrwania>
+  <PrzecenaAbonament>0.1</PrzecenaAbonament>
+  <ID>1</ID>
+</PakietyInfo>
