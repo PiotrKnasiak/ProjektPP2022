@@ -13,7 +13,7 @@
 
     internal class Program
     {
-
+        //każ mi spierdalać
         private static readonly string KodAdminów = "123";
 
         #region Proste Funckcje Ogólne
