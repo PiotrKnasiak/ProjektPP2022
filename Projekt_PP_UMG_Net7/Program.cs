@@ -1080,7 +1080,7 @@
             }
 
             NaCzerwono("\n\n W dowolnym momencie wpisz \"wyjdz\" aby wyjść do menu");
-            Console.WriteLine("\n Tworzenie nowego urzadzenia : ");
+            Console.WriteLine("\n Tworzenie nowego abonamentu : ");
 
             do
             {
@@ -1107,12 +1107,20 @@
             }
             while (powtórka);
 
+            Console.Write("\n   Podaj częstotliwośc rozliczenia ( tydzień / miesiąc / rok): ");
+            nowyAbo.CzęstotliwośćRozliczania = Console.ReadLine();
+
+            if (nowyAbo.CzęstotliwośćRozliczania.ToLower().Replace("ź", "z") == "wyjdz")
+            {
+                return;
+            }
+
             do
             {
                 try
                 {
                     powtórka = false;
-                    Console.Write("\n   Podaj cene: ");
+                    Console.Write("\n   Podaj cene jendej opłaty: ");
                     string wprowadzono = Console.ReadLine();
 
                     if (wprowadzono.ToLower().Replace("ź", "z").Replace(" ", "").Replace(".", ",").Contains("wyjdz"))
@@ -1135,14 +1143,6 @@
 
             }
             while (powtórka);
-
-            Console.Write("\n   Podaj częstotliwośc rozliczenia ( tydzień / miesiąc / rok): ");
-            nowyAbo.CzęstotliwośćRozliczania = Console.ReadLine();
-
-            if (nowyAbo.CzęstotliwośćRozliczania.ToLower().Replace("ź", "z") == "wyjdz")
-            {
-                return;
-            }
 
             try
             {
@@ -1508,6 +1508,7 @@
 
                         opcja = opcja.Replace(" ", "");
                         opcja = opcja.ToLower();
+                        opcja = opcja.Replace('ź', 'z');
 
                         switch (opcja)
                         {
