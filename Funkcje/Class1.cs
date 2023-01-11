@@ -397,6 +397,17 @@ namespace Funkcje
 
     public static class Funkcje
     {
+        public static double Zaokrągl(double liczba, int miejscaPoPrzecinku)
+        {
+            double mnożnik = Math.Pow(10, miejscaPoPrzecinku);
+            double temp = liczba * mnożnik;
+            if(temp - Convert.ToInt32(temp) >= 0.5)
+            {
+                temp++;
+            }
+            double wynik =  (double)(Convert.ToInt32(temp)/mnożnik);
+            return wynik;
+        }
         /// <summary>
         /// Rozszerza tabelę do pewnego rozmiaru lub o pewną ilość (niechcianą ocje pozostawić na -1)
         /// </summary>

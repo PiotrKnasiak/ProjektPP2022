@@ -556,7 +556,7 @@
                         string? wprowadzono = Console.ReadLine();
                         Console.WriteLine();
 
-                        if (wprowadzono == "wyjdz")
+                        if (CzyWyjść(wprowadzono))
                         {
                             return;
                         }
@@ -603,12 +603,16 @@
 
             // tylko wyświetlanie, bez modyfikacji
         }
+        /// <summary>
+        /// Podanie admin jako true umożliwia edycję ofert
+        /// </summary>
+        /// <param name="admin"></param>
         public static void InfoOOfertachUrz(bool admin = false)                                       // 5
         {
             UrządzeniaInfo[] dostępne = new UrządzeniaInfo[3];
             dostępne = Funkcje.WczytajWszystkiePliki(dostępne);
 
-            Console.WriteLine(" Wyświetlanie dostępnych ofert Urządzeń ({0})", dostępne.Length);
+            Console.WriteLine($" Wyświetlanie dostępnych ofert Urządzeń ({dostępne.Length})");
 
             while (true)
             {
@@ -633,7 +637,7 @@
                         int pozycja = ZróbInt(wprowadzono);
                         Console.WriteLine();
 
-                        if (wprowadzono == "wyjdz")
+                        if (CzyWyjść(wprowadzono))
                         {
                             return;
                         }
@@ -677,7 +681,7 @@
                 string wiadomość = "\n\n   Wpisz \"kup\" aby przejść do kupna, wciśnij enter by wrócić : ";
                 if (admin)
                 {
-                    wiadomość = "\n\n   Wpisz \"edytuj\" aby edytować lub \"rabat\" by nadać klientowi rabat na tą ofertę, wciśnij enter by wrócić : ";
+                    wiadomość = "\n\n   Wpisz \"edytuj\" aby edytować, wciśnij enter by wrócić : ";
                 }
                 Console.Write(wiadomość);
 
@@ -685,29 +689,28 @@
 
                 if (!admin && wybór.Contains("kup"))
                 {
-                    // funkcja zakupu,
-                    // Karze płacić (podać informacje do faktury).
-                    // Dodaje pozycję do klienta i tworzy jej fakturę
+                    // funkcja zakupu, wybór wariantu
+                    // Dodaje pozycję do klienta
                 }
                 else if (admin && wybór.Contains("edytuj"))
                 {
-                    // modyfikowanie lub usunięcie ofery, dostępne tylko dla admina
-                }
-                else if (admin && wybór.Contains("rabat"))
-                {
-                    // nadanie wybanemu urzytkownikowi rabatu
+                    DodajOfertęUrz(dostępne[wybraneID].ID);
                 }
 
                 CzyszczenieEkranu();
             }
 
         }
+        /// <summary>
+        /// Podanie admin jako true umożliwia edycję ofert
+        /// </summary>
+        /// <param name="admin"></param>
         public static void InfoOOfertachAbo(bool admin = false)                                       // 6
         {
             AbonamentyInfo[] dostępne = new AbonamentyInfo[3];
             dostępne = Funkcje.WczytajWszystkiePliki(dostępne);
 
-            Console.WriteLine(" Wyświetlanie dostępnych ofert Abonamntów");
+            Console.WriteLine($" Wyświetlanie dostępnych ofert Abonamntów ({dostępne.Length})");
 
             while (true)
             {
@@ -732,7 +735,7 @@
                         int pozycja = ZróbInt(wprowadzono);
                         Console.WriteLine();
 
-                        if (wprowadzono == "wyjdz")
+                        if (CzyWyjść(wprowadzono))
                         {
                             return;
                         }
@@ -801,7 +804,7 @@
                 }
                 else if (admin && wybór.Contains("edytuj"))
                 {
-                    // modyfikowanie lub usunięcie ofery, dostępne tylko dla admina
+                    DodajOfertęAbo(dostępne[wybraneID].ID);
                 }
                 else if (admin && wybór.Contains("rabat"))
                 {
@@ -811,12 +814,16 @@
             }
 
         }
+        /// <summary>
+        /// Podanie admin jako true umożliwia edycję ofert
+        /// </summary>
+        /// <param name="admin"></param>
         public static void InfoOOfertachPak(bool admin = false)                                       // 7
         {
             PakietyInfo[] dostępne = new PakietyInfo[3];
             dostępne = Funkcje.WczytajWszystkiePliki(dostępne);
 
-            Console.WriteLine(" Wyświetlanie dostępnych ofert Pakietów");
+            Console.WriteLine($" Wyświetlanie dostępnych ofert Pakietów ({dostępne.Length})");
 
             while (true)
             {
@@ -841,7 +848,7 @@
                         int pozycja = ZróbInt(wprowadzono);
                         Console.WriteLine();
 
-                        if (wprowadzono == "wyjdz")
+                        if (CzyWyjść(wprowadzono))
                         {
                             return;
                         }
@@ -901,7 +908,7 @@
                 }
                 else if (admin && wybór.Contains("edytuj"))
                 {
-                    // modyfikowanie lub usunięcie ofery, dostępne tylko dla admina
+                    DodajOfertęPak(dostępne[wybraneID].ID);
                 }
                 else if (admin && wybór.Contains("rabat"))
                 {
@@ -954,22 +961,14 @@
         {
             Console.WriteLine(" Modyfikujacja dostepnych ofert Urządzeń");
 
-            UrządzeniaInfo[] urzLi = new UrządzeniaInfo[1];
-            urzLi = Funkcje.WczytajWszystkiePliki(urzLi);
+            InfoOOfertachUrz(true);
 
-            /*
-             * Dodać :
-             * 1) Znajdujące się wewnątrz pentli (z której wychodzi się wpisyjąć "wyjdź" (lub wyjdz)) menu wypisujące listę urządzeń : numer opcji) Nazwa, id
-             *      
-             * 2) Po wybraniu numeru należy wyświetlić listę wartości danej pozycji. Zmienianie jak w zmienianiu właściwości urzytkownika (z menu urzytkownika)
-             */
         }
         public static void ModyfikacjaOfertAbo()                                    // 3
         {
             Console.WriteLine(" Modyfikujacja dostepnych ofert Abonamentów");
 
-            UrządzeniaInfo[] aboLi = new UrządzeniaInfo[1];
-            aboLi = Funkcje.WczytajWszystkiePliki(aboLi);
+            InfoOOfertachAbo(true);
 
             /*
              * Dodać :
@@ -982,8 +981,7 @@
         {
             Console.WriteLine(" Modyfikujacja dostepnych ofert Pakietów");
 
-            UrządzeniaInfo[] pakLi = new UrządzeniaInfo[1];
-            pakLi = Funkcje.WczytajWszystkiePliki(pakLi);
+            InfoOOfertachPak(true);
 
             /*
              * Dodać :
@@ -992,7 +990,11 @@
              * 2) Po wybraniu numeru należy wyświetlić listę wartości danej pozycji. Zmienianie jak w zmienianiu właściwości urzytkownika (z menu urzytkownika)
              */
         }
-        public static void DodajOfertęUrz()                                         // 5
+        /// <summary>
+        /// Zostawić ID  jako -1, by utworzyć nową ofertę.
+        /// </summary>
+        /// <param name="ID"></param>
+        public static void DodajOfertęUrz(int ID = -1)                                         // 5
         {
             Console.WriteLine(" Dodawanie nowej oferty Urzadzenia");
 
@@ -1046,7 +1048,7 @@
                     string wprowadzono = Console.ReadLine();
                     double ilośćD = ZróbDouble(wprowadzono);
 
-                    if (wprowadzono == "wyjdz")
+                    if (CzyWyjść(wprowadzono))
                     {
                         return;
                     }
@@ -1070,7 +1072,7 @@
             Console.Write("\n   Podaj wytwórce: ");
             noweUrz.Wytwórca = Console.ReadLine();
 
-            if (noweUrz.Wytwórca.ToLower() == "wyjdz")
+            if (CzyWyjść(noweUrz.Wytwórca))
             {
                 return;
             }
@@ -1084,7 +1086,7 @@
                 Console.Write($"      Podaj {j + 1} wariant:");
                 noweUrz.Warianty[j] = Console.ReadLine();
 
-                if (noweUrz.Warianty[j].ToLower() == "wyjdz")
+                if (CzyWyjść(noweUrz.Warianty[j]))
                 {
                     return;
                 }
@@ -1099,18 +1101,26 @@
                 Console.Write($"      Podaj {j + 1} wariant: ");
                 noweUrz.Kolory[j] = Console.ReadLine();
 
-                if (noweUrz.Kolory[j].ToLower() == "wyjdz")
+                if (CzyWyjść(noweUrz.Kolory[j]))
                 {
                     return;
                 }
             }
 
-            Funkcje.ZapiszPlik(noweUrz, noweUrz.ID.ToString());
+            if(ID == -1)
+            {
+                ID = noweUrz.ID;
+            }
+            Funkcje.ZapiszPlik(noweUrz, ID.ToString());
 
             Console.WriteLine("   Zakończono dodawanie");
             Thread.Sleep(1000);
         }
-        public static void DodajOfertęAbo()                                         // 6
+        /// <summary>
+        /// Zostawić ID  jako -1, by utworzyć nową ofertę
+        /// </summary>
+        /// <param name="ID"></param>
+        public static void DodajOfertęAbo(int ID = -1)                                         // 6
         {
             Console.WriteLine(" Dodawanie nowej oferty Abonamentu");
 
@@ -1256,7 +1266,7 @@
                         {
                             continue;
                         }
-
+                        
                         powtórka = false;
                         nowyAbo.LimityPrędkości[1] = ilośćD;
                         Console.WriteLine($"\t\t\tprędkośc po : {nowyAbo.LimityPrędkości[1]}\n");
@@ -1269,12 +1279,20 @@
                 while (powtórka);
             }
 
-            Funkcje.ZapiszPlik(nowyAbo, nowyAbo.ID.ToString());
+            if (ID == -1)
+            {
+                ID = nowyAbo.ID;
+            }
+            Funkcje.ZapiszPlik(nowyAbo, ID.ToString());
 
             Console.WriteLine("   Zakończono dodawanie");
             Thread.Sleep(1000);
         }
-        public static void DodajOfertęPak()                                         // 7
+        /// <summary>
+        /// Zostawić ID  jako -1, by utworzyć nową ofertę
+        /// </summary>
+        /// <param name="ID"></param>
+        public static void DodajOfertęPak(int ID = -1)                                         // 7
         {
             Console.WriteLine(" Dodawanie nowej oferty Pakietu");
 
@@ -1548,11 +1566,14 @@
                 while (powtórka);
             }
 
-            Funkcje.ZapiszPlik(nowyPak, nowyPak.ID.ToString());
+            if (ID == -1)
+            {
+                ID = nowyPak.ID;
+            }
+            Funkcje.ZapiszPlik(nowyPak, ID.ToString());
 
             Console.WriteLine("   Zakończono dodawanie");
             Thread.Sleep(1000);
-
         }
         #endregion
 
