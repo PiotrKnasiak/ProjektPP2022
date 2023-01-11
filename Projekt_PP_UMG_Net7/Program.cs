@@ -94,6 +94,7 @@
         {
             DaneLogowania nowyU = new();
             DaneLogowania[] listaDL = new DaneLogowania[1];
+            DateOnly tempData = new DateOnly();
             listaDL = Funkcje.WczytajWszystkiePliki(listaDL);
             string[] listaLoginów = new string[listaDL.Length];
             string[] listaEmaili = new string[listaDL.Length];
@@ -108,7 +109,6 @@
             }
 
             i = 0;
-
 
             Console.WriteLine("\n Tworzenie nowego użytkownika: ");
 
@@ -189,7 +189,7 @@
                 {
                     powtórka = false;
                     Console.Write("\n  Podaj rok urodzenia : ");
-                    nowyU.DataUrodzenia = nowyU.DataUrodzenia.AddYears(int.Parse(Console.ReadLine()) - 1);
+                    tempData = tempData.AddYears(int.Parse(Console.ReadLine()) - 1);
                 }
                 catch (Exception)
                 {
@@ -205,7 +205,7 @@
                 {
                     powtórka = false;
                     Console.Write("\n  Podaj mieisąc urodzenia : ");
-                    nowyU.DataUrodzenia = nowyU.DataUrodzenia.AddMonths(int.Parse(Console.ReadLine()) - 1);
+                    tempData = tempData.AddMonths(int.Parse(Console.ReadLine()) - 1);
                 }
                 catch (Exception)
                 {
@@ -221,7 +221,7 @@
                 {
                     powtórka = false;
                     Console.Write("\n  Podaj dzień urodzenia : ");
-                    nowyU.DataUrodzenia = nowyU.DataUrodzenia.AddDays(int.Parse(Console.ReadLine()) - 1);
+                    tempData = tempData.AddDays(int.Parse(Console.ReadLine()) - 1);
                 }
                 catch (Exception)
                 {
@@ -231,6 +231,7 @@
             }
             while (powtórka);
 
+            nowyU.DataUrodzenia = tempData.ToString();
             i = 0;
 
             Console.Write("\n  Zarejestrować jako obsługa? Pamiętaj, że obsługa nie ma folderu Klienta(Y/N) : ");
@@ -376,6 +377,7 @@
         {
             CzyszczenieEkranu();
 
+            DateOnly tempDate = DateOnly.Parse(daneUrzytkownika.DataUrodzenia);
 
             Console.Write(" Start -> Menu -> Wyświetl lub modyfikuj informacje o sobie\n\n\n");
 
@@ -386,7 +388,7 @@
 
             Console.WriteLine("  Imie: " + daneUrzytkownika.Imię);
             Console.WriteLine("\n  Nazwisko: " + daneUrzytkownika.Nazwisko);
-            Console.WriteLine($"\n  Data urodzenia: {daneUrzytkownika.DataUrodzenia.Day}-{daneUrzytkownika.DataUrodzenia.Month}-{daneUrzytkownika.DataUrodzenia.Year}");
+            Console.WriteLine($"\n  Data urodzenia: {tempDate.Day}.{tempDate.Month}.{tempDate.Year}");
             Console.WriteLine($"\n  Email: {daneUrzytkownika.Email}");
 
             string wybór;
@@ -394,7 +396,6 @@
 
             do
             {
-
                 Console.Write(komunikat);
                 wybór = Console.ReadLine();
                 CzyszczenieEkranu();
@@ -429,9 +430,7 @@
 
                         case 3:
 
-                            DateOnly czas = new DateOnly();
-                            daneUrzytkownika.DataUrodzenia = czas;
-
+                            DateOnly pustyCzas = new DateOnly();
 
                             do
                             {
@@ -439,7 +438,7 @@
                                 {
                                     powtórka = false;
                                     Console.Write("    Wprowadz datę: \n\n\trok urodzenia: ");
-                                    daneUrzytkownika.DataUrodzenia = daneUrzytkownika.DataUrodzenia.AddYears(int.Parse(Console.ReadLine()) - 1);
+                                    pustyCzas = pustyCzas.AddYears(ZróbInt(Console.ReadLine()) - 1);
                                 }
                                 catch (Exception)
                                 {
@@ -455,7 +454,7 @@
                                 {
                                     powtórka = false;
                                     Console.Write("\n\tmiesiac urodzenia: ");
-                                    daneUrzytkownika.DataUrodzenia = daneUrzytkownika.DataUrodzenia.AddMonths(int.Parse(Console.ReadLine()) - 1);
+                                    pustyCzas = pustyCzas.AddMonths(ZróbInt(Console.ReadLine()) - 1);
                                 }
                                 catch (Exception)
                                 {
@@ -471,7 +470,7 @@
                                 {
                                     powtórka = false;
                                     Console.Write("\n\tdzien urodzenia: ");
-                                    daneUrzytkownika.DataUrodzenia = daneUrzytkownika.DataUrodzenia.AddDays(int.Parse(Console.ReadLine()) - 1);
+                                    pustyCzas = pustyCzas.AddDays(ZróbInt(Console.ReadLine()) - 1);
                                     Console.WriteLine();
                                 }
                                 catch (Exception)
@@ -481,6 +480,8 @@
 
                             }
                             while (powtórka);
+
+                            daneUrzytkownika.DataUrodzenia = pustyCzas.ToString();
                             break;
 
                         case 4:
@@ -489,13 +490,12 @@
                             daneUrzytkownika.Email = Console.ReadLine();
                             Console.WriteLine();
                             break;
-
-
-
                     }
+
                     komunikat = "\n Czy chcesz edytować inne dane? (Y/N): ";
                 }
-            } while (wybór.ToLower() != "n");
+            } 
+            while (wybór.ToLower() != "n");
 
             DaneLogowania doZapisania = daneUrzytkownika;
             Funkcje.ZapiszPlik(doZapisania, doZapisania.ID.ToString());
@@ -503,15 +503,20 @@
         }
         public static void InfoOTwoichUrz(DaneLogowania daneUrzytkownika, bool admin = false)                  // 2
         {
-            Console.WriteLine(" Wyświetlanie informacji o twoich urządzeniach.\n");
+            if (!admin)
+                Console.WriteLine(" Wyświetlanie informacji o twoich urządzeniach.\n");
+            else
+                Console.WriteLine($" Wyświetlanie informacji o urządzeniach klienta {daneUrzytkownika.Imię} {daneUrzytkownika.Nazwisko}");
 
-            UrządzenieKlienta[] urzKlTemp = new UrządzenieKlienta[1];
-            urzKlTemp = Funkcje.WczytajWszystkiePliki(urzKlTemp, daneUrzytkownika.ID);
+            UrządzenieKlienta[] urzKlienta = new UrządzenieKlienta[1];
+            urzKlienta = Funkcje.WczytajWszystkiePliki(urzKlienta, daneUrzytkownika.ID);
 
             UrządzeniaInfo[] urzInf = new UrządzeniaInfo[1];
             urzInf = Funkcje.WczytajWszystkiePliki(urzInf);
 
-            string[] Nazwy = new string[urzKlTemp.Length];
+            UrządzeniaInfo wybraneUrzInfo = urzInf[0];
+
+            string[] Nazwy = new string[urzKlienta.Length];
 
             if (Nazwy.Length < 1)
             {
@@ -524,7 +529,7 @@
             {
                 foreach (UrządzeniaInfo UI in urzInf)
                 {
-                    if (UI.ID == urzKlTemp[i].IDOferty)
+                    if (UI.ID == urzKlienta[i].IDOferty)
                     {
                         Nazwy[i] = UI.Nazwa;
                         break;
@@ -532,19 +537,17 @@
                 }
             }
 
-            Console.WriteLine("   Lista urządzeń (od najwczeniej dodanych) :\n");
+            Console.WriteLine("  Lista urządzeń (od najwczeniej dodanych) :\n");
 
             for (int i = 1; i <= Nazwy.Length; i++)
             {
                 Console.WriteLine($"      {i} - {Nazwy[i - 1]}");
             }
 
-
-
             while (true)
             {
 
-                NaCzerwono("\n   Dowolnym momencie wpisz \"wyjdz\" by wyjść");
+                NaCzerwono("\n  Dowolnym momencie wpisz \"wyjdz\" by wyjść");
                 bool powtórka = true;
                 int wybraneID = 0;
 
@@ -553,18 +556,16 @@
                     try
                     {
                         powtórka = false;
-                        Console.Write("\n   Podaj numer pozycji którą checsz zobaczyć : ");
+                        Console.Write("\n  Podaj numer pozycji którą checsz zobaczyć : ");
                         string? wprowadzono = Console.ReadLine();
                         Console.WriteLine();
 
                         if (CzyWyjść(wprowadzono))
-                        {
                             return;
-                        }
 
                         if (ZróbInt(wprowadzono) < 1 || ZróbInt(wprowadzono) > Nazwy.Length)
                         {
-                            Console.WriteLine("      Błędne wprowadzenie");
+                            Console.WriteLine("    Błędne wprowadzenie");
                             powtórka = true;
                             continue;
                         }
@@ -577,12 +578,22 @@
                         powtórka = true;
                     }
 
+                    foreach(UrządzeniaInfo urz in urzInf)
+                    {
+                        if(urz.ID == urzKlienta[wybraneID].IDOferty)
+                        {
+                            wybraneUrzInfo = urz;
+                            break;
+                        }
+                    }
+
                 }
                 while (powtórka);
 
-                Console.WriteLine($"\n\n   Nazwa : {urzInf[wybraneID].Nazwa} {urzKlTemp[wybraneID].Wariant} \n" +
-                    $"   Kolor : {urzKlTemp[wybraneID].Kolor}\n" +
-                    $"   Data dodania : {urzKlTemp[wybraneID].DataDodania}\n");
+                Console.WriteLine($"\n\n  Nazwa : {wybraneUrzInfo.Nazwa} {urzKlienta[wybraneID].Wariant} \n" +
+                    $"  Wariant : {urzKlienta[wybraneID]}" +
+                    $"  Kolor : {urzKlienta[wybraneID].Kolor}\n" +
+                    $"  Data dodania : {urzKlienta[wybraneID].DataDodania}\n");
             }
 
         }
@@ -899,11 +910,9 @@
                     urządzenia[i] = (UrządzeniaInfo)Funkcje.WczytajPlik("UrządzeniaInfo", (string)(dostępne[wybraneID].TelefonyID[i]).ToString());
                 }
 
-                AbonamentyInfo abonament;
+                AbonamentyInfo abonament = null;
                 if (dostępne[wybraneID].MaAbonament)
-                {
                     abonament = (AbonamentyInfo)Funkcje.WczytajPlik("AbonamentyInfo", (string)(dostępne[wybraneID].AbonamentID).ToString());
-                }
 
                 Console.WriteLine($"\n Nazwa : {dostępne[wybraneID].Nazwa}");
                 /*                  dokończyć
@@ -942,11 +951,11 @@
                 }
                 else if (!edytuj && !dajKlientowi && wybór.Contains("kup"))
                 {
-                    Kup(daneKlienta, dostępne[wybraneID]);
+                    Kup(daneKlienta, dostępne[wybraneID], abonament, urządzenia);
                 }
                 else if (!edytuj && dajKlientowi && wybór.Contains("dodaj"))
                 {
-                    Kup(daneKlienta, dostępne[wybraneID], true);
+                    Kup(daneKlienta, dostępne[wybraneID], abonament, urządzenia, true);
                 }
                 else if (edytuj && !dajKlientowi && wybór.Contains("edytuj"))
                 {
@@ -1021,13 +1030,10 @@
         public static void DodajOfertęUrz(int ID = -1)                                         // 5
         {
             if(ID!=-1)
-            {
                 Console.Write(" Modyfikowanie");
-            }
             else
-            {
                 Console.Write(" Dodawanie nowej");
-            }
+
             Console.WriteLine(" oferty Urzadzenia");
 
             UrządzeniaInfo noweUrz = new();
@@ -1081,9 +1087,7 @@
                     double ilośćD = ZróbDouble(wprowadzono);
 
                     if (CzyWyjść(wprowadzono))
-                    {
                         return;
-                    }
 
                     if (ilośćD < 0)
                     {
@@ -1119,9 +1123,7 @@
                 noweUrz.Warianty[j] = Console.ReadLine();
 
                 if (CzyWyjść(noweUrz.Warianty[j]))
-                {
                     return;
-                }
             }
 
             Console.Write("\n   Podaj liczbę kolorów: ");
@@ -1134,15 +1136,12 @@
                 noweUrz.Kolory[j] = Console.ReadLine();
 
                 if (CzyWyjść(noweUrz.Kolory[j]))
-                {
                     return;
-                }
             }
 
             if(ID == -1)
-            {
                 ID = noweUrz.ID;
-            }
+
             Funkcje.ZapiszPlik(noweUrz, ID.ToString());
 
             Console.WriteLine("   Zakończono dodawanie");
@@ -1155,13 +1154,10 @@
         public static void DodajOfertęAbo(int ID = -1)                                         // 6
         {
             if (ID != -1)
-            {
                 Console.Write(" Modyfikowanie");
-            }
             else
-            {
                 Console.Write(" Dodawanie nowej");
-            }
+
             Console.WriteLine(" oferty Abonamentu");
 
             AbonamentyInfo nowyAbo = new();
@@ -1188,9 +1184,7 @@
                 nowyAbo.Nazwa = Console.ReadLine();
 
                 if (CzyWyjść(nowyAbo.Nazwa))
-                {
                     return;
-                }
 
                 foreach (string nazwa in listaNazw)
                 {
@@ -1198,7 +1192,6 @@
                     {
                         powtórka = true;
                         Console.Write("\n      Nazwa zajęta");
-
                         break;
                     }
                 }
@@ -1209,9 +1202,7 @@
             nowyAbo.CzęstotliwośćRozliczania = Console.ReadLine();
 
             if (CzyWyjść(nowyAbo.CzęstotliwośćRozliczania))
-            {
                 return;
-            }
 
             do
             {
@@ -1223,9 +1214,7 @@
                     double ilośćD = ZróbDouble(wprowadzono);
 
                     if (CzyWyjść(wprowadzono))
-                    {
                         return;
-                    }
 
                     if (ilośćD < 0)
                     {
@@ -1250,9 +1239,7 @@
                 double ilośćD = ZróbDouble(wprowadzone);
 
                 if (CzyWyjść(wprowadzone))
-                {
                     return;
-                }
 
                 nowyAbo.LimitInternetu = ilośćD;
             }
@@ -1270,9 +1257,7 @@
                         double ilośćD = ZróbDouble(wprowadzono);
 
                         if (CzyWyjść(wprowadzono))
-                        {
                             return;
-                        }
                         if (ilośćD < 0)
                         {
                             continue;
@@ -1298,9 +1283,7 @@
                         double ilośćD = ZróbDouble(wprowadzono);
 
                         if (CzyWyjść(wprowadzono))
-                        {
                             return;
-                        }
 
                         if (ilośćD < 0)
                         {
@@ -1432,9 +1415,7 @@
                             znaleziono = false;
 
                             if (podanyModel.Trim() == urządzenie.Nazwa.Trim())
-                            {
                                 znaleziono = true;
-                            }
 
                             if (znaleziono)
                             {
@@ -1462,9 +1443,7 @@
                     double ilośćD = ZróbDouble(wprowadzono);
 
                     if (CzyWyjść(wprowadzono))
-                    {
                         return;
-                    }
 
                     if (ilośćD < 0)
                     {
@@ -1489,15 +1468,16 @@
                 int ilośćI = ZróbInt(podane);
 
                 if (CzyWyjść(podane))
-                {
                     return;
-                }
 
                 if (ilośćI == -1 || listaAbo.Length < 1)
                 {
                     nowyPak.MaAbonament = false;
-                    if (listaAbo.Length < 1) Console.WriteLine("      Nie ma żadnych abonamentów.");
-                    else Console.WriteLine("      Zrezygnowano z dodawania abonamentu.");
+                    if (listaAbo.Length < 1) 
+                        Console.WriteLine("      Nie ma żadnych abonamentów.");
+                    else 
+                        Console.WriteLine("      Zrezygnowano z dodawania abonamentu.");
+
                     Thread.Sleep(1000);
                     break;
                 }
@@ -1519,9 +1499,7 @@
                     }
 
                     if (!znaleziono)
-                    {
                         throw new Exception();
-                    }
                 }
                 catch (Exception)
                 {
@@ -1532,9 +1510,7 @@
                         znaleziono = false;
 
                         if (podane.Trim() == abonament.Nazwa.Trim())
-                        {
                             znaleziono = true;
-                        }
 
                         if (znaleziono)
                         {
@@ -1563,9 +1539,7 @@
                         double ilośćD = ZróbDouble(wprowadzono);
 
                         if (CzyWyjść(wprowadzono))
-                        {
                             return;
-                        }
 
                         if (ilośćD < 0)
                         {
@@ -1593,14 +1567,10 @@
                         int ilośćI = ZróbInt(wprowadzono);
 
                         if (CzyWyjść(wprowadzono))
-                        {
                             return;
-                        }
 
                         if (ilośćI < 0)
-                        {
                             ilośćI = -ilośćI;
-                        }
 
                         nowyPak.CzasTrwania = ilośćI;
 
@@ -1615,9 +1585,8 @@
             }
 
             if (ID == -1)
-            {
                 ID = nowyPak.ID;
-            }
+
             Funkcje.ZapiszPlik(nowyPak, ID.ToString());
 
             Console.WriteLine("   Zakończono dodawanie");
@@ -1626,17 +1595,130 @@
         #endregion
 
         #region Dodawanie Klientowi Oferty
-        public static void Kup(DaneLogowania daneKlienta, UrządzeniaInfo urządzenie, bool admin = false)
+        public static void Kup(DaneLogowania daneKlienta, UrządzeniaInfo urządzenie, bool admin = false, int IDAbo = -1, int IDPak = -1, string kolor = "", string wariant = "")
         {
+            CzyszczenieEkranu();
 
+            UrządzenieKlienta dodaneUrz = new UrządzenieKlienta();
+
+            if (IDPak < 1)
+            {
+                Console.WriteLine(" Kupowanie urządzenia " + urządzenie.Nazwa);
+
+                Console.WriteLine("\n   Dostępne warianty : ");
+                for (int i = 0; i < urządzenie.Warianty.Length; i++)
+                {
+                    Console.WriteLine($"    {i + 1} - {urządzenie.Warianty[i]}");
+                }
+
+                Console.Write("\n  Wybierz wariant : ");
+                try
+                {
+                    wariant = urządzenie.Warianty[ZróbInt(Console.ReadLine()) - 1];
+                }
+                catch (Exception e)
+                {
+                    wariant = urządzenie.Warianty[0];
+                }
+
+                Console.WriteLine("\n   Dostępne kolory : ");
+                for (int i = 0; i < urządzenie.Kolory.Length; i++)
+                {
+                    Console.WriteLine($"    {i + 1} - {urządzenie.Kolory[i]}");
+                }
+
+                Console.Write("\n  Wybierz kolor : ");
+                try
+                {
+                    kolor = urządzenie.Kolory[ZróbInt(Console.ReadLine()) - 1];
+                }
+                catch (Exception e)
+                {
+                    kolor = urządzenie.Kolory[0];
+                }
+            }
+
+            dodaneUrz.IDOferty = urządzenie.ID;
+            dodaneUrz.Kolor = kolor;
+            dodaneUrz.Wariant = wariant;
+            dodaneUrz.IDAbonamentu = IDAbo;
+            dodaneUrz.IDPakietu = IDPak;
+            dodaneUrz.DataDodania = DateOnly.FromDateTime(DateTime.Now).ToString();
+
+            Funkcje.ZapiszPlik(dodaneUrz, dodaneUrz.ID.ToString(), daneKlienta.ID);
+
+            if (IDPak == -1)
+            {
+                Console.WriteLine("\n\n      Zakup Udany!");
+                Thread.Sleep(2000);
+            }
         }
-        public static void Kup(DaneLogowania daneKlienta, AbonamentyInfo oferta, bool admin = false)
+        public static void Kup(DaneLogowania daneKlienta, AbonamentyInfo oferta, bool admin = false, int IDPak = -1, int opłacono = 0, int przecena = 0)
         {
+            CzyszczenieEkranu();
 
+            AbonamentKlienta dodanyAbo = new AbonamentKlienta();
+
+            dodanyAbo.IDPakietu = IDPak;
+            dodanyAbo.IDOferty = oferta.ID;
+            dodanyAbo.DataDodania = DateOnly.FromDateTime(DateTime.Now).ToString();
+
+            if(IDPak == -1)
+            {
+                Console.Write("  Ile do przodu chcesz opłacić abonament? : ");
+                opłacono = ZróbInt(Console.ReadLine());
+                Console.WriteLine();
+            }
+
+            Console.Write("  Podaj numer telefonu który przypisać do abonamentu : ");
+            char[] podane = ZróbInt(Console.ReadLine()).ToString().ToCharArray();
+            for (int i = 0; i<9 && i<podane.Length; i++)
+            {
+                dodanyAbo.NumerTelefonu[8-i] = Convert.ToInt32(podane[podane.Length - 1 -i]);
+            }
+            Console.WriteLine();
+
+            dodanyAbo.NaIleOpłaconoDoPrzodu = opłacono;
+
+            opłacono++;
+
+            switch(oferta.CzęstotliwośćRozliczania.Trim().Replace('ń','n').Replace('ą','a').ToLower())
+            {
+                case "tydzien":
+
+                    dodanyAbo.DataNastępnejOpłaty = (DateOnly.Parse(dodanyAbo.DataDodania).AddDays(7*opłacono)).ToString();
+                    break;
+
+                case "miesiac":
+
+                    dodanyAbo.DataNastępnejOpłaty = (DateOnly.Parse(dodanyAbo.DataDodania).AddMonths(opłacono)).ToString();
+                    break;
+
+                case "rok":
+
+                    dodanyAbo.DataNastępnejOpłaty = (DateOnly.Parse(dodanyAbo.DataDodania).AddYears(opłacono)).ToString();
+                    break;
+            }
+
+            Funkcje.ZapiszPlik(dodanyAbo, dodanyAbo.ID.ToString(), daneKlienta.ID);
+
+            if (IDPak == -1)
+            {
+                Console.WriteLine("\n\n      Zakup Udany!");
+                Thread.Sleep(2000);
+            }
         }
-        public static void Kup(DaneLogowania daneKlienta, PakietyInfo oferta, bool admin = false)
+        public static void Kup(DaneLogowania daneKlienta, PakietyInfo oferta, AbonamentyInfo załączonyAbo = null, UrządzeniaInfo[] dodaneUrz = null ,bool admin = false)
         {
+            CzyszczenieEkranu();
 
+            PakietKlienta dodanyPak = new PakietKlienta();
+
+            dodanyPak.IDOferty = oferta.ID;
+            dodanyPak.DataDodania = DateOnly.FromDateTime(DateTime.Now).ToString();
+            
+            Console.WriteLine("\n\n      Zakup Udany!");
+            Thread.Sleep(2000);
         }
         #endregion
 
@@ -1647,6 +1729,8 @@
             Console.BackgroundColor = ConsoleColor.White;
             Console.ForegroundColor = ConsoleColor.Black;
             Funkcje.CzyIstniejąWszystkieFoldery();
+
+            //Thread.Sleep(3000);
 
             bool zostań = true;
 

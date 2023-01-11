@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UrządzenieKlienta xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <IDOferty>4</IDOferty>
+  <Kolor>podczerwony</Kolor>
+  <Wariant>iloczyn</Wariant>
+  <IDAbonamentu>-1</IDAbonamentu>
+  <IDPakietu>-1</IDPakietu>
+  <DataDodania>11.01.2023</DataDodania>
+  <ID>1</ID>
+</UrządzenieKlienta>

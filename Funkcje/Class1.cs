@@ -82,7 +82,7 @@ namespace Funkcje
         public double Cena;
         public string Nazwa;
         public bool MaAbonament = false;
-        public int[] TelefonyID;                                        // ID brane z oferty urządzeń
+        public int[] TelefonyID = null;                                        // ID brane z oferty urządzeń
         public string[] WariantyTelefonów = { };                        // nie podawać nic dla normalnej wersjii telefonu             
         public int AbonamentID = -1;                                     // ID oferyty przypisanego przy zakupie do telefonów abonamentu
         public double PrzecenaTelefon = 0;                              // przecena na łączną cenę telefonów, w ułamku diesiętnym, 0 dla braku
@@ -114,7 +114,7 @@ namespace Funkcje
         public string Imię;
         public string Nazwisko;
         public string Email;
-        public DateOnly DataUrodzenia;
+        public string DataUrodzenia;
         public bool Admin = false;
     }
     [Serializable]
@@ -142,9 +142,9 @@ namespace Funkcje
         public int IDOferty;                                            // ID oferty(info) z której pochodzi ten telefon
         public string Kolor = "czarny";                                 // przykładowo
         public string Wariant = "normalny";                             // przykładowo
-        public int IDAbonamentu = 0;                                    // jaki ma przypisany abonament (jesli ma)
-        public int IDPakietu = 0;                                       // jaki ma przypisany pakiet (jesli ma)
-        public DateOnly DataDodania;                                    // data dodania
+        public int IDAbonamentu = -1;                                    // jaki ma przypisany abonament (jesli ma)
+        public int IDPakietu = -1;                                       // jaki ma przypisany pakiet (jesli ma)
+        public string DataDodania;                                    // data dodania
     }
     [Serializable]
     public class AbonamentKlienta
@@ -174,11 +174,11 @@ namespace Funkcje
         }
 
         public int IDOferty;                                            // ID oferty(info) z której pochodzi ten abonament
-        public int[] NumerTelefonu = new int[9];
+        public int[] NumerTelefonu = { 0, 0, 0, 0, 0, 0, 0, 0, 0};
         public int NaIleOpłaconoDoPrzodu = 0;                           // czy i na ile opłacone do przodu - ( <0 = zaległość z zapłatą, 0 = za bierząco z opłatą, >0 = opłacone do przodu, np. przez pakiet)
-        public DateOnly DataNastępnejOpłaty;                            // jeśli opłacono wynosi 0 lub <0, to normalna data zwględem zakupu; jeśli >0, to o ileś okresów płacenia do przodu
-        public int IDPakietu = 0;                                       // jaki ma przypisany pakiet (jesli ma)
-        public DateOnly DataDodania;                                    // data dodania
+        public string DataNastępnejOpłaty;                            // jeśli opłacono wynosi 0 lub <0, to normalna data zwględem zakupu; jeśli >0, to o ileś okresów płacenia do przodu
+        public int IDPakietu = -1;                                       // jaki ma przypisany pakiet (jesli ma)
+        public string DataDodania;                                    // data dodania
     }
     [Serializable]
     public class PakietKlienta
@@ -203,6 +203,7 @@ namespace Funkcje
         }
 
         public int IDOferty;                                            // ID oferty(info) z której pochodzi ten abonament
+        public string DataDodania;                                    // data dodania
     }
     [Serializable]
     public class FakturaKlienta
@@ -225,7 +226,7 @@ namespace Funkcje
             get { return IDvalue; }
             set { IDvalue = value; }
         }
-        public DateOnly DataTranzakcji;
+        public string DataTranzakcji;
         public string Kwota;
         public string NumberKonta;
         public string NIP;
