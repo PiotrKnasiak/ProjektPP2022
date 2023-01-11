@@ -87,7 +87,7 @@ namespace Funkcje
         public int AbonamentID = -1;                                     // ID oferyty przypisanego przy zakupie do telefonów abonamentu
         public double PrzecenaTelefon = 0;                              // przecena na łączną cenę telefonów, w ułamku diesiętnym, 0 dla braku
         public double CzasTrwania = 0;                                  // Na ile opłaca abonament, wyrażane w ilości "cykli" abonamentu (np. tygodni jeśli opłacany tygodniowo)
-        public double PrzecenaAbonament = 0;                            // przecena na abonament, w ułamku diesiętnym, 0 dla braku
+        public double PrzecenaAbonament = 0;                            // przecena na abonament po upływie opłacenia, w ułamku diesiętnym, 0 dla braku
     }
     [Serializable]
     public class DaneLogowania
@@ -397,15 +397,16 @@ namespace Funkcje
 
     public static class Funkcje
     {
-        public static double Zaokrągl(double liczba, int miejscaPoPrzecinku)
+        public static double Zaokrągl(double liczba, int miejscaPoPrzecinku = 2)
         {
             double mnożnik = Math.Pow(10, miejscaPoPrzecinku);
             double temp = liczba * mnożnik;
-            if(temp - Convert.ToInt32(temp) >= 0.5)
+
+            if (Math.Abs(temp - Convert.ToInt64(temp)) >= 0.5)
             {
-                temp++;
+                temp = temp+(temp/Math.Abs(temp));
             }
-            double wynik =  (double)(Convert.ToInt32(temp)/mnożnik);
+            double wynik = (double)(Convert.ToInt32(temp) / mnożnik);
             return wynik;
         }
         /// <summary>
@@ -570,7 +571,7 @@ namespace Funkcje
             return lista;
         }
 
-        private static int NajwiększeID(string nazwaPliku, string ścieżka, int ostatnieID)
+        public static int NajwiększeID(string nazwaPliku, string ścieżka, int ostatnieID)
         {
             string FN = nazwaPliku.Replace(".xml", "");
             FN = FN.Replace(ścieżka + "\\", "");
@@ -849,6 +850,7 @@ namespace Funkcje
             }
             return pustaInstancja;
         }
+
         /// <summary>
         /// <para>Ładuje wszystkie pliki, wystarczy podać pusta tabelą odpowiedniego typu</para>
         /// </summary>
@@ -869,6 +871,7 @@ namespace Funkcje
             }
             return pustaInstancja;
         }
+
         /// <summary>
         /// <para>Ładuje wszystkie dane danego klienta. Wchodzą w nie : </para>
         /// <para>Dane osobowe, Urządzenia, Abonamenty, Pakiety, Faktury, Zniżki (jeśli zostaną dodane)</para>

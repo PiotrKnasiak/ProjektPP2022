@@ -8,6 +8,7 @@
     using System.Xml.Serialization;
     using System.Globalization;
     using Funkcje;
+    using System.Diagnostics.Metrics;
 
 #pragma warning disable C8604
 
@@ -607,15 +608,15 @@
         /// Podanie admin jako true umożliwia edycję ofert
         /// </summary>
         /// <param name="admin"></param>
-        public static void InfoOOfertachUrz(bool admin = false)                                       // 5
+        public static void InfoOOfertachUrz(DaneLogowania daneKlienta, bool edytuj = false, bool dajKlientowi = false)                                       // 5
         {
-            UrządzeniaInfo[] dostępne = new UrządzeniaInfo[3];
-            dostępne = Funkcje.WczytajWszystkiePliki(dostępne);
-
-            Console.WriteLine($" Wyświetlanie dostępnych ofert Urządzeń ({dostępne.Length})");
-
             while (true)
             {
+                UrządzeniaInfo[] dostępne = new UrządzeniaInfo[3];
+                dostępne = Funkcje.WczytajWszystkiePliki(dostępne);
+
+                Console.WriteLine($" Wyświetlanie dostępnych ofert Urządzeń ({dostępne.Length})");
+
                 int i = 1;
 
                 foreach (UrządzeniaInfo oferta in dostępne)
@@ -678,22 +679,34 @@
                     Console.WriteLine($"   - {kolor}");
                 }
 
-                string wiadomość = "\n\n   Wpisz \"kup\" aby przejść do kupna, wciśnij enter by wrócić : ";
-                if (admin)
+                string wiadomość = "\n\n   Wpisz \"kup\" aby przejść do kupna";
+                if (edytuj)
                 {
-                    wiadomość = "\n\n   Wpisz \"edytuj\" aby edytować, wciśnij enter by wrócić : ";
+                    wiadomość = "\n\n   Wpisz \"edytuj\" aby edytowa";
                 }
-                Console.Write(wiadomość);
-
-                string? wybór = Console.ReadLine().ToLower().Replace('ó', 'u');
-
-                if (!admin && wybór.Contains("kup"))
+                else if (dajKlientowi)
                 {
-                    // funkcja zakupu, wybór wariantu
-                    // Dodaje pozycję do klienta
+                    wiadomość = "\n\n   Wpisz \"dodaj\" by dodać wybraną pozyjcę klientowi";
                 }
-                else if (admin && wybór.Contains("edytuj"))
+                Console.Write(wiadomość + ", wciśnij enter by kontynuować: ");
+
+                string ? wybór = Console.ReadLine().ToLower().Replace('ó', 'u');
+
+                if (CzyWyjść(wybór))
                 {
+                    return;
+                }
+                else if (!edytuj && !dajKlientowi && wybór.Contains("kup"))
+                {
+                    Kup(daneKlienta, dostępne[wybraneID]);
+                }
+                else if (!edytuj && dajKlientowi && wybór.Contains("dodaj"))
+                {
+                    Kup(daneKlienta, dostępne[wybraneID], true);
+                }
+                else if (edytuj && !dajKlientowi && wybór.Contains("edytuj"))
+                {
+                    Console.WriteLine("\n");
                     DodajOfertęUrz(dostępne[wybraneID].ID);
                 }
 
@@ -705,7 +718,7 @@
         /// Podanie admin jako true umożliwia edycję ofert
         /// </summary>
         /// <param name="admin"></param>
-        public static void InfoOOfertachAbo(bool admin = false)                                       // 6
+        public static void InfoOOfertachAbo(DaneLogowania daneKlienta, bool edytuj = false, bool dajKlientowi = false)                                       // 6
         {
             AbonamentyInfo[] dostępne = new AbonamentyInfo[3];
             dostępne = Funkcje.WczytajWszystkiePliki(dostępne);
@@ -787,29 +800,35 @@
 
                 Console.WriteLine($"\n Opłaty w wysokoći {dostępne[wybraneID].Cena} zł, naliczane co {dostępne[wybraneID].CzęstotliwośćRozliczania}");
 
-                string wiadomość = "\n\n   Wpisz \"kup\" aby przejść do kupna, wciśnij enter by wrócić";
-                if (admin)
+                string wiadomość = "\n\n   Wpisz \"kup\" aby przejść do kupna";
+                if (edytuj)
                 {
-                    wiadomość = "\n\n   Wpisz \"edytuj\" aby edytować lub \"rabat\" by nadać klientowi rabat na tą ofertę, wciśnij enter by wrócić";
+                    wiadomość = "\n\n   Wpisz \"edytuj\" aby edytowa";
                 }
-                Console.Write(wiadomość);
+                else if (dajKlientowi)
+                {
+                    wiadomość = "\n\n   Wpisz \"dodaj\" by dodać wybraną pozyjcę klientowi";
+                }
+                Console.Write(wiadomość + ", wciśnij enter by kontynuować: ");
 
-                string? wybór = Console.ReadLine().ToLower().Replace('ó', 'u').Trim();
+                string? wybór = Console.ReadLine().ToLower().Replace('ó', 'u');
 
-                if (!admin && wybór.Contains("kup"))
+                if (CzyWyjść(wybór))
                 {
-                    // funkcja zakupu,
-                    // Karze płacić (podać informacje do faktury).
-                    // Dodaje pozycję do klienta i tworzy jej fakturę
+                    return;
                 }
-                else if (admin && wybór.Contains("edytuj"))
+                else if (!edytuj && !dajKlientowi && wybór.Contains("kup"))
                 {
-                    DodajOfertęAbo(dostępne[wybraneID].ID);
+                    Kup(daneKlienta, dostępne[wybraneID]);
                 }
-                else if (admin && wybór.Contains("rabat"))
+                else if (!edytuj && dajKlientowi && wybór.Contains("dodaj"))
                 {
-                    // nadanie wybanemu urzytkownikowi rabatu
-                    // dane o rabatach przechowywane w pliku w ofertach (np. rabat na telefon będzie w folderze "urządzenia info")
+                    Kup(daneKlienta, dostępne[wybraneID], true);
+                }
+                else if (edytuj && !dajKlientowi && wybór.Contains("edytuj"))
+                {
+                    Console.WriteLine("\n");
+                    DodajOfertęUrz(dostępne[wybraneID].ID);
                 }
             }
 
@@ -818,7 +837,7 @@
         /// Podanie admin jako true umożliwia edycję ofert
         /// </summary>
         /// <param name="admin"></param>
-        public static void InfoOOfertachPak(bool admin = false)                                       // 7
+        public static void InfoOOfertachPak(DaneLogowania daneKlienta, bool edytuj = false, bool dajKlientowi = false)                                       // 7
         {
             PakietyInfo[] dostępne = new PakietyInfo[3];
             dostępne = Funkcje.WczytajWszystkiePliki(dostępne);
@@ -873,6 +892,19 @@
                 while (powtórka);
 
                 CzyszczenieEkranu();
+
+                UrządzeniaInfo[] urządzenia = new UrządzeniaInfo[dostępne[wybraneID].TelefonyID.Length];
+                for(i = 0; i<urządzenia.Length; i++)
+                {
+                    urządzenia[i] = (UrządzeniaInfo)Funkcje.WczytajPlik("UrządzeniaInfo", (string)(dostępne[wybraneID].TelefonyID[i]).ToString());
+                }
+
+                AbonamentyInfo abonament;
+                if (dostępne[wybraneID].MaAbonament)
+                {
+                    abonament = (AbonamentyInfo)Funkcje.WczytajPlik("AbonamentyInfo", (string)(dostępne[wybraneID].AbonamentID).ToString());
+                }
+
                 Console.WriteLine($"\n Nazwa : {dostępne[wybraneID].Nazwa}");
                 /*                  dokończyć
                 Console.WriteLine($"\n Wytwóra : {dostępne[wybraneID].}");
@@ -891,28 +923,35 @@
                 }
                 */
 
-                string wiadomość = "\n\n   Wpisz \"kup\" aby przejść do kupna, wciśnij enter by wrócić";
-                if (admin)
+                string wiadomość = "\n\n   Wpisz \"kup\" aby przejść do kupna";
+                if (edytuj)
                 {
-                    wiadomość = "\n\n   Wpisz \"edytuj\" aby edytować lub \"rabat\" by nadać klientowi rabat na tą ofertę, wciśnij enter by wrócić";
+                    wiadomość = "\n\n   Wpisz \"edytuj\" aby edytowa";
                 }
-                Console.Write(wiadomość);
+                else if (dajKlientowi)
+                {
+                    wiadomość = "\n\n   Wpisz \"dodaj\" by dodać wybraną pozyjcę klientowi";
+                }
+                Console.Write(wiadomość + ", wciśnij enter by kontynuować: ");
 
-                string? wybór = Console.ReadLine().ToLower().Replace('ó', 'u').Trim();
+                string? wybór = Console.ReadLine().ToLower().Replace('ó', 'u');
 
-                if (!admin && wybór.Contains("kup"))
+                if (CzyWyjść(wybór))
                 {
-                    // funkcja zakupu,
-                    // Karze płacić (podać informacje do faktury).
-                    // Dodaje pozycję do klienta i tworzy jej fakturę
+                    return;
                 }
-                else if (admin && wybór.Contains("edytuj"))
+                else if (!edytuj && !dajKlientowi && wybór.Contains("kup"))
                 {
-                    DodajOfertęPak(dostępne[wybraneID].ID);
+                    Kup(daneKlienta, dostępne[wybraneID]);
                 }
-                else if (admin && wybór.Contains("rabat"))
+                else if (!edytuj && dajKlientowi && wybór.Contains("dodaj"))
                 {
-                    // nadanie wybanemu urzytkownikowi rabatu
+                    Kup(daneKlienta, dostępne[wybraneID], true);
+                }
+                else if (edytuj && !dajKlientowi && wybór.Contains("edytuj"))
+                {
+                    Console.WriteLine("\n");
+                    DodajOfertęUrz(dostępne[wybraneID].ID);
                 }
 
                 CzyszczenieEkranu();
@@ -961,34 +1000,19 @@
         {
             Console.WriteLine(" Modyfikujacja dostepnych ofert Urządzeń");
 
-            InfoOOfertachUrz(true);
-
+            InfoOOfertachUrz(null, true);
         }
         public static void ModyfikacjaOfertAbo()                                    // 3
         {
             Console.WriteLine(" Modyfikujacja dostepnych ofert Abonamentów");
 
-            InfoOOfertachAbo(true);
-
-            /*
-             * Dodać :
-             * 1) Znajdujące się wewnątrz pentli (z której wychodzi się wpisyjąć "wyjdź" (lub wyjdz)) menu wypisujące listę urządzeń : numer opcji) Nazwa, id
-             *      
-             * 2) Po wybraniu numeru należy wyświetlić listę wartości danej pozycji. Zmienianie jak w zmienianiu właściwości urzytkownika (z menu urzytkownika)
-             */
+            InfoOOfertachAbo(null, true);
         }
         public static void ModyfikacjaOfertPak()                                    // 4
         {
             Console.WriteLine(" Modyfikujacja dostepnych ofert Pakietów");
 
-            InfoOOfertachPak(true);
-
-            /*
-             * Dodać :
-             * 1) Znajdujące się wewnątrz pentli (z której wychodzi się wpisyjąć "wyjdź" (lub wyjdz)) menu wypisujące listę urządzeń : numer opcji) Nazwa, id
-             *      
-             * 2) Po wybraniu numeru należy wyświetlić listę wartości danej pozycji. Zmienianie jak w zmienianiu właściwości urzytkownika (z menu urzytkownika)
-             */
+            InfoOOfertachPak(null, true);
         }
         /// <summary>
         /// Zostawić ID  jako -1, by utworzyć nową ofertę.
@@ -996,7 +1020,15 @@
         /// <param name="ID"></param>
         public static void DodajOfertęUrz(int ID = -1)                                         // 5
         {
-            Console.WriteLine(" Dodawanie nowej oferty Urzadzenia");
+            if(ID!=-1)
+            {
+                Console.Write(" Modyfikowanie");
+            }
+            else
+            {
+                Console.Write(" Dodawanie nowej");
+            }
+            Console.WriteLine(" oferty Urzadzenia");
 
             UrządzeniaInfo noweUrz = new();
             UrządzeniaInfo[] listaUrz = new UrządzeniaInfo[1];
@@ -1122,7 +1154,15 @@
         /// <param name="ID"></param>
         public static void DodajOfertęAbo(int ID = -1)                                         // 6
         {
-            Console.WriteLine(" Dodawanie nowej oferty Abonamentu");
+            if (ID != -1)
+            {
+                Console.Write(" Modyfikowanie");
+            }
+            else
+            {
+                Console.Write(" Dodawanie nowej");
+            }
+            Console.WriteLine(" oferty Abonamentu");
 
             AbonamentyInfo nowyAbo = new();
             AbonamentyInfo[] listaAbo = new AbonamentyInfo[1];
@@ -1294,7 +1334,15 @@
         /// <param name="ID"></param>
         public static void DodajOfertęPak(int ID = -1)                                         // 7
         {
-            Console.WriteLine(" Dodawanie nowej oferty Pakietu");
+            if (ID != -1)
+            {
+                Console.Write(" Modyfikowanie");
+            }
+            else
+            {
+                Console.Write(" Dodawanie nowej");
+            }
+            Console.WriteLine(" oferty Pakietu");
 
             PakietyInfo nowyPak = new();
             PakietyInfo[] listaPak = new PakietyInfo[1];
@@ -1577,6 +1625,21 @@
         }
         #endregion
 
+        #region Dodawanie Klientowi Oferty
+        public static void Kup(DaneLogowania daneKlienta, UrządzeniaInfo urządzenie, bool admin = false)
+        {
+
+        }
+        public static void Kup(DaneLogowania daneKlienta, AbonamentyInfo oferta, bool admin = false)
+        {
+
+        }
+        public static void Kup(DaneLogowania daneKlienta, PakietyInfo oferta, bool admin = false)
+        {
+
+        }
+        #endregion
+
         static void Main(string[] args)
         {
             CzyszczenieEkranu();
@@ -1659,19 +1722,19 @@
                             case ("5"):
                                 {
                                     CzyszczenieEkranu();
-                                    InfoOOfertachUrz();
+                                    InfoOOfertachUrz(zalogowanyUrzytkownik);
                                     break;
                                 }
                             case ("6"):
                                 {
                                     CzyszczenieEkranu();
-                                    InfoOOfertachAbo();
+                                    InfoOOfertachAbo(zalogowanyUrzytkownik);
                                     break;
                                 }
                             case ("7"):
                                 {
                                     CzyszczenieEkranu();
-                                    InfoOOfertachPak();
+                                    InfoOOfertachPak(zalogowanyUrzytkownik);
                                     break;
                                 }
                             case ("wyloguj"):

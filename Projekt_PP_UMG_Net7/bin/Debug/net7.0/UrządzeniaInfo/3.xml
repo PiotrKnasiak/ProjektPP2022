@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <UrządzeniaInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Cena>1899.99</Cena>
-  <Nazwa>niePodam</Nazwa>
-  <Wytwórca>Hlelej</Wytwórca>
+  <Cena>22.99</Cena>
+  <Nazwa>niePodam mod2</Nazwa>
+  <Wytwórca>nie znam</Wytwórca>
   <Kolory>
-    <string>radiacja X</string>
-    <string>ultrafiolet</string>
+    <string>podczerwony</string>
   </Kolory>
   <Warianty>
-    <string>Plus</string>
-    <string>Max</string>
-    <string>SuperUberDuper</string>
+    <string>iloczyn</string>
+    <string>iloraz</string>
   </Warianty>
-  <ID>3</ID>
+  <ID>4</ID>
 </UrządzeniaInfo>
