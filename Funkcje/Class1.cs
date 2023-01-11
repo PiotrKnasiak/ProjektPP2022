@@ -86,7 +86,7 @@ namespace Funkcje
         public string[] WariantyTelefonów = { };                        // nie podawać nic dla normalnej wersjii telefonu             
         public int AbonamentID = -1;                                     // ID oferyty przypisanego przy zakupie do telefonów abonamentu
         public double PrzecenaTelefon = 0;                              // przecena na łączną cenę telefonów, w ułamku diesiętnym, 0 dla braku
-        public double CzasTrwania = 0;                                  // Na ile opłaca abonament, wyrażane w ilości "cykli" abonamentu (np. tygodni jeśli opłacany tygodniowo)
+        public int CzasTrwania = 0;                                  // Na ile opłaca abonament, wyrażane w ilości "cykli" abonamentu (np. tygodni jeśli opłacany tygodniowo)
         public double PrzecenaAbonament = 0;                            // przecena na abonament po upływie opłacenia, w ułamku diesiętnym, 0 dla braku
     }
     [Serializable]
@@ -179,6 +179,7 @@ namespace Funkcje
         public string DataNastępnejOpłaty;                            // jeśli opłacono wynosi 0 lub <0, to normalna data zwględem zakupu; jeśli >0, to o ileś okresów płacenia do przodu
         public int IDPakietu = -1;                                       // jaki ma przypisany pakiet (jesli ma)
         public string DataDodania;                                    // data dodania
+        public double Przecena = 0;
     }
     [Serializable]
     public class PakietKlienta

@@ -709,11 +709,11 @@
                 }
                 else if (!edytuj && !dajKlientowi && wybór.Contains("kup"))
                 {
-                    Kup(daneKlienta, dostępne[wybraneID]);
+                    KupUrz(daneKlienta, dostępne[wybraneID]);
                 }
                 else if (!edytuj && dajKlientowi && wybór.Contains("dodaj"))
                 {
-                    Kup(daneKlienta, dostępne[wybraneID], true);
+                    KupUrz(daneKlienta, dostępne[wybraneID], true);
                 }
                 else if (edytuj && !dajKlientowi && wybór.Contains("edytuj"))
                 {
@@ -813,29 +813,20 @@
 
                 string wiadomość = "\n\n   Wpisz \"kup\" aby przejść do kupna";
                 if (edytuj)
-                {
                     wiadomość = "\n\n   Wpisz \"edytuj\" aby edytowa";
-                }
                 else if (dajKlientowi)
-                {
                     wiadomość = "\n\n   Wpisz \"dodaj\" by dodać wybraną pozyjcę klientowi";
-                }
+
                 Console.Write(wiadomość + ", wciśnij enter by kontynuować: ");
 
                 string? wybór = Console.ReadLine().ToLower().Replace('ó', 'u');
 
                 if (CzyWyjść(wybór))
-                {
                     return;
-                }
                 else if (!edytuj && !dajKlientowi && wybór.Contains("kup"))
-                {
-                    Kup(daneKlienta, dostępne[wybraneID]);
-                }
+                    KupAbo(daneKlienta, dostępne[wybraneID]);
                 else if (!edytuj && dajKlientowi && wybór.Contains("dodaj"))
-                {
-                    Kup(daneKlienta, dostępne[wybraneID], true);
-                }
+                    KupAbo(daneKlienta, dostępne[wybraneID], true);
                 else if (edytuj && !dajKlientowi && wybór.Contains("edytuj"))
                 {
                     Console.WriteLine("\n");
@@ -879,9 +870,7 @@
                         Console.WriteLine();
 
                         if (CzyWyjść(wprowadzono))
-                        {
                             return;
-                        }
 
                         if (pozycja < 1 || pozycja > i)
                         {
@@ -934,29 +923,20 @@
 
                 string wiadomość = "\n\n   Wpisz \"kup\" aby przejść do kupna";
                 if (edytuj)
-                {
                     wiadomość = "\n\n   Wpisz \"edytuj\" aby edytowa";
-                }
                 else if (dajKlientowi)
-                {
                     wiadomość = "\n\n   Wpisz \"dodaj\" by dodać wybraną pozyjcę klientowi";
-                }
+
                 Console.Write(wiadomość + ", wciśnij enter by kontynuować: ");
 
                 string? wybór = Console.ReadLine().ToLower().Replace('ó', 'u');
 
                 if (CzyWyjść(wybór))
-                {
                     return;
-                }
                 else if (!edytuj && !dajKlientowi && wybór.Contains("kup"))
-                {
-                    Kup(daneKlienta, dostępne[wybraneID], abonament, urządzenia);
-                }
+                    KupPak(daneKlienta, dostępne[wybraneID], abonament, urządzenia);
                 else if (!edytuj && dajKlientowi && wybór.Contains("dodaj"))
-                {
-                    Kup(daneKlienta, dostępne[wybraneID], abonament, urządzenia, true);
-                }
+                    KupPak(daneKlienta, dostępne[wybraneID], abonament, urządzenia, true);
                 else if (edytuj && !dajKlientowi && wybór.Contains("edytuj"))
                 {
                     Console.WriteLine("\n");
@@ -1292,7 +1272,6 @@
                         
                         powtórka = false;
                         nowyAbo.LimityPrędkości[1] = ilośćD;
-                        Console.WriteLine($"\t\t\tprędkośc po : {nowyAbo.LimityPrędkości[1]}\n");
                     }
                     catch (Exception)
                     {
@@ -1595,10 +1574,11 @@
         #endregion
 
         #region Dodawanie Klientowi Oferty
-        public static void Kup(DaneLogowania daneKlienta, UrządzeniaInfo urządzenie, bool admin = false, int IDAbo = -1, int IDPak = -1, string kolor = "", string wariant = "")
+        public static void KupUrz(DaneLogowania daneKlienta, UrządzeniaInfo urządzenie, bool admin = false, int IDAbo = -1, int IDPak = -1, string wariant = "")
         {
             CzyszczenieEkranu();
 
+            string kolor = "";
             UrządzenieKlienta dodaneUrz = new UrządzenieKlienta();
 
             if (IDPak < 1)
@@ -1626,16 +1606,17 @@
                 {
                     Console.WriteLine($"    {i + 1} - {urządzenie.Kolory[i]}");
                 }
+            }
 
-                Console.Write("\n  Wybierz kolor : ");
-                try
-                {
-                    kolor = urządzenie.Kolory[ZróbInt(Console.ReadLine()) - 1];
-                }
-                catch (Exception e)
-                {
-                    kolor = urządzenie.Kolory[0];
-                }
+
+            Console.Write($"\n  Wybierz kolor urządzenia {urządzenie.Nazwa}: ");
+            try
+            {
+                kolor = urządzenie.Kolory[ZróbInt(Console.ReadLine()) - 1];
+            }
+            catch (Exception e)
+            {
+                kolor = urządzenie.Kolory[0];
             }
 
             dodaneUrz.IDOferty = urządzenie.ID;
@@ -1653,7 +1634,7 @@
                 Thread.Sleep(2000);
             }
         }
-        public static void Kup(DaneLogowania daneKlienta, AbonamentyInfo oferta, bool admin = false, int IDPak = -1, int opłacono = 0, int przecena = 0)
+        public static int KupAbo(DaneLogowania daneKlienta, AbonamentyInfo oferta, bool admin = false, int IDPak = -1, int opłacono = 0, double przecena = 0)
         {
             CzyszczenieEkranu();
 
@@ -1662,6 +1643,7 @@
             dodanyAbo.IDPakietu = IDPak;
             dodanyAbo.IDOferty = oferta.ID;
             dodanyAbo.DataDodania = DateOnly.FromDateTime(DateTime.Now).ToString();
+            dodanyAbo.Przecena = przecena;
 
             if(IDPak == -1)
             {
@@ -1707,8 +1689,10 @@
                 Console.WriteLine("\n\n      Zakup Udany!");
                 Thread.Sleep(2000);
             }
+
+            return dodanyAbo.ID;
         }
-        public static void Kup(DaneLogowania daneKlienta, PakietyInfo oferta, AbonamentyInfo załączonyAbo = null, UrządzeniaInfo[] dodaneUrz = null ,bool admin = false)
+        public static void KupPak(DaneLogowania daneKlienta, PakietyInfo oferta, AbonamentyInfo załączonyAbo = null, UrządzeniaInfo[] dodaneUrz = null ,bool admin = false)
         {
             CzyszczenieEkranu();
 
@@ -1716,6 +1700,15 @@
 
             dodanyPak.IDOferty = oferta.ID;
             dodanyPak.DataDodania = DateOnly.FromDateTime(DateTime.Now).ToString();
+
+            int IDAbo = KupAbo(daneKlienta, załączonyAbo, admin, dodanyPak.ID, oferta.CzasTrwania, oferta.PrzecenaAbonament);
+
+            for (int i = 0; i < oferta.TelefonyID.Length; i++)
+            {
+                KupUrz(daneKlienta, (UrządzeniaInfo)Funkcje.WczytajPlik("UrządzeniaInfo", oferta.TelefonyID[i].ToString()), admin, IDAbo, dodanyPak.ID, oferta.WariantyTelefonów[i]);
+            }
+
+            Funkcje.ZapiszPlik(dodanyPak, dodanyPak.ID.ToString(), daneKlienta.ID);
             
             Console.WriteLine("\n\n      Zakup Udany!");
             Thread.Sleep(2000);
