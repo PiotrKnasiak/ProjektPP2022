@@ -650,9 +650,7 @@
                         Console.WriteLine();
 
                         if (CzyWyjść(wprowadzono))
-                        {
                             return;
-                        }
 
                         if (pozycja < 1 || pozycja > i)
                         {
@@ -692,29 +690,20 @@
 
                 string wiadomość = "\n\n   Wpisz \"kup\" aby przejść do kupna";
                 if (edytuj)
-                {
                     wiadomość = "\n\n   Wpisz \"edytuj\" aby edytowa";
-                }
                 else if (dajKlientowi)
-                {
                     wiadomość = "\n\n   Wpisz \"dodaj\" by dodać wybraną pozyjcę klientowi";
-                }
+
                 Console.Write(wiadomość + ", wciśnij enter by kontynuować: ");
 
                 string ? wybór = Console.ReadLine().ToLower().Replace('ó', 'u');
 
                 if (CzyWyjść(wybór))
-                {
                     return;
-                }
                 else if (!edytuj && !dajKlientowi && wybór.Contains("kup"))
-                {
                     KupUrz(daneKlienta, dostępne[wybraneID]);
-                }
                 else if (!edytuj && dajKlientowi && wybór.Contains("dodaj"))
-                {
                     KupUrz(daneKlienta, dostępne[wybraneID], true);
-                }
                 else if (edytuj && !dajKlientowi && wybór.Contains("edytuj"))
                 {
                     Console.WriteLine("\n");
@@ -760,9 +749,7 @@
                         Console.WriteLine();
 
                         if (CzyWyjść(wprowadzono))
-                        {
                             return;
-                        }
 
                         if (pozycja < 1 || pozycja > i)
                         {
@@ -785,14 +772,11 @@
 
                 CzyszczenieEkranu();
                 Console.WriteLine($"\n Nazwa : {dostępne[wybraneID].Nazwa}");
+
                 if (dostępne[wybraneID].LimitInternetu == 0)
-                {
                     Console.WriteLine($"\n Ten abonament nie zapewnia dostępu do internetu.");
-                }
                 else if (dostępne[wybraneID].LimitInternetu == -1)
-                {
                     Console.WriteLine($"\n Ten abonament zapewnia nielimitowany dostęp do internetu.");
-                }
                 else
                 {
                     double prędkośćMin = dostępne[wybraneID].LimityPrędkości[1];
@@ -812,6 +796,7 @@
                 Console.WriteLine($"\n Opłaty w wysokoći {dostępne[wybraneID].Cena} zł, naliczane co {dostępne[wybraneID].CzęstotliwośćRozliczania}");
 
                 string wiadomość = "\n\n   Wpisz \"kup\" aby przejść do kupna";
+
                 if (edytuj)
                     wiadomość = "\n\n   Wpisz \"edytuj\" aby edytowa";
                 else if (dajKlientowi)
