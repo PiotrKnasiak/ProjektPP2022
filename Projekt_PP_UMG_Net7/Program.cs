@@ -81,13 +81,14 @@
         public static void TworzenieUrzytkownika(DaneLogowania dane, int ID, bool tworzyćKlienta)
         {
             Funkcje.ZapiszPlik(dane, ID.ToString());
+            string[] zawarteFoldery = { "UrządzeniaKlienta", "AbonamentyKlienta", "PakietyKlienta", "Faktury" };
 
             if (tworzyćKlienta)
             {
-                Directory.CreateDirectory(Funkcje.ŚcieżkaFolderu("UrządzeniaKlienta", ID));
-                Directory.CreateDirectory(Funkcje.ŚcieżkaFolderu("AbonamentyKlienta", ID));
-                Directory.CreateDirectory(Funkcje.ŚcieżkaFolderu("PakietyKlienta", ID));
-                Directory.CreateDirectory(Funkcje.ŚcieżkaFolderu("Faktury", ID));
+                foreach (string folder in zawarteFoldery)
+                {
+                    Directory.CreateDirectory(Funkcje.ŚcieżkaFolderu(folder, ID));
+                }
             }
         }
         public static DaneLogowania? DodajUżytkownika()
@@ -511,12 +512,7 @@
             UrządzenieKlienta[] urzKlienta = new UrządzenieKlienta[1];
             urzKlienta = Funkcje.WczytajWszystkiePliki(urzKlienta, daneUrzytkownika.ID);
 
-            UrządzeniaInfo wybraneUrzInfo = (UrządzeniaInfo)Funkcje.WczytajPlik("UrządzeniaInfo", 1.ToString());
-            PakietKlienta dołączonyPak = null;
-            PakietyInfo dołączonyPakInfo = null;
-
             string[] Nazwy = new string[urzKlienta.Length];
-
             if (Nazwy.Length < 1)
             {
                 Console.WriteLine(" Brak urządzeń.");
@@ -524,7 +520,9 @@
                 return;
             }
 
-
+            UrządzeniaInfo wybraneUrzInfo = (UrządzeniaInfo)Funkcje.WczytajPlik("UrządzeniaInfo", 1.ToString());
+            PakietKlienta dołączonyPak = null;
+            PakietyInfo dołączonyPakInfo = null;
 
             while (true)
             {
@@ -600,18 +598,17 @@
             AbonamentKlienta[] aboKlienta = new AbonamentKlienta[1];
             aboKlienta = Funkcje.WczytajWszystkiePliki(aboKlienta, daneUrzytkownika.ID);
 
-            AbonamentyInfo wybranyAboInfo = (AbonamentyInfo)Funkcje.WczytajPlik("AbonamentyInfo", "1");
-            PakietKlienta dołączonyPak = null;
-            PakietyInfo dołączonyPakInfo = null;
-
             string[] Nazwy = new string[aboKlienta.Length];
-
             if (Nazwy.Length < 1)
             {
                 Console.WriteLine(" Brak abonamentów.");
                 Thread.Sleep(1500);
                 return;
             }
+
+            AbonamentyInfo wybranyAboInfo = (AbonamentyInfo)Funkcje.WczytajPlik("AbonamentyInfo", "1");
+            PakietKlienta dołączonyPak = null;
+            PakietyInfo dołączonyPakInfo = null;
 
             Console.WriteLine("  Lista abonamentów (od najwczeniej dodanych) :\n");
 
@@ -687,103 +684,7 @@
             }
 
         }
-        public static void InfoOTwoichPak(DaneLogowania daneUrzytkownika, bool admin = false)                  // 4 Zmienić !!!
-        {
-            if (!admin)
-                Console.WriteLine(" Wyświetlanie informacji o twoich Abonamentach.\n");
-            else
-                Console.WriteLine($" Wyświetlanie informacji o abonamentch klienta {daneUrzytkownika.Imię} {daneUrzytkownika.Nazwisko}");
 
-            AbonamentKlienta[] aboKlienta = new AbonamentKlienta[1];
-            aboKlienta = Funkcje.WczytajWszystkiePliki(aboKlienta, daneUrzytkownika.ID);
-
-            AbonamentyInfo wybranyAboInfo = (AbonamentyInfo)Funkcje.WczytajPlik("AbonamentyInfo", "1");
-            PakietKlienta dołączonyPak = null;
-            PakietyInfo dołączonyPakInfo = null;
-
-            string[] Nazwy = new string[aboKlienta.Length];
-
-            if (Nazwy.Length < 1)
-            {
-                Console.WriteLine(" Brak abonamentów.");
-                Thread.Sleep(1500);
-                return;
-            }
-
-            Console.WriteLine("  Lista abonamentów (od najwczeniej dodanych) :\n");
-
-            for (int i = 1; i <= Nazwy.Length; i++)
-            {
-                wybranyAboInfo = (AbonamentyInfo)Funkcje.WczytajPlik("AbonamentyInfo", aboKlienta[i - 1].IDOferty.ToString());
-                Console.WriteLine($"      {i} - {wybranyAboInfo.Nazwa}");
-            }
-
-            while (true)
-            {
-
-                NaCzerwono("\n  Dowolnym momencie wpisz \"wyjdz\" by wyjść");
-                bool powtórka = true;
-                int wybraneID = 0;
-
-                do
-                {
-                    try
-                    {
-                        powtórka = false;
-                        Console.Write("\n  Podaj numer pozycji którą checsz zobaczyć : ");
-                        string? wprowadzono = Console.ReadLine();
-                        Console.WriteLine();
-
-                        if (CzyWyjść(wprowadzono))
-                            return;
-
-                        if (ZróbInt(wprowadzono) < 1 || ZróbInt(wprowadzono) > Nazwy.Length)
-                        {
-                            Console.WriteLine("    Błędne wprowadzenie");
-                            powtórka = true;
-                            continue;
-                        }
-
-                        wybraneID = ZróbInt(wprowadzono) - 1;
-                        wybranyAboInfo = (AbonamentyInfo)Funkcje.WczytajPlik("AbonamentyInfo", aboKlienta[wybraneID].IDOferty.ToString());
-
-                        if (aboKlienta[wybraneID].IDPakietu > 0)
-                        {
-                            dołączonyPak = (PakietKlienta)Funkcje.WczytajPlik("PakietyKlienta", aboKlienta[wybraneID].IDPakietu.ToString(), daneUrzytkownika.ID);
-                            dołączonyPakInfo = (PakietyInfo)Funkcje.WczytajPlik("PakietyInfo", dołączonyPak.IDOferty.ToString(), daneUrzytkownika.ID);
-                        }
-
-                    }
-                    catch (Exception)
-                    {
-                        powtórka = true;
-                    }
-
-                }
-                while (powtórka);
-
-                string pakiet = $"  Pakiet : {dołączonyPakInfo.Nazwa}\n";
-                if (dołączonyPakInfo == null)
-                    pakiet = "Nie jest częścią pakietu";
-
-                string opłacone = "Opłaty zapłacone do przodu";
-                if (aboKlienta[wybraneID].NaIleOpłaconoDoPrzodu < 0)
-                    opłacone = "Ilość zaległych opłat";
-
-                string przecena = $"Przecena na opłąty : {(aboKlienta[wybraneID].Przecena) / 100}%\n";
-                if (aboKlienta[wybraneID].Przecena == 0)
-                    przecena = "";
-
-                Console.WriteLine($"\n\n  Nazwa : {wybranyAboInfo.Nazwa}\n" +
-                    $"  Przypisany numer telefonu : {aboKlienta[wybraneID].NumerTelefonu}\n" +
-                    $"  Pakiet : {pakiet}\n" +
-                    $"  {opłacone} : {Math.Abs(aboKlienta[wybraneID].NaIleOpłaconoDoPrzodu)}\n" +
-                    $"  {pakiet}\n" +
-                    $"  {przecena}" +
-                    $"  Data dodania : {aboKlienta[wybraneID].DataDodania}\n");
-            }
-
-        }
         /// <summary>
         /// Podanie admin jako true umożliwia edycję ofert
         /// </summary>
@@ -1517,10 +1418,13 @@
             nowyPak.WariantyTelefonów = new string[ilośćTelefonów];
             bool znaleziono = false;
 
-            Console.WriteLine("\n  Lista dostępnych urządzeń :");
-            foreach (UrządzeniaInfo urządzenie in listaUrz)
+            if (ilośćTelefonów > 0)
             {
-                Console.WriteLine($"    - {{{urządzenie.Nazwa},10}}   (id - {urządzenie.ID})");
+                Console.WriteLine("\n  Lista dostępnych urządzeń :");
+                foreach (UrządzeniaInfo urządzenie in listaUrz)
+                {
+                    Console.WriteLine($"    - {{{urządzenie.Nazwa},10}}   (id - {urządzenie.ID})");
+                }
             }
 
             for (int j = 0; j < ilośćTelefonów; j++)
@@ -1916,17 +1820,17 @@
                     {
                         Console.Write(" Start -> Menu \t\t |Zalogowano jako: " + zalogowanyUrzytkownik.Imię + "|");
                         Console.WriteLine("\n\n Dostępne opcje: " +
-                            "\n\n\t 1 - Wyświetl lub modyfikuj informacje o sobie \n" +
+                            "\n\n\t 1 - Wyświetl lub modyfikuj informacje o sobie " +
 
-                            "\n\t 2 - Wyświetl informacje o swoich urządzeniach" +
-                            "\n\t 3 - Wyświetl informacje o swoich abonamntach" +
-                            "\n\t 4 - Wyświetl informacje o swoich pakietach \n" +
+                            "\n\n\t 2 - Wyświetl informacje o swoich urządzeniach" +
+                            "\n\t 3 - Wyświetl informacje o swoich abonamentach" +
+                            //"\n\t 4 - Wyświetl informacje o swoich pakietach " +
 
-                            "\n\t 5 - Pokaż dostepne oferty Urządzeń" +
+                            "\n\n\t 5 - Pokaż dostepne oferty Urządzeń" +
                             "\n\t 6 - Pokaż dostepne oferty Abonamentów" +
-                            "\n\t 7 - Pokaż dostepne oferty Pakietów \n" +
+                            "\n\t 7 - Pokaż dostepne oferty Pakietów " +
 
-                            "\n\t Wyloguj - Wyloguj się ze swojego konta " +
+                            "\n\n\t Wyloguj - Wyloguj się ze swojego konta " +
                             "\n\t Wyjdz - Wyjdź z programu");
                         Console.Write("\n\n\t");
 
@@ -1960,25 +1864,25 @@
                                     InfoOTwoichAbo(zalogowanyUrzytkownik);
                                     break;
                                 }
-                            case ("4"):
+                            case ("-9999"):
                                 {
                                     CzyszczenieEkranu();
-                                    InfoOTwoichPak(zalogowanyUrzytkownik);
+                                    //InfoOTwoichPak(zalogowanyUrzytkownik);
                                     break;
                                 }
-                            case ("5"):
+                            case ("4"):
                                 {
                                     CzyszczenieEkranu();
                                     InfoOOfertachUrz(zalogowanyUrzytkownik);
                                     break;
                                 }
-                            case ("6"):
+                            case ("5"):
                                 {
                                     CzyszczenieEkranu();
                                     InfoOOfertachAbo(zalogowanyUrzytkownik);
                                     break;
                                 }
-                            case ("7"):
+                            case ("6"):
                                 {
                                     CzyszczenieEkranu();
                                     InfoOOfertachPak(zalogowanyUrzytkownik);
