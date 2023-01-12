@@ -56,7 +56,7 @@ namespace Funkcje
         public string CzęstotliwośćRozliczania;                         // zakładam możliwości: tydzień, miesiąc, rok
         public double Cena;
         public double LimitInternetu = 0;                               // 0 dla braku, -1 dla nielimitowanego, >0 dla normalneog limitu , liczone w GB
-        public double CenaDoładowaniaInternetu = 0.5;                  // ile kosztuje doładowanie internetu (zł za 1 GB)
+        //public double CenaDoładowaniaInternetu = 0.5;                  // ile kosztuje doładowanie internetu (zł za 1 GB)
         public double[] LimityPrędkości = { 0.0, 0.0 };                     // prędkość przed i po wyczerpaniu limitu, liczone w mb/s
     }
     [Serializable]
@@ -82,7 +82,7 @@ namespace Funkcje
         public double Cena;
         public string Nazwa;
         public bool MaAbonament = false;
-        public int[] TelefonyID = null;                                        // ID brane z oferty urządzeń
+        public int[]? TelefonyID = null;                                        // ID brane z oferty urządzeń
         public string[] WariantyTelefonów = { };                        // nie podawać nic dla normalnej wersjii telefonu             
         public int AbonamentID = -1;                                     // ID oferyty przypisanego przy zakupie do telefonów abonamentu
         public int CzasTrwania = 0;                                  // Na ile opłaca abonament, wyrażane w ilości "cykli" abonamentu (np. tygodni jeśli opłacany tygodniowo)
@@ -205,34 +205,34 @@ namespace Funkcje
         public int IDOferty;                                            // ID oferty(info) z której pochodzi ten abonament
         public string DataDodania;                                    // data dodania
     }
-    [Serializable]
-    public class FakturaKlienta
-    {
-        public FakturaKlienta() { }
-        public FakturaKlienta(int IDKlientaLubPrzedmiotu, bool podanoIDKlienta, int IDOferty)
-        {
-            if (podanoIDKlienta)
-            {
-                IDKlientaLubPrzedmiotu = Funkcje.NajwiększeIDPrzedmiotuKlienta("Pakiety", IDKlientaLubPrzedmiotu) + 1;
-            }
-            this.IDvalue = IDKlientaLubPrzedmiotu;
-            this.IDPozycji = IDOferty;
-        }
+    //[Serializable]
+    //public class FakturaKlienta
+    //{
+    //    public FakturaKlienta() { }
+    //    public FakturaKlienta(int IDKlientaLubPrzedmiotu, bool podanoIDKlienta, int IDOferty)
+    //    {
+    //        if (podanoIDKlienta)
+    //        {
+    //            IDKlientaLubPrzedmiotu = Funkcje.NajwiększeIDPrzedmiotuKlienta("Pakiety", IDKlientaLubPrzedmiotu) + 1;
+    //        }
+    //        this.IDvalue = IDKlientaLubPrzedmiotu;
+    //        this.IDPozycji = IDOferty;
+    //    }
 
-        private int IDvalue = 1;
+    //    private int IDvalue = 1;
 
-        public int ID
-        {
-            get { return IDvalue; }
-            set { IDvalue = value; }
-        }
-        public string DataTranzakcji;
-        public string Kwota;
-        public string NumberKonta;
-        public string NIP;
-        public string Opis;
-        public int IDPozycji;                                            // ID urządzenia, abonamentu lub pakietu klienta, którego ta FakturaKlienta dotyczy
-    }
+    //    public int ID
+    //    {
+    //        get { return IDvalue; }
+    //        set { IDvalue = value; }
+    //    }
+    //    public string DataTranzakcji;
+    //    public string Kwota;
+    //    public string NumberKonta;
+    //    public string NIP;
+    //    public string Opis;
+    //    public int IDPozycji;                                            // ID urządzenia, abonamentu lub pakietu klienta, którego ta FakturaKlienta dotyczy
+    //}
 
     public struct WszystkieDaneKlienta
     {
@@ -240,7 +240,7 @@ namespace Funkcje
         public UrządzenieKlienta[] urządzenia;
         public AbonamentKlienta[] abonamenty;
         public PakietKlienta[] pakiety;
-        public FakturaKlienta[] faktury;
+        //public FakturaKlienta[] faktury;
     }
     #endregion
 
@@ -281,10 +281,10 @@ namespace Funkcje
             {
                 folder = "PakietyKlienta";
             }
-            else if (typ.Equals(typeof(FakturaKlienta)))
-            {
-                folder = "FakturyKlienta";
-            }
+            //else if (typ.Equals(typeof(FakturaKlienta)))
+            //{
+            //    folder = "FakturyKlienta";
+            //}
 
             string ścieżka = Funkcje.ŚcieżkaFolderu(folder, IDKlienta);
             Stream stream = new FileStream($@"{ścieżka}\{nazwa}.xml", FileMode.Create, FileAccess.Write, FileShare.None);
@@ -342,10 +342,10 @@ namespace Funkcje
                         this.WczytanyPlik = serializer.Deserialize(stream);
                         break;
 
-                    case "Faktury":
-                        serializer = new XmlSerializer(typeof(FakturaKlienta));
-                        this.WczytanyPlik = serializer.Deserialize(stream);
-                        break;
+                    //case "Faktury":
+                    //    serializer = new XmlSerializer(typeof(FakturaKlienta));
+                    //    this.WczytanyPlik = serializer.Deserialize(stream);
+                    //    break;
                 }
 
                 stream.Close();
@@ -358,7 +358,7 @@ namespace Funkcje
     }
     public class ŁadowanieWszystkichPlików
     {
-        public object?[] ListaDanych = null;
+        public object[]? ListaDanych = null;
         public ŁadowanieWszystkichPlików(string typPliku, int IDKlienta = -1)
         {
             ŁadowaniePlików łp;
@@ -375,7 +375,7 @@ namespace Funkcje
                 case "UrządzeniaKlienta":
                 case "AbonamentyKlienta":
                 case "PakietyKlienta":
-                case "Faktury":
+                //case "Faktury":
                     {
                         while (i < listaID.Length)
                         {
@@ -448,7 +448,7 @@ namespace Funkcje
 
         /// <summary>
         /// <para>Dostępne foldery :</para>
-        /// <para>DaneLogowania,  UrządzeniaInfo,  AbonamentyInfo,  PakietyInfo,  UrządzeniaKlienta,  AbonamentyKlienta,  PakietyKlienta, FakturyKlienta, Klienci</para>
+        /// <para>DaneLogowania,  UrządzeniaInfo,  AbonamentyInfo,  PakietyInfo,  UrządzeniaKlienta,  AbonamentyKlienta,  PakietyKlienta, Klienci</para>
         /// </summary>
         /// <param name="nazwaFolderu"></param>
         /// <param name="IDklienta"></param>
@@ -471,7 +471,7 @@ namespace Funkcje
                 case "UrządzeniaKlienta":
                 case "AbonamentyKlienta":
                 case "PakietyKlienta":
-                case "Faktury":
+                //case "FakturyKlienta":
                     ścieżka = Path.Combine(ścieżka, "Klienci", (IDklienta + "\\" + nazwaFolderu));
                     break;
             }
@@ -481,7 +481,7 @@ namespace Funkcje
 
         /// <summary>
         /// <para>Dostępne foldery :</para>
-        /// <para>DaneLogowania,  UrządzeniaInfo,  AbonamentyInfo,  PakietyInfo,  UrządzeniaKlienta,  AbonamentyKlienta,  PakietyKlienta, FakturyKlienta, Klienci</para>
+        /// <para>DaneLogowania,  UrządzeniaInfo,  AbonamentyInfo,  PakietyInfo,  UrządzeniaKlienta,  AbonamentyKlienta,  PakietyKlienta, Klienci</para>
         /// </summary>
         /// <param name="nazwaFolderu"></param>
         /// <param name="IDklienta"></param>
@@ -492,14 +492,12 @@ namespace Funkcje
             string ścieżka = ŚcieżkaFolderu(nazwaFolderu, IDklienta);
             return Directory.GetFiles(ścieżka, rozszerzenie).Length;
         }
-
         public static int LiczbaKlientów()
         {
             string ścieżka = ŚcieżkaFolderu("Klienci");
 
             return Directory.GetDirectories(ścieżka).Length;
         }
-
         public static int LiczbaUrzytkowników()
         {
             return LiczbaPlików("DaneLogowania");
@@ -508,7 +506,7 @@ namespace Funkcje
         /// <summary>
         /// <para>Lista ID plików (lub folderów w przypadku opcji "Klienci") w wybranym folderze</para>
         /// <para>Dostępne foldery :</para>
-        /// <para>DaneLogowania,  UrządzeniaInfo,  AbonamentyInfo,  PakietyInfo,  UrządzeniaKlienta,  AbonamentyKlienta,  PakietyKlienta, FakturyKlienta, Klienci</para>
+        /// <para>DaneLogowania,  UrządzeniaInfo,  AbonamentyInfo,  PakietyInfo,  UrządzeniaKlienta,  AbonamentyKlienta,  PakietyKlienta, Klienci</para>
         /// </summary>
         /// <returns></returns>
         public static int[] ListaID(string folder, int IDKlienta = -1)
@@ -604,7 +602,6 @@ namespace Funkcje
 
             return ID;
         }
-
         public static int NajwiększeIDKlientów()
         {
             int ID = 0;       // minimalne ID - 1
@@ -664,7 +661,7 @@ namespace Funkcje
         public static void CzyIstniejąWszystkieFoldery()
         {
             string aktualnaŚcieżka = Directory.GetCurrentDirectory();
-            string[] nazwyFolderów = { "DaneLogowania", "UrządzeniaInfo", "AbonamentyInfo", "PakietyInfo", "Klienci", "Rabaty" };
+            string[] nazwyFolderów = { "DaneLogowania", "UrządzeniaInfo", "AbonamentyInfo", "PakietyInfo", "Klienci"/*, "Rabaty" */};
 
             foreach (string nazwaF in nazwyFolderów)
             {
@@ -691,7 +688,7 @@ namespace Funkcje
         /// <summary>
         /// <para>Ładuje plik, podać kolejno : nazwę folderu, nazwę folderu, nazwę pliku, ID klienta jeśli jest potrzebnea(dla 3 ostatnich folderów).   </para>
         /// <para>Dostępne foldery :</para>
-        /// <para>DaneLogowania,  UrządzeniaInfo,  AbonamentyInfo,  PakietyInfo,  UrządzeniaKlienta,  AbonamentyKlienta,  PakietyKlienta, FakturyKlienta</para>
+        /// <para>DaneLogowania,  UrządzeniaInfo,  AbonamentyInfo,  PakietyInfo,  UrządzeniaKlienta,  AbonamentyKlienta,  PakietyKlienta</para>
         /// </summary>
         /// <param name="folder"></param>
         /// <param name="ID"></param>
@@ -712,7 +709,6 @@ namespace Funkcje
         /// <param name="IDKlienta"></param>
         public static DaneLogowania[] WczytajWszystkiePliki(DaneLogowania[] pustaInstancja)
         {
-            Console.Title = "Telefonia komorkowa";
             string typPliku = "DaneLogowania";
             ŁadowanieWszystkichPlików łwp = new(typPliku);
             pustaInstancja = new DaneLogowania[łwp.ListaDanych.Length];
@@ -858,24 +854,24 @@ namespace Funkcje
         /// <param name="folder"></param>
         /// <param name="ID"></param>
         /// <param name="IDKlienta"></param>
-        public static FakturaKlienta[] WczytajWszystkiePliki(FakturaKlienta[] pustaInstancja, int IDKlienta)
-        {
-            string typPliku = "Faktury";
-            ŁadowanieWszystkichPlików łwp = new(typPliku, IDKlienta);
-            pustaInstancja = new FakturaKlienta[łwp.ListaDanych.Length];
-            int i = 0;
+        //public static FakturaKlienta[] WczytajWszystkiePliki(FakturaKlienta[] pustaInstancja, int IDKlienta)
+        //{
+        //    string typPliku = "Faktury";
+        //    ŁadowanieWszystkichPlików łwp = new(typPliku, IDKlienta);
+        //    pustaInstancja = new FakturaKlienta[łwp.ListaDanych.Length];
+        //    int i = 0;
 
-            foreach (object o in łwp.ListaDanych)
-            {
-                pustaInstancja[i] = (FakturaKlienta)o;
-                i++;
-            }
-            return pustaInstancja;
-        }
+        //    foreach (object o in łwp.ListaDanych)
+        //    {
+        //        pustaInstancja[i] = (FakturaKlienta)o;
+        //        i++;
+        //    }
+        //    return pustaInstancja;
+        //}
 
         /// <summary>
         /// <para>Ładuje wszystkie dane danego klienta. Wchodzą w nie : </para>
-        /// <para>Dane osobowe, Urządzenia, Abonamenty, Pakiety, Faktury, Zniżki (jeśli zostaną dodane)</para>
+        /// <para>Dane osobowe, Urządzenia, Abonamenty, Pakiety, Zniżki (jeśli zostaną dodane)</para>
         /// </summary>
         /// <param name="IDKlienta"></param>
         /// <returns></returns>
@@ -884,7 +880,7 @@ namespace Funkcje
             UrządzenieKlienta[] urzKl = new UrządzenieKlienta[1];
             AbonamentKlienta[] aboKl = new AbonamentKlienta[1];
             PakietKlienta[] pakKl = new PakietKlienta[1];
-            FakturaKlienta[] fakKl = new FakturaKlienta[1];
+            //FakturaKlienta[] fakKl = new FakturaKlienta[1];
 
             DaneLogowania daneLog = (DaneLogowania)Funkcje.WczytajPlik("DaneLogowania", IDKlienta.ToString());
 
@@ -894,13 +890,13 @@ namespace Funkcje
             dane.urządzenia = Funkcje.WczytajWszystkiePliki(urzKl, dane.daneLog.ID);
             dane.abonamenty = Funkcje.WczytajWszystkiePliki(aboKl, dane.daneLog.ID);
             dane.pakiety = Funkcje.WczytajWszystkiePliki(pakKl, dane.daneLog.ID);
-            dane.faktury = Funkcje.WczytajWszystkiePliki(fakKl, dane.daneLog.ID);
+            //dane.faktury = Funkcje.WczytajWszystkiePliki(fakKl, dane.daneLog.ID);
 
             return dane;
         }
         public static WszystkieDaneKlienta[] WczytajWszystkieDaneKlientów()
         {
-            DaneLogowania[] daneLog = new DaneLogowania[1];
+            DaneLogowania[] daneLog = new DaneLogowania[LiczbaKlientów()];
             daneLog = Funkcje.WczytajWszystkiePliki(daneLog);
 
             List<int> tempListaID = new List<int>();
@@ -929,7 +925,7 @@ namespace Funkcje
         /// <summary>
         /// <para>Usuwa plik, podać kolejno : nazwę folderu, nazwę folderu, nazwę pliku, ID klienta jeśli jest potrzebnea(dla 3 ostatnich folderów).   </para>
         /// <para>Dostępne foldery :</para>
-        /// <para>DaneLogowania,  UrządzeniaInfo,  AbonamentyInfo,  PakietyInfo,  UrządzeniaKlienta,  AbonamentyKlienta,  PakietyKlienta, FakturyKlienta</para>
+        /// <para>DaneLogowania,  UrządzeniaInfo,  AbonamentyInfo,  PakietyInfo,  UrządzeniaKlienta,  AbonamentyKlienta,  PakietyKlienta</para>
         /// </summary>
         /// <param name="folder"></param>
         /// <param name="ID"></param>

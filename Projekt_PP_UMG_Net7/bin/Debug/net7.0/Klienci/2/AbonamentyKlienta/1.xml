@@ -4,18 +4,18 @@
   <NumerTelefonu>
     <int>57</int>
     <int>57</int>
+    <int>51</int>
     <int>55</int>
+    <int>55</int>
+    <int>50</int>
     <int>49</int>
     <int>49</int>
-    <int>50</int>
-    <int>52</int>
-    <int>50</int>
-    <int>48</int>
+    <int>51</int>
   </NumerTelefonu>
-  <NaIleOpłaconoDoPrzodu>3</NaIleOpłaconoDoPrzodu>
-  <DataNastępnejOpłaty>12.05.2023</DataNastępnejOpłaty>
-  <IDPakietu>-1</IDPakietu>
+  <NaIleOpłaconoDoPrzodu>4</NaIleOpłaconoDoPrzodu>
+  <IDPakietu>1</IDPakietu>
   <DataDodania>12.01.2023</DataDodania>
-  <Przecena>0</Przecena>
+  <OstatniaOpłata>12.01.2023</OstatniaOpłata>
+  <Przecena>8</Przecena>
   <ID>1</ID>
 </AbonamentKlienta>

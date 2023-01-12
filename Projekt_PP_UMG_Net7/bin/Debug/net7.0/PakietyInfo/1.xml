@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PakietyInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Cena>30000</Cena>
-  <Nazwa>2</Nazwa>
+  <Cena>2700</Cena>
+  <Nazwa>Przykladowy Pakiet 1</Nazwa>
   <MaAbonament>true</MaAbonament>
   <TelefonyID>
-    <int>1</int>
-    <int>1</int>
+    <int>2</int>
   </TelefonyID>
   <WariantyTelefonów>
-    <string>plus</string>
-    <string>minus</string>
+    <string>Gliniany</string>
   </WariantyTelefonów>
   <AbonamentID>1</AbonamentID>
-  <CzasTrwania>3</CzasTrwania>
-  <PrzecenaAbonament>0.075</PrzecenaAbonament>
+  <CzasTrwania>4</CzasTrwania>
+  <PrzecenaAbonament>0.02</PrzecenaAbonament>
   <ID>1</ID>
 </PakietyInfo>
