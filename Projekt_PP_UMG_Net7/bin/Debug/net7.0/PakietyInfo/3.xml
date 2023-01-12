@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PakietyInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Cena>2</Cena>
-  <Nazwa>2</Nazwa>
-  <MaAbonament>false</MaAbonament>
+  <Cena>15550.33</Cena>
+  <Nazwa>pakietLoss</Nazwa>
+  <MaAbonament>true</MaAbonament>
   <TelefonyID>
-    <int>2</int>
+    <int>1</int>
     <int>2</int>
   </TelefonyID>
   <WariantyTelefonów />
-  <AbonamentID>-1</AbonamentID>
-  <CzasTrwania>0</CzasTrwania>
-  <PrzecenaAbonament>0</PrzecenaAbonament>
-  <ID>2</ID>
+  <AbonamentID>1</AbonamentID>
+  <CzasTrwania>3</CzasTrwania>
+  <PrzecenaAbonament>0.05</PrzecenaAbonament>
+  <ID>3</ID>
 </PakietyInfo>

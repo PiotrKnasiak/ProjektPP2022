@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <UrządzenieKlienta xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <IDOferty>3</IDOferty>
-  <Kolor>dobty</Kolor>
-  <Wariant>trapfon</Wariant>
+  <IDOferty>2</IDOferty>
+  <Kolor>podczerowny</Kolor>
+  <Wariant>plus</Wariant>
   <IDPakietu>-1</IDPakietu>
   <DataDodania>12.01.2023</DataDodania>
-  <ID>1</ID>
+  <ID>2</ID>
 </UrządzenieKlienta>

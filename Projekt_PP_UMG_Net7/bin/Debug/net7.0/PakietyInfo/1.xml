@@ -2,14 +2,13 @@
 <PakietyInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Cena>20</Cena>
   <Nazwa>nie</Nazwa>
-  <MaAbonament>false</MaAbonament>
+  <MaAbonament>true</MaAbonament>
   <TelefonyID>
     <int>1</int>
     <int>2</int>
   </TelefonyID>
   <WariantyTelefonów />
   <AbonamentID>1</AbonamentID>
-  <PrzecenaTelefon>0</PrzecenaTelefon>
   <CzasTrwania>5</CzasTrwania>
   <PrzecenaAbonament>0.15</PrzecenaAbonament>
   <ID>1</ID>

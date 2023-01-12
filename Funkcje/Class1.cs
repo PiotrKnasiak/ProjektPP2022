@@ -85,7 +85,6 @@ namespace Funkcje
         public int[] TelefonyID = null;                                        // ID brane z oferty urządzeń
         public string[] WariantyTelefonów = { };                        // nie podawać nic dla normalnej wersjii telefonu             
         public int AbonamentID = -1;                                     // ID oferyty przypisanego przy zakupie do telefonów abonamentu
-        public double PrzecenaTelefon = 0;                              // przecena na łączną cenę telefonów, w ułamku diesiętnym, 0 dla braku
         public int CzasTrwania = 0;                                  // Na ile opłaca abonament, wyrażane w ilości "cykli" abonamentu (np. tygodni jeśli opłacany tygodniowo)
         public double PrzecenaAbonament = 0;                            // przecena na abonament po upływie opłacenia, w ułamku diesiętnym, 0 dla braku
     }
@@ -142,7 +141,6 @@ namespace Funkcje
         public int IDOferty;                                            // ID oferty(info) z której pochodzi ten telefon
         public string Kolor = "czarny";                                 // przykładowo
         public string Wariant = "normalny";                             // przykładowo
-        public int IDAbonamentu = -1;                                    // jaki ma przypisany abonament (jesli ma)
         public int IDPakietu = -1;                                       // jaki ma przypisany pakiet (jesli ma)
         public string DataDodania;                                    // data dodania
     }
@@ -179,6 +177,7 @@ namespace Funkcje
         public string DataNastępnejOpłaty;                            // jeśli opłacono wynosi 0 lub <0, to normalna data zwględem zakupu; jeśli >0, to o ileś okresów płacenia do przodu
         public int IDPakietu = -1;                                       // jaki ma przypisany pakiet (jesli ma)
         public string DataDodania;                                    // data dodania
+        public string OstatniaOpłata;                                    // ostatnia opłąta abonamentu
         public double Przecena = 0;
     }
     [Serializable]
@@ -297,7 +296,7 @@ namespace Funkcje
     }
     public class ŁadowaniePlików
     {
-        public object? WczytanyPlik;
+        public object? WczytanyPlik = null;
 
         public ŁadowaniePlików(string folder, string nazwa, int IDKlienta = -1)
         {
@@ -359,7 +358,7 @@ namespace Funkcje
     }
     public class ŁadowanieWszystkichPlików
     {
-        public object?[] ListaDanych;
+        public object?[] ListaDanych = null;
         public ŁadowanieWszystkichPlików(string typPliku, int IDKlienta = -1)
         {
             ŁadowaniePlików łp;
