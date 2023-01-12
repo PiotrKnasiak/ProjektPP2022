@@ -984,7 +984,7 @@
                 else if (edytuj && !dajKlientowi && wybór.Contains("edytuj"))
                 {
                     Console.WriteLine("\n");
-                    DodajOfertęUrz(dostępne[wybraneID].ID);
+                    DodajOfertęAbo(dostępne[wybraneID].ID);
                 }
             }
 
@@ -1094,7 +1094,7 @@
                 else if (edytuj && !dajKlientowi && wybór.Contains("edytuj"))
                 {
                     Console.WriteLine("\n");
-                    DodajOfertęUrz(dostępne[wybraneID].ID);
+                    DodajOfertęPak(dostępne[wybraneID].ID);
                 }
 
                 CzyszczenieEkranu();
@@ -1514,14 +1514,20 @@
                 ilośćTelefonów = listaUrz.Length;
             }
             nowyPak.TelefonyID = new int[ilośćTelefonów];
-
+            nowyPak.WariantyTelefonów = new string[ilośćTelefonów];
             bool znaleziono = false;
+
+            Console.WriteLine("\n  Lista dostępnych urządzeń :");
+            foreach (UrządzeniaInfo urządzenie in listaUrz)
+            {
+                Console.WriteLine($"    - {{{urządzenie.Nazwa},10}}   (id - {urządzenie.ID})");
+            }
 
             for (int j = 0; j < ilośćTelefonów; j++)
             {
                 do
                 {
-                    Console.Write($"    Podaj {j + 1} model:");
+                    Console.Write($"\n    Podaj nazwę lub ID dla {j + 1} modelu:");
                     string? podanyModel = Console.ReadLine();
                     znaleziono = false;
 
@@ -1560,15 +1566,30 @@
                                 nowyPak.TelefonyID[j] = urządzenie.ID;
                                 break;
                             }
-
-                            else
-                            {
-                                Console.WriteLine("      Nie istnieje takie urządzenie");
-                            }
                         }
+                    }
+                    if (!znaleziono)
+                        Console.WriteLine("      Nie istnieje takie urządzenie");
+                    else // daj model
+                    {
+                        UrządzeniaInfo urządzenie = (UrządzeniaInfo)Funkcje.WczytajPlik("UrządzeniaInfo", nowyPak.TelefonyID[j].ToString());
+                        Console.WriteLine("      Wybierz model urządzenia : ");
+                        foreach(string warinat in urządzenie.Warianty)
+                        {
+                            Console.WriteLine("        - " + warinat);
+                        }
+                        Console.Write("          >> ");
+                        string wybranyWar = Console.ReadLine();
+
+                        if (CzyWyjść(wybranyWar))
+                            return;
+
+                        nowyPak.WariantyTelefonów[j] = wybranyWar;
                     }
                 }
                 while (!znaleziono);
+
+
             }
 
             do
