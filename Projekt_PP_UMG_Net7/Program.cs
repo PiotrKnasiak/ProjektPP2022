@@ -1588,10 +1588,14 @@
                     }
                 }
                 while (!znaleziono);
-
-
             }
 
+            Console.WriteLine("\n  Lista dostępnych abonamentów :");
+            foreach (AbonamentyInfo abonament in listaAbo)
+            {
+                Console.WriteLine("    - {0,-30}   (id - {1})",abonament.Nazwa,abonament.ID);
+            }
+            
             do
             {
                 Console.Write("\n  Podaj ID lub nazwę zawartego abonamentu (\"-1\" by nie dodawać): ");
