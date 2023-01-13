@@ -703,7 +703,7 @@
                 if (aboKlienta[wybraneID].NaIleOpłaconoDoPrzodu < 0)
                     opłacone = "Ilość zaległych opłat";
 
-                string przecena = $"Przecena na opłąty: {(aboKlienta[wybraneID].Przecena) * 100}%\n";
+                string przecena = $"   Przecena na opłąty: {(aboKlienta[wybraneID].Przecena) * 100}%\n";
                 if (aboKlienta[wybraneID].Przecena == 0)
                     przecena = "";
 
@@ -712,7 +712,7 @@
                       $"   Pakiet opłacany raz na: {wybranyAboInfo.CzęstotliwośćRozliczania}\n" +
                       $"   {opłacone}: {Math.Abs(aboKlienta[wybraneID].NaIleOpłaconoDoPrzodu)}\n" +
                       $"   Cena za jedna opłatę to: {wybranyAboInfo.Cena}\n" +
-                      $"   {przecena}" +
+                      $"{przecena}" +
                       $"   {pakiet}\n" +
                       $"   Data dodania: {aboKlienta[wybraneID].DataDodania}\n");
                 if (!admin)
@@ -757,7 +757,9 @@
                             {
                                 Console.Write("    Na ile ustawić zniżkę (w procentach): ");
                                 wprowadzono = Console.ReadLine().Replace("%", "");
-                                double ilośćD = Math.Abs(ZróbInt(wprowadzono));
+                                double ilośćD = Math.Abs(ZróbDouble(wprowadzono))/100;
+                                Console.WriteLine($"Zniżka to {ilośćD}");
+                                Thread.Sleep(1000);
 
                                 if (CzyWyjść(wprowadzono))
                                     return;
@@ -1081,7 +1083,7 @@
                 Console.WriteLine($"\n Zawarty abonament: {abonament.Nazwa}");
 
                 if (dostępne[wybraneID].MaAbonament)
-                    Console.WriteLine($"\n Przecena na opłatę abonametu: {dostępne[wybraneID].PrzecenaAbonament*100}%");
+                    Console.WriteLine($"\n Przecena na opłatę abonametu: {dostępne[wybraneID].PrzecenaAbonament}%");
 
                 Console.WriteLine("\n Zawarte telefony: ");
                 for (i = 0; i < urządzenia.Length; i++)
@@ -1132,8 +1134,11 @@
 
             foreach(DaneLogowania urzytkownik in Funkcje.WczytajWszystkiePliki(listaTemp))
             {
-                if (urzytkownik.Admin == false)
+                if (!urzytkownik.Admin)
+                {
                     daneKlientów[i++] = urzytkownik;
+                }
+                    
             }
 
             if (daneKlientów.Length == 0)
@@ -1145,7 +1150,7 @@
 
             DaneLogowania wybranyKlient = daneKlientów[0];
 
-            Console.WriteLine("\n   Lista klientów: ");
+            Console.WriteLine($"\n   Lista klientów ({daneKlientów.Length}): ");
             for (i = 0; i < daneKlientów.Length; i++)
             {
                 Console.WriteLine($"      {i + 1} - {daneKlientów[i].Imię} {daneKlientów[i].Nazwisko}");
@@ -1176,6 +1181,8 @@
                       "\n         >> ");
 
                 string wprowadzono = Console.ReadLine().ToLower().Replace(",", "").Trim();
+                if (CzyWyjść(wprowadzono))
+                    return;
 
                 Console.WriteLine("\n\n");
 

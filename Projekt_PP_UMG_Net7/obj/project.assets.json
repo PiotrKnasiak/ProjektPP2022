@@ -27,23 +27,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Piotr Knasiak\\.nuget\\packages\\": {},
-    "E:\\hh\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\Michał\\.nuget\\packages\\": {},
+    "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Piotr Knasiak\\Documents\\GitHub\\ProjektPP2022\\Projekt_PP_UMG_Net7\\ProjektPP2022.csproj",
+      "projectUniqueName": "C:\\Users\\Michał\\Desktop\\projekt piotrka knasiaka\\ProjektPP2022\\Projekt_PP_UMG_Net7\\ProjektPP2022.csproj",
       "projectName": "ProjektPP2022",
-      "projectPath": "C:\\Users\\Piotr Knasiak\\Documents\\GitHub\\ProjektPP2022\\Projekt_PP_UMG_Net7\\ProjektPP2022.csproj",
-      "packagesPath": "C:\\Users\\Piotr Knasiak\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Piotr Knasiak\\Documents\\GitHub\\ProjektPP2022\\Projekt_PP_UMG_Net7\\obj\\",
+      "projectPath": "C:\\Users\\Michał\\Desktop\\projekt piotrka knasiaka\\ProjektPP2022\\Projekt_PP_UMG_Net7\\ProjektPP2022.csproj",
+      "packagesPath": "C:\\Users\\Michał\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Michał\\Desktop\\projekt piotrka knasiaka\\ProjektPP2022\\Projekt_PP_UMG_Net7\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "E:\\hh\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Piotr Knasiak\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Michał\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -52,15 +52,14 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "C:\\Users\\Piotr Knasiak\\Documents\\GitHub\\ProjektPP2022\\Funkcje\\Funkcje.csproj": {
-              "projectPath": "C:\\Users\\Piotr Knasiak\\Documents\\GitHub\\ProjektPP2022\\Funkcje\\Funkcje.csproj"
+            "C:\\Users\\Michał\\Desktop\\projekt piotrka knasiaka\\ProjektPP2022\\Funkcje\\Funkcje.csproj": {
+              "projectPath": "C:\\Users\\Michał\\Desktop\\projekt piotrka knasiaka\\ProjektPP2022\\Funkcje\\Funkcje.csproj"
             }
           }
         }
