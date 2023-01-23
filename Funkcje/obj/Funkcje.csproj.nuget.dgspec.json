@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Michał\\Desktop\\projekt piotrka knasiaka\\ProjektPP2022\\Funkcje\\Funkcje.csproj": {}
+    "C:\\Users\\piokn\\Documents\\GitHub\\ProjektPP2022\\Funkcje\\Funkcje.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Michał\\Desktop\\projekt piotrka knasiaka\\ProjektPP2022\\Funkcje\\Funkcje.csproj": {
+    "C:\\Users\\piokn\\Documents\\GitHub\\ProjektPP2022\\Funkcje\\Funkcje.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Michał\\Desktop\\projekt piotrka knasiaka\\ProjektPP2022\\Funkcje\\Funkcje.csproj",
+        "projectUniqueName": "C:\\Users\\piokn\\Documents\\GitHub\\ProjektPP2022\\Funkcje\\Funkcje.csproj",
         "projectName": "Funkcje",
-        "projectPath": "C:\\Users\\Michał\\Desktop\\projekt piotrka knasiaka\\ProjektPP2022\\Funkcje\\Funkcje.csproj",
-        "packagesPath": "C:\\Users\\Michał\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Michał\\Desktop\\projekt piotrka knasiaka\\ProjektPP2022\\Funkcje\\obj\\",
+        "projectPath": "C:\\Users\\piokn\\Documents\\GitHub\\ProjektPP2022\\Funkcje\\Funkcje.csproj",
+        "packagesPath": "C:\\Users\\piokn\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\piokn\\Documents\\GitHub\\ProjektPP2022\\Funkcje\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Michał\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\piokn\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -59,7 +60,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

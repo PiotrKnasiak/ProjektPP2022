@@ -707,8 +707,14 @@
                 if (aboKlienta[wybraneID].Przecena == 0)
                     przecena = "";
 
+                string nrTele = "";
+                foreach(int liczba in aboKlienta[wybraneID].NumerTelefonu)
+                {
+                    nrTele += liczba.ToString();
+                }
+
                 Console.WriteLine($"\n\n   Nazwa: {wybranyAboInfo.Nazwa}\n" +
-                      $"   Przypisany numer telefonu: {aboKlienta[wybraneID].NumerTelefonu}\n" +
+                      $"   Przypisany numer telefonu: {nrTele}\n" +
                       $"   Pakiet opłacany raz na: {wybranyAboInfo.CzęstotliwośćRozliczania}\n" +
                       $"   {opłacone}: {Math.Abs(aboKlienta[wybraneID].NaIleOpłaconoDoPrzodu)}\n" +
                       $"   Cena za jedna opłatę to: {wybranyAboInfo.Cena}\n" +
@@ -1083,7 +1089,7 @@
                 Console.WriteLine($"\n Zawarty abonament: {abonament.Nazwa}");
 
                 if (dostępne[wybraneID].MaAbonament)
-                    Console.WriteLine($"\n Przecena na opłatę abonametu: {dostępne[wybraneID].PrzecenaAbonament}%");
+                    Console.WriteLine($"\n Przecena na opłatę abonametu: {dostępne[wybraneID].PrzecenaAbonament*100}%");
 
                 Console.WriteLine("\n Zawarte telefony: ");
                 for (i = 0; i < urządzenia.Length; i++)
@@ -1141,7 +1147,7 @@
                     
             }
 
-            if (daneKlientów.Length == 0)
+            if (Funkcje.LiczbaKlientów() < 1)
             {
                 Console.WriteLine("\n   Nie istnieją żadni Klienci");
                 Thread.Sleep(2000);
@@ -1173,8 +1179,9 @@
 
             while (true)
             {
+                CzyszczenieEkranu();
 
-                Console.Write("\n\n   Co chcesz zobaczyć?" +
+                Console.Write($"Klient : {wybranyKlient.Imię} {wybranyKlient.Nazwisko}\n\n   Co chcesz zobaczyć?" +
                       "\n      1 - Dane osobiste klienta" +
                       $"\n      2 - Urządzenia ({Funkcje.ListaID("UrządzeniaKlienta", wybranyKlient.ID).Length}) klienta" +
                       $"\n      3 - Abonamenty ({Funkcje.ListaID("AbonamentyKlienta", wybranyKlient.ID).Length}) klienta" +
@@ -1616,7 +1623,7 @@
                 Console.WriteLine("\n   Lista dostępnych urządzeń:");
                 foreach (UrządzeniaInfo urządzenie in listaUrz)
                 {
-                    Console.WriteLine("      - {0,-15},   (id - {1})", urządzenie.Nazwa, urządzenie.ID);
+                    Console.WriteLine("      - {0,-40},   (id - {1})", urządzenie.Nazwa, urządzenie.ID);
                 }
             }
 
@@ -1690,7 +1697,7 @@
             Console.WriteLine("\n   Lista dostępnych abonamentów:");
             foreach (AbonamentyInfo abonament in listaAbo)
             {
-                Console.WriteLine("      - {0,15}    (id - {1})", abonament.Nazwa, abonament.ID);
+                Console.WriteLine("      - {0,-40}    (id - {1})", abonament.Nazwa, abonament.ID);
             }
 
             do
@@ -1859,7 +1866,7 @@
         #endregion
 
         #region Dodawanie Klientowi Oferty
-        public static void KupUrz(DaneLogowania daneKlienta, UrządzeniaInfo urządzenie, bool admin = false, int IDPak = -1, string wariant = "")
+        public static UrządzenieKlienta KupUrz(DaneLogowania daneKlienta, UrządzeniaInfo urządzenie, bool admin = false, int IDPak = -1, string wariant = "")
         {
             if (IDPak == -1)
                 Console.Title = "Kupowanie urządzenia";
@@ -1868,6 +1875,8 @@
 
             string kolor = "";
             UrządzenieKlienta dodaneUrz = new UrządzenieKlienta(daneKlienta.ID, true, urządzenie.ID);
+
+            Console.WriteLine($" Wybierz konfigurację urządzenia {urządzenie.Nazwa}");
 
             if (IDPak < 1)
             {
@@ -1911,16 +1920,19 @@
             dodaneUrz.IDPakietu = IDPak;
             dodaneUrz.DataDodania = DateOnly.FromDateTime(DateTime.Now).ToString();
 
-            Funkcje.ZapiszPlik(dodaneUrz, dodaneUrz.ID.ToString(), daneKlienta.ID);
+            //Funkcje.ZapiszPlik(dodaneUrz, dodaneUrz.ID.ToString(), daneKlienta.ID);
 
             if (IDPak == -1)
             {
-                Console.WriteLine("\n\n         Zakup Udany!");
+                Console.WriteLine("\n\n         Zakup Udany!"); 
+                Funkcje.ZapiszPlik(dodaneUrz, dodaneUrz.ID.ToString(), daneKlienta.ID);
                 Thread.Sleep(2000);
                 CzyszczenieEkranu();
             }
+
+            return dodaneUrz;
         }
-        public static int KupAbo(DaneLogowania daneKlienta, AbonamentyInfo oferta, bool admin = false, int IDPak = -1, int opłacono = 0, double przecena = 0)
+        public static AbonamentKlienta KupAbo(DaneLogowania daneKlienta, AbonamentyInfo oferta, bool admin = false, int IDPak = -1, int opłacono = 0, double przecena = 0)
         {
             if (IDPak == -1)
                 Console.Title = "Kupowanie urządzenia";
@@ -1941,47 +1953,78 @@
                 Console.WriteLine();
             }
 
-            Console.Write("   Podaj numer telefonu który przypisać do abonamentu: ");
-            char[] podane = ZróbInt(Console.ReadLine()).ToString().ToCharArray();
-            for (int i = 0; i < 9 && i < podane.Length; i++)
+            do
             {
-                dodanyAbo.NumerTelefonu[8 - i] = Convert.ToInt32(podane[podane.Length - 1 - i]);
+                Console.Write("   Podaj numer telefonu który przypisać do abonamentu: ");
+                /*char[]*/string podane = Console.ReadLine()/*.ToCharArray()*/;
+                Console.WriteLine(podane);
+                dodanyAbo.NumerTelefonu = new int[9];
+
+                try
+                {
+                    for (int i = 0; i < dodanyAbo.NumerTelefonu.Length && i < podane.Length; i++)
+                    {
+                        Console.WriteLine("i to : " + i);
+                        Console.WriteLine("Index : " + (podane.Length - i - 1));
+                        Console.WriteLine("Liczba : " + podane[podane.Length - i - 1]);
+                        dodanyAbo.NumerTelefonu[dodanyAbo.NumerTelefonu.Length - 1 - i] = int.Parse(podane[podane.Length - 1 - i].ToString());
+                        //dodanyAbo.NumerTelefonu[dodanyAbo.NumerTelefonu.Length - 1 - i] = dodanyAbo.NumerTelefonu[dodanyAbo.NumerTelefonu.Length - 1 - i] % 10;
+                        Console.WriteLine("Przerobiona liczba : " + dodanyAbo.NumerTelefonu[dodanyAbo.NumerTelefonu.Length - 1 - i]);
+                    }
+                    break;
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine("      Błedne podanie numeru telefonu" + "\n" + e.Message);
+                }
+                Console.WriteLine();
             }
-            Console.WriteLine();
+            while (true);
 
             dodanyAbo.NaIleOpłaconoDoPrzodu = opłacono + 1;
 
             dodanyAbo.OstatniaOpłata = DateOnly.FromDateTime(DateTime.Now).ToString();
-
-            Funkcje.ZapiszPlik(dodanyAbo, dodanyAbo.ID.ToString(), daneKlienta.ID);
 
             if (IDPak == -1)
             {
                 Console.WriteLine("\n\n         Zakup Udany!");
                 Thread.Sleep(2000);
                 CzyszczenieEkranu();
+                Funkcje.ZapiszPlik(dodanyAbo, dodanyAbo.ID.ToString(), daneKlienta.ID);
             }
 
-            return dodanyAbo.ID;
+            return dodanyAbo;
         }
         public static void KupPak(DaneLogowania daneKlienta, PakietyInfo oferta, AbonamentyInfo? załączonyAbo = null, UrządzeniaInfo[]? dodaneUrz = null, bool admin = false)
         {
             Console.Title = "Kupowanie Pakietu";
-
             CzyszczenieEkranu();
 
             PakietKlienta dodanyPak = new PakietKlienta(daneKlienta.ID, true, oferta.ID);
+            AbonamentKlienta aboKli = new AbonamentKlienta();
+            UrządzenieKlienta[] urzKli = new UrządzenieKlienta[0]; 
+            if(oferta.TelefonyID.Length != null)
+                urzKli = new UrządzenieKlienta[oferta.TelefonyID.Length];
+
 
             dodanyPak.DataDodania = DateOnly.FromDateTime(DateTime.Now).ToString();
 
-            int IDAbo = KupAbo(daneKlienta, załączonyAbo, admin, dodanyPak.ID, oferta.CzasTrwania, oferta.PrzecenaAbonament);
+            if(załączonyAbo != null)
+                aboKli = KupAbo(daneKlienta, załączonyAbo, admin, dodanyPak.ID, oferta.CzasTrwania, oferta.PrzecenaAbonament);
 
-            for (int i = 0; i < oferta.TelefonyID.Length; i++)
+            for (int i = 0; i < dodaneUrz.Length; i++)
             {
-                KupUrz(daneKlienta, (UrządzeniaInfo)Funkcje.WczytajPlik("UrządzeniaInfo", oferta.TelefonyID[i].ToString()), admin, dodanyPak.ID, oferta.WariantyTelefonów[i]);
+                urzKli[i] = KupUrz(daneKlienta, dodaneUrz[i], admin, dodanyPak.ID, oferta.WariantyTelefonów[i]);
             }
 
             Funkcje.ZapiszPlik(dodanyPak, dodanyPak.ID.ToString(), daneKlienta.ID);
+
+            foreach(UrządzenieKlienta uK in urzKli)
+            {
+                Funkcje.ZapiszPlik(uK, uK.ID.ToString(), daneKlienta.ID);
+            }
+
+            Funkcje.ZapiszPlik(aboKli, aboKli.ID.ToString(), daneKlienta.ID);
 
             Console.WriteLine("\n\n         Zakup Udany!");
             Thread.Sleep(2000);
@@ -2064,12 +2107,12 @@
                                     InfoOTwoichAbo(zalogowanyUrzytkownik);
                                     break;
                                 }
-                            case ("-9999"):
-                                {
-                                    CzyszczenieEkranu();
-                                    //InfoOTwoichPak(zalogowanyUrzytkownik);
-                                    break;
-                                }
+                            //case ("4"):
+                            //    {
+                            //        CzyszczenieEkranu();
+                            //        //InfoOTwoichPak(zalogowanyUrzytkownik);
+                            //        break;
+                            //    }
                             case ("4"):
                                 {
                                     CzyszczenieEkranu();

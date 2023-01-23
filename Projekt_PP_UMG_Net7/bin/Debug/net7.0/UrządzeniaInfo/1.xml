@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <UrządzeniaInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Cena>1999.88</Cena>
-  <Nazwa>Przykladow Urzadzenie 1</Nazwa>
+  <Nazwa>Przykladowe Urzadzenie 1</Nazwa>
   <Wytwórca>Samsung</Wytwórca>
   <Kolory>
     <string>Bialy</string>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbonamentyInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Nazwa>TestAbo1</Nazwa>
+  <CzęstotliwośćRozliczania>rok</CzęstotliwośćRozliczania>
+  <Cena>300</Cena>
+  <LimitInternetu>-1</LimitInternetu>
+  <LimityPrędkości>
+    <double>0</double>
+    <double>0</double>
+  </LimityPrędkości>
+  <ID>2</ID>
+</AbonamentyInfo>

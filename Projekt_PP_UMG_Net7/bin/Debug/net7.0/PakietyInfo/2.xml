@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PakietyInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Cena>3499.9</Cena>
+  <Nazwa>TestPak1</Nazwa>
+  <MaAbonament>true</MaAbonament>
+  <TelefonyID>
+    <int>1</int>
+    <int>3</int>
+  </TelefonyID>
+  <WariantyTelefonów>
+    <string>Mini</string>
+    <string>professional</string>
+  </WariantyTelefonów>
+  <AbonamentID>2</AbonamentID>
+  <CzasTrwania>2</CzasTrwania>
+  <PrzecenaAbonament>0.05</PrzecenaAbonament>
+  <ID>2</ID>
+</PakietyInfo>

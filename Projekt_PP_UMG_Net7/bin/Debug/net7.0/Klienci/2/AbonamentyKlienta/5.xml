@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbonamentKlienta xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <IDOferty>2</IDOferty>
+  <NumerTelefonu>
+    <int>2</int>
+    <int>2</int>
+    <int>2</int>
+    <int>3</int>
+    <int>3</int>
+    <int>3</int>
+    <int>4</int>
+    <int>4</int>
+    <int>4</int>
+  </NumerTelefonu>
+  <NaIleOpłaconoDoPrzodu>4</NaIleOpłaconoDoPrzodu>
+  <IDPakietu>-1</IDPakietu>
+  <DataDodania>23.01.2023</DataDodania>
+  <OstatniaOpłata>23.01.2023</OstatniaOpłata>
+  <Przecena>0</Przecena>
+  <ID>5</ID>
+</AbonamentKlienta>
