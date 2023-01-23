@@ -2003,8 +2003,8 @@
             PakietKlienta dodanyPak = new PakietKlienta(daneKlienta.ID, true, oferta.ID);
             AbonamentKlienta aboKli = new AbonamentKlienta();
             UrządzenieKlienta[] urzKli = new UrządzenieKlienta[0]; 
-            if(oferta.TelefonyID.Length != null)
-                urzKli = new UrządzenieKlienta[oferta.TelefonyID.Length];
+            if(dodaneUrz != null && dodaneUrz.Length > 0 && dodaneUrz.Length == oferta.TelefonyID.Length)
+                urzKli = new UrządzenieKlienta[dodaneUrz.Length];
 
 
             dodanyPak.DataDodania = DateOnly.FromDateTime(DateTime.Now).ToString();
@@ -2012,7 +2012,7 @@
             if(załączonyAbo != null)
                 aboKli = KupAbo(daneKlienta, załączonyAbo, admin, dodanyPak.ID, oferta.CzasTrwania, oferta.PrzecenaAbonament);
 
-            for (int i = 0; i < dodaneUrz.Length; i++)
+            for (int i = 0; i < urzKli.Length ; i++)
             {
                 urzKli[i] = KupUrz(daneKlienta, dodaneUrz[i], admin, dodanyPak.ID, oferta.WariantyTelefonów[i]);
             }
